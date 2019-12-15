@@ -13,9 +13,9 @@ class Token:
     tokenTypeString = 'Str'
     tokenTypeIdentificator = 'Ident'
     tokenTypeKeyWord = 'Key'
-    tokenTypeOperators = 6
+    tokenTypeOperators = 'Oper'
     tokenTypeSeparators = 'Sprt'
-    tokenTypeEOF = 8
+    tokenTypeEOF = 'EOF'
 
     keyWords = {'and', 'array', 'begin', 'case', 'const', 'div', 'do', 'downto', 'else', 'end', 'file', 'for', 'function',
                 'goto', 'if', 'in', 'label', 'mod', 'nil', 'not', 'of', 'or', 'packed', 'procedure', 'program', 'record',
@@ -42,10 +42,11 @@ class Tokeniser:
             else:
                 break
 
-
+        #End of file
         if self.pos >= len(self.str):
             return Token(Token.tokenTypeEOF, self.line, self.pos - self.line)
 
+        #Int and Double
         if self.str[self.pos].isdigit():
             p = Token(Token.tokenTypeInt, self.line, self.pos - self.line)
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos] == '.'):
@@ -60,7 +61,8 @@ class Tokeniser:
                 return p
             else:
                 raise Exception()
-            
+        
+        #String and KeyWords
         if self.str[self.pos].isalpha() or self.str[self.pos] == "'":
             p = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_' or self.str[self.pos] == "'"):
