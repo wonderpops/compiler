@@ -12,10 +12,17 @@ class Token:
     tokenTypeDouble = 2
     tokenTypeString = 3
     tokenTypeIdentificator = 'Ident'
-    tokenTypeKeyWords = 5
+    tokenTypeKeyWord = 'Key'
     tokenTypeOperators = 6
-    tokenTypeSiparators = 7
+    tokenTypeSeparators = 'sprt'
     tokenTypeEOF = 8
+
+    keyWords = {'and', 'array', 'begin', 'case', 'const', 'div', 'do', 'downto', 'else', 'end', 'file', 'for', 'function',
+                'goto', 'if', 'in', 'label', 'mod', 'nil', 'not', 'of', 'or', 'packed', 'procedure', 'program', 'record',
+                'repeat', 'set', 'then', 'to', 'type', 'until', 'while', 'var', 'with', 'integer', 'real', 'string', 'break',
+                'exit', 'forward', 'writeln', 'write', 'read', 'readln', 'length'}
+    operands = {'+', '-', '=', '<>', '>', '<', '<=', '>=', '*', '/', '^', ':=', '+=', '-=', '*=', '/='}
+    separators = {'(', ')', '{', '}', '[', ']', ';', ':', "'", ',', '.', '..', '//', '', '', '', '', '', '', ''}
 
 class Tokeniser:
     def __init__(self, str):
@@ -52,6 +59,8 @@ class Tokeniser:
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_'):
                 p.src += self.str[self.pos]
                 self.pos += 1
+            if p.src in p.keyWords:
+                p.tokenType = Token.tokenTypeKeyWord
             p.value = p.src
             return p
         else:

@@ -1,5 +1,5 @@
 import sys
-from token import Token, Tokeniser
+from tokeniser import Token, Tokeniser
 
 path = sys.argv[1]
 f = open(path, 'r')
