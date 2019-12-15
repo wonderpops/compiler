@@ -9,12 +9,12 @@ class Token:
         return'\t'.join(map(str, [self.line, self.pos, self.tokenType, self.value, self.src]))
 
     tokenTypeInt = 'Int'
-    tokenTypeDouble = 2
-    tokenTypeString = 3
+    tokenTypeDouble = 'Dbl'
+    tokenTypeString = 'Str'
     tokenTypeIdentificator = 'Ident'
     tokenTypeKeyWord = 'Key'
     tokenTypeOperators = 6
-    tokenTypeSeparators = 'sprt'
+    tokenTypeSeparators = 'Sprt'
     tokenTypeEOF = 8
 
     keyWords = {'and', 'array', 'begin', 'case', 'const', 'div', 'do', 'downto', 'else', 'end', 'file', 'for', 'function',
@@ -48,20 +48,34 @@ class Tokeniser:
 
         if self.str[self.pos].isdigit():
             p = Token(Token.tokenTypeInt, self.line, self.pos - self.line)
-            while self.pos < len(self.str) and self.str[self.pos].isdigit():
+            while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos] == '.'):
                 p.src += self.str[self.pos]
                 self.pos += 1
-            p.value = int(p.src)
-            return p
+            if p.src.find('.') == p.src.rfind('.') and p.src.find('.') != -1:
+                p.tokenType = Token.tokenTypeDouble
+                p.value = float(p.src)
+                return p
+            elif (p.src.find('.') < 0):
+                p.value = int(p.src)
+                return p
+            else:
+                raise Exception()
             
-        if self.str[self.pos].isalpha():
+        if self.str[self.pos].isalpha() or self.str[self.pos] == "'":
             p = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
-            while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_'):
+            while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_' or self.str[self.pos] == "'"):
                 p.src += self.str[self.pos]
                 self.pos += 1
-            if p.src in p.keyWords:
-                p.tokenType = Token.tokenTypeKeyWord
             p.value = p.src
-            return p
+            if p.src[0] != "'":
+                if p.src in p.keyWords:
+                    p.tokenType = Token.tokenTypeKeyWord
+                return p
+            elif p.src[0] == "'" and p.src[len(p.src)-1] == "'" and p.src.find("'", 1, len(p.src)-2) == -1:
+                p.tokenType = Token.tokenTypeString
+                p.value = p.src[1:len(p.src)-1]
+                return p
+            else:
+                raise Exception()
         else:
             raise Exception()
