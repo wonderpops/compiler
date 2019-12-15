@@ -22,7 +22,7 @@ class Token:
                 'repeat', 'set', 'then', 'to', 'type', 'until', 'while', 'var', 'with', 'integer', 'real', 'string', 'break',
                 'exit', 'forward', 'writeln', 'write', 'read', 'readln', 'length'}
     operands = {'+', '-', '=', '<>', '>', '<', '<=', '>=', '*', '/', '^', ':=', '+=', '-=', '*=', '/='}
-    separators = {'(', ')', '{', '}', '[', ']', ';', ':', "'", ',', '.', '..', '//', '', '', '', '', '', '', ''}
+    separators = {'(', ')', '{', '}', '[', ']', ';', ':', "'", ',', '.', '..', '//'}
 
 class Tokeniser:
     def __init__(self, str):
@@ -62,8 +62,9 @@ class Tokeniser:
             else:
                 raise Exception()
         
-        #String and KeyWords
-        if self.str[self.pos].isalpha() or self.str[self.pos] == "'":
+        #String and KeyWords, operands and separators
+        if self.str[self.pos].isalpha() or self.str[self.pos] == "'" or self.str[self.pos] == '_':
+            #String and KeyWords
             p = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_' or self.str[self.pos] == "'"):
                 p.src += self.str[self.pos]
@@ -80,4 +81,17 @@ class Tokeniser:
             else:
                 raise Exception()
         else:
-            raise Exception()
+            #Operands and separators
+            p = Token(Token.tokenTypeSeparators, self.line, self.pos - self.lineStart)
+            while self.pos < len(self.str):
+                p.src += self.str[self.pos]
+                self.pos += 1
+            p.value = p.src
+            if (p.src in Token.separators):
+                p.tokenType = Token.tokenTypeSeparators
+                return p
+            elif (p.src in Token.operands):
+                p.tokenType = Token.tokenTypeOperators
+                return p
+            else:
+                raise Exception()
