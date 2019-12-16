@@ -83,7 +83,7 @@ class Tokeniser:
         else:
             #Operands and separators
             p = Token(Token.tokenTypeSeparators, self.line, self.pos - self.lineStart)
-            while self.pos < len(self.str):
+            while self.pos < len(self.str) and (self.str[self.pos] != ' ' and self.str[self.pos] != '\n'):
                 p.src += self.str[self.pos]
                 self.pos += 1
             p.value = p.src
