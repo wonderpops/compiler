@@ -17,6 +17,7 @@ class Token:
     tokenTypeSeparators = 'Sprt'
     tokenTypeEOF = 'EOF'
     tokenTypeUndefind = 'Undef'
+    tokenTypeComment = 'Comment'
 
     keyWords = {'and', 'array', 'begin', 'case', 'const', 'div', 'do', 'downto', 'else', 'end', 'file', 'for', 'function',
                 'goto', 'if', 'in', 'label', 'mod', 'nil', 'not', 'of', 'or', 'packed', 'procedure', 'program', 'record',
@@ -48,6 +49,23 @@ class Tokeniser:
         #End of file
         if self.pos >= len(self.str):
             return Token(Token.tokenTypeEOF, self.line, self.pos - self.lineStart)
+
+        #Comment
+        if self.str[self.pos] == '/':
+            p = Token(Token.tokenTypeComment, self.line, self.pos - self.lineStart)
+            p.src = self.str[self.pos]
+            self.pos += 1            
+            if self.pos < len(self.str) and self.str[self.pos] == '/':
+                p.src += self.str[self.pos]
+                self.pos += 1
+                while self.pos < len(self.str) and self.str[self.pos] != '\n':
+                    p.src += self.str[self.pos]
+                    self.pos += 1
+                p.value = p.src
+                return p
+            else:
+                self.pos -= 1
+
 
         #Int and Double
         if self.str[self.pos].isdigit():
@@ -113,6 +131,8 @@ class Tokeniser:
                 t.tokenType = Token.tokenTypeKeyWord
             t.value = t.src 
             return t
+
+       
 
         #String
         if self.str[self.pos] == "'":
