@@ -1,7 +1,0 @@
-Str 1 1   ' '
-Str 1 5   ' '
-Str 1 9   ' '
-Str 1 13   ' '
-Str 1 17   ' '
-Undef
-EOF 1 22 None 

@@ -1,2 +1,0 @@
-Ident 1 1 lolo23_56gh lolo23_56gh
-EOF 1 12 None 

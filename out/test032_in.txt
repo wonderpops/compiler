@@ -1,2 +1,0 @@
-Ident 1 1 qwertyuiopasdfghjklzxcvbnm qwertyuiopasdfghjklzxcvbnm
-EOF 1 27 None 
