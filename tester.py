@@ -1,18 +1,47 @@
 import os
+import filecmp
 from tokeniser import Token, Tokeniser
 
-directory = 'tests'
-files = os.listdir(directory)
+direct = 'in'
+files = os.listdir(direct)
+
+directOut = 'out'
+ffiles = os.listdir(direct)
+
+for f in ffiles:
+    ffile = open('out/' + f, 'w')
+    ffile.close()
+
+n = 0
 
 for f in files:
-    path = 'tests/' + f
-    op = open(path, 'r')
-    lex = Tokeniser(''.join(op.readlines()))
-    print('--------------'+f+'--------------')
-    print('|row|-|column|-|type|-|value|--|src|')
+    print(f)
+    inp = open('in/' + f, 'r')
+    lex = Tokeniser(''.join(inp.readlines()))
     while True:
         t = lex.Next()
+        out = open('out/' + f, 'a')
+        if t.tokenType == Token.tokenTypeUndefind:
+           out.write(str(t.tokenType)+'\n') 
+        else:
+            out.write(str(t.tokenType) + ' ' + str(t.line)  + ' ' + str(t.pos)  + ' ' + str(t.value) + ' ' + str(t.src) + '\n')
         if t.tokenType == Token.tokenTypeEOF:
+            expstr = ''
+            exp = open('exp/' + f, 'r')
+            for line in exp:
+                expstr += line
+
+            out.close()
+            out = open('out/' + f, 'r')
+            outstr = ''
+            for line in out:
+                outstr += line
+
+            if expstr == outstr:
+                print('ok')
+                n +=1
+            else:
+                print('failed')
+                print(outstr)
             break
-        print(t)
-    print('_____________________________________')
+print('ok: ', n, 'failed: ', 73-n)
