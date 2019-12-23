@@ -1,0 +1,5 @@
+Ident 1 1 a a
+Oper 1 3 := :=
+Ident 1 6 b b
+Comment 1 8  c; // c;
+EOF 1 13 None 

@@ -1,4 +1,4 @@
 Ident 1 1 lol lol
-Comment 1 5 // rerer // rerer
+Comment 1 5  rerer // rerer
 Int 2 1 234 234
 EOF 2 4 None 

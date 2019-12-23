@@ -13,8 +13,10 @@ for f in ffiles:
     ffile.close()
 
 n = 0
+ok = 0
 
 for f in files:
+    n += 1
     print(f)
     inp = open('in/' + f, 'r')
     lex = Tokeniser(''.join(inp.readlines()))
@@ -39,11 +41,11 @@ for f in files:
 
             if expstr == outstr:
                 print('ok')
-                n +=1
+                ok += 1
             else:
                 print('failed')
                 print('----------------------------')
                 print(outstr)
                 print('----------------------------')
             break
-print('ok: ', n, 'failed: ', 76-n)
+print('ok: ', ok, 'failed: ', n-ok)
