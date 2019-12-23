@@ -74,7 +74,7 @@ class Tokeniser:
                 while self.pos < len(self.str) and self.str[self.pos] != '\n':
                     p.src += self.str[self.pos]
                     self.pos += 1
-                p.value = p.src
+                p.value = p.src[2:len(p.src)]
                 return p
             else:
                 self.pos -= 1
