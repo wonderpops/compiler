@@ -1,6 +1,0 @@
-Ident 1 1 c c
-Oper 1 3 = =
-Ident 1 5 a a
-Oper 1 7 + +
-Ident 1 9 b b
-EOF 1 10 None 

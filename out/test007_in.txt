@@ -1,3 +1,0 @@
-Int 1 1 123 123
-Ident 1 4 rthh rthh
-EOF 1 8 None 

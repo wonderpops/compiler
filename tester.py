@@ -42,6 +42,8 @@ for f in files:
                 n +=1
             else:
                 print('failed')
+                print('----------------------------')
                 print(outstr)
+                print('----------------------------')
             break
-print('ok: ', n, 'failed: ', 73-n)
+print('ok: ', n, 'failed: ', 76-n)
