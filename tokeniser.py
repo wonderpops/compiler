@@ -16,13 +16,16 @@ class Token:
     tokenTypeOperators = 'Oper'
     tokenTypeSeparators = 'Sprt'
     tokenTypeEOF = 'EOF'
+    tokenTypeUndefind = 'Undef'
 
     keyWords = {'and', 'array', 'begin', 'case', 'const', 'div', 'do', 'downto', 'else', 'end', 'file', 'for', 'function',
                 'goto', 'if', 'in', 'label', 'mod', 'nil', 'not', 'of', 'or', 'packed', 'procedure', 'program', 'record',
                 'repeat', 'set', 'then', 'to', 'type', 'until', 'while', 'var', 'with', 'integer', 'real', 'string', 'break',
                 'exit', 'forward', 'writeln', 'write', 'read', 'readln', 'length'}
-    operands = {'+', '-', '=', '<>', '>', '<', '<=', '>=', '*', '/', '^', ':=', '+=', '-=', '*=', '/='}
-    separators = {'(', ')', '{', '}', '[', ']', ';', ':', "'", ',', '.', '..', '//'}
+    simpleOperands = {'+', '-', '=',  '>', '<',  '*', '/', '^', ':'}
+    complexOperands = {'<>', '<=', '>=', ':=', '+=', '-=', '*=', '/='}
+
+    separators = {'(', ')', '{', '}', '[', ']', ';', ',', '.'}
 
 class Tokeniser:
     def __init__(self, str):
@@ -44,15 +47,18 @@ class Tokeniser:
 
         #End of file
         if self.pos >= len(self.str):
-            return Token(Token.tokenTypeEOF, self.line, self.pos - self.line)
+            return Token(Token.tokenTypeEOF, self.line, self.pos - self.lineStart)
 
         #Int and Double
         if self.str[self.pos].isdigit():
-            p = Token(Token.tokenTypeInt, self.line, self.pos - self.line)
+            p = Token(Token.tokenTypeInt, self.line, self.pos - self.lineStart)
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos] == '.'):
                 p.src += self.str[self.pos]
                 self.pos += 1
             if p.src.find('.') == p.src.rfind('.') and p.src.find('.') != -1:
+                if p.src[len(p.src)-1] == '.':
+                    p.tokenType = Token.tokenTypeUndefind
+                    return p
                 p.tokenType = Token.tokenTypeDouble
                 p.value = float(p.src)
                 return p
@@ -60,38 +66,91 @@ class Tokeniser:
                 p.value = int(p.src)
                 return p
             else:
-                raise Exception()
+                p.tokenType = Token.tokenTypeUndefind
+                return p
+
+        #Operands
+        if self.str[self.pos] in Token.simpleOperands:
+            p = Token(Token.tokenTypeOperators, self.line, self.pos - self.lineStart)
+            while self.pos < len(self.str):
+                p.src += self.str[self.pos]
+                self.pos += 1
+                if self.pos < len(self.str):
+                    if p.src + self.str[self.pos] in Token.complexOperands:
+                        p.src += self.str[self.pos]
+                        self.pos += 1
+                        p.value = p.src
+                        return p
+                    elif p.src in Token.simpleOperands:
+                        p.value = p.src
+                        return p
+                    else:
+                        p.tokenType = Token.tokenTypeUndefind
+                        return
+                elif p.src in Token.simpleOperands:
+                    p.value = p.src
+                    return p
+                else:
+                    p.tokenType = Token.tokenTypeUndefind
+                    return p
         
-        #String and KeyWords, operands and separators
-        if self.str[self.pos].isalpha() or self.str[self.pos] == "'" or self.str[self.pos] == '_':
-            #String and KeyWords
-            p = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
-            while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_' or self.str[self.pos] == "'"):
-                p.src += self.str[self.pos]
-                self.pos += 1
-            p.value = p.src
-            if p.src[0] != "'":
-                if p.src in p.keyWords:
-                    p.tokenType = Token.tokenTypeKeyWord
-                return p
-            elif p.src[0] == "'" and p.src[len(p.src)-1] == "'" and p.src.find("'", 1, len(p.src)-2) == -1:
-                p.tokenType = Token.tokenTypeString
-                p.value = p.src[1:len(p.src)-1]
-                return p
-            else:
-                raise Exception()
-        else:
-            #Operands and separators
+        #Separators
+        if self.str[self.pos] in Token.separators:
             p = Token(Token.tokenTypeSeparators, self.line, self.pos - self.lineStart)
-            while self.pos < len(self.str) and (self.str[self.pos] != ' ' and self.str[self.pos] != '\n'):
-                p.src += self.str[self.pos]
-                self.pos += 1
+            p.src += self.str[self.pos]
             p.value = p.src
-            if (p.src in Token.separators):
-                p.tokenType = Token.tokenTypeSeparators
-                return p
-            elif (p.src in Token.operands):
-                p.tokenType = Token.tokenTypeOperators
-                return p
+            self.pos += 1
+            return p
+
+        #Identificator
+        if self.str[self.pos].isalpha() or self.str[self.pos] == '_':
+            t = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
+            while (self.pos < len(self.str) and
+                (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_')):
+                t.src += self.str[self.pos]
+                self.pos += 1
+            if t.src in Token.keyWords:
+                t.tokenType = Token.tokenTypeKeyWord
+            t.value = t.src 
+            return t
+
+        #String
+        if self.str[self.pos] == "'":
+            t = Token(Token.tokenTypeString, self.line, self.pos - self.lineStart)
+            t.src += self.str[self.pos]
+            self.pos += 1
+            while (self.pos < len(self.str) and self.str[self.pos] != "'"):
+                t.src += self.str[self.pos]
+                if (self.str[self.pos] == '\n'):
+                    self.line += 1
+                    self.pos += 1
+                    self.lineStart = self.pos
+                self.pos += 1
+                
+            t.value = t.src[1:]    
+
+            if (self.pos < len(self.str)):
+                t.src += self.str[self.pos]
             else:
-                raise Exception()
+                t.tokenType = Token.tokenTypeUndefind
+                return t
+
+            if (t.src.find('\n') != -1):
+                self.pos += 1
+                t.tokenType = Token.tokenTypeUndefind
+                return t
+
+            #self.pos += 1
+            if  self.str[self.pos] != '\n' or self.str[self.pos] != ' ':
+                self.pos += 1
+                return t
+            else:
+                t.tokenType = Token.tokenTypeUndefind
+                return t          
+        else:
+            t = Token(Token.tokenTypeUndefind, self.line, self.pos - self.lineStart)
+            self.pos += 1
+            while ((self.pos < len(self.str)) and (self.str[self.pos] != '\n') and (self.str[self.pos] != ' ')):
+                t.src += self.str[self.pos]
+                self.pos += 1
+            return t
