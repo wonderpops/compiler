@@ -17,6 +17,7 @@ class Token:
     tokenTypeSeparators = 'Sprt'
     tokenTypeEOF = 'EOF'
     tokenTypeUndefind = 'Undef'
+    tokenTypeDoubleDot = 'DDot'
     tokenTypeComment = 'Comment'
 
     keyWords = {'and', 'array', 'begin', 'case', 'const', 'div', 'do', 'downto', 'else', 'end', 'file', 'for', 'function',
@@ -50,6 +51,18 @@ class Tokeniser:
         if self.pos >= len(self.str):
             return Token(Token.tokenTypeEOF, self.line, self.pos - self.lineStart)
 
+        #DoubleDot
+        if self.str[self.pos] == '.' and (self.pos < len(self.str) -1):
+            self.pos += 1
+            if self.str[self.pos] == '.':
+                p = Token(Token.tokenTypeDoubleDot, self.line, self.pos -1 - self.lineStart)
+                p.src = '..'
+                p.value = '..'
+                self.pos += 1
+                return p
+            else:
+                self.pos += -1
+                
         #Comment
         if self.str[self.pos] == '/':
             p = Token(Token.tokenTypeComment, self.line, self.pos - self.lineStart)
@@ -72,7 +85,19 @@ class Tokeniser:
             p = Token(Token.tokenTypeInt, self.line, self.pos - self.lineStart)
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos] == '.'):
                 p.src += self.str[self.pos]
+
+                if self.str[self.pos] == '.' and (self.pos < len(self.str) -1):
+                    self.pos += 1
+                    if self.str[self.pos] == '.':
+                        self.pos += -1
+                        p.src = p.src[0:len(p.src)-1]
+                        p.value = int(p.src)
+                        return p
+                    else:
+                        self.pos += -1
+                        
                 self.pos += 1
+                
             if p.src.find('.') == p.src.rfind('.') and p.src.find('.') != -1:
                 if p.src[len(p.src)-1] == '.':
                     p.tokenType = Token.tokenTypeUndefind

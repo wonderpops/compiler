@@ -1,2 +1,4 @@
-Udef
+Int 1 1 567 567
+DDot 1 4 .. ..
+Int 1 6 678 678
 EOF 1 9 None 
