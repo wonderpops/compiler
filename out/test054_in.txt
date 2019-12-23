@@ -1,2 +1,0 @@
-Str 1 1 function var a b 'function var a b'
-EOF 1 19 None 

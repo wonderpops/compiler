@@ -1,2 +1,0 @@
-Key 1 1 program program
-EOF 1 8 None 
