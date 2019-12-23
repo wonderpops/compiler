@@ -44,4 +44,4 @@ for f in files:
                 print('failed')
                 print(outstr)
             break
-print('ok: ', n, 'failed: ', 73-n)
+print('ok: ', n, 'failed: ', 76-n)
