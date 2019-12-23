@@ -28,6 +28,8 @@ class Token:
     complexOperands = {'<>', '<=', '>=', ':=', '+=', '-=', '*=', '/='}
 
     separators = {'(', ')', '{', '}', '[', ']', ';', ',', '.'}
+    CyrSymb = {'q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m'}
+
 
 class Tokeniser:
     def __init__(self, str):
@@ -146,7 +148,7 @@ class Tokeniser:
             return p
 
         #Identificator
-        if self.str[self.pos].isalpha() or self.str[self.pos] == '_':
+        if self.str[self.pos].lower() in Token.CyrSymb or self.str[self.pos] == '_':
             t = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
             while (self.pos < len(self.str) and
                 (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_')):
@@ -194,6 +196,7 @@ class Tokeniser:
                 return t          
         else:
             t = Token(Token.tokenTypeUndefind, self.line, self.pos - self.lineStart)
+            t.src += self.str[self.pos]
             self.pos += 1
             while ((self.pos < len(self.str)) and (self.str[self.pos] != '\n') and (self.str[self.pos] != ' ')):
                 t.src += self.str[self.pos]
