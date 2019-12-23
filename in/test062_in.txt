@@ -1,0 +1,3 @@
+var
+   i, c: integer;
+   a, m: string;

@@ -1,0 +1,4 @@
+and array begin break case const div do downto else end file for
+function forward goto if in label mod nil not of or packed 
+procedure program record repeat set then to type until var while
+with integer real string div mod write writeln read readln length

@@ -1,0 +1,1 @@
+if ((t[i]=' ') or (i=length(t))) and (s<>'') then

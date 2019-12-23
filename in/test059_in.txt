@@ -1,0 +1,4 @@
+andarray beginbreakcase constdivdodownto elseendfilefor
+functionforward gotoifinlabel modnil notof orpacked 
+procedureprogram recordrepeatsetthen to typeuntil varwhile
+with integerreal string div modwrite writelnread readln length

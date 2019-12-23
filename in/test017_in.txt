@@ -1,0 +1,1 @@
+var dlina: array [1..3] of integer;

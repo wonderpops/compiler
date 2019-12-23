@@ -1,0 +1,5 @@
+case a of
+   0: writeln('0');
+   2,3: writeln('*');
+   -8: writeln('Отрицательное');
+   end;

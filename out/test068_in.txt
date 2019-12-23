@@ -1,0 +1,6 @@
+Key 1 1 const const
+Ident 1 7 n n
+Oper 1 8 = =
+Int 1 9 10 10
+Sprt 1 11 ; ;
+EOF 1 12 None 

@@ -1,0 +1,5 @@
+begin
+   readln(a);
+   a:=raz(a);
+   write(a);
+end.

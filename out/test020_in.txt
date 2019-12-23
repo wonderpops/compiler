@@ -1,0 +1,13 @@
+Key 1 1 for for
+Ident 1 5 i i
+Oper 1 7 := :=
+Int 1 10 1 1
+Key 1 12 to to
+Int 1 15 5 5
+Key 1 17 do do
+Ident 2 4 whrite whrite
+Sprt 2 10 ( (
+Ident 2 11 i i
+Sprt 2 12 ) )
+Sprt 2 13 ; ;
+EOF 2 14 None 

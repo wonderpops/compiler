@@ -1,0 +1,4 @@
+program a1;
+var
+begin
+end.

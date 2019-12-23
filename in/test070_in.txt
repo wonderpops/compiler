@@ -1,0 +1,10 @@
+procedure pop(var z: q);
+var
+   t: q;
+begin
+   if not empty(z) then
+      begin
+         t := z;
+         z:=t;
+      end;
+end;

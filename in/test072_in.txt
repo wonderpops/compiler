@@ -1,0 +1,1 @@
+function term(str: string; pos: integer): integer; forward;

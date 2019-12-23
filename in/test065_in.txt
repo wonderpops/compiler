@@ -1,0 +1,3 @@
+for h:=j-length(s) to j do
+   t[h] := ' ';
+   
