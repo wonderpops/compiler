@@ -86,20 +86,14 @@ class Tokeniser:
         if self.str[self.pos].isdigit():
             p = Token(Token.tokenTypeInt, self.line, self.pos - self.lineStart)
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos] == '.'):
+
+                if self.str[self.pos] == '.' and (self.pos < len(self.str) - 1) and self.str[self.pos + 1] == '.':
+                    p.value = int(p.src)
+                    return p
+                else:
+                    self.pos += 1
                 p.src += self.str[self.pos]
 
-                if self.str[self.pos] == '.' and (self.pos < len(self.str) -1):
-                    self.pos += 1
-                    if self.str[self.pos] == '.':
-                        self.pos += -1
-                        p.src = p.src[0:len(p.src)-1]
-                        p.value = int(p.src)
-                        return p
-                    else:
-                        self.pos += -1
-                        
-                self.pos += 1
-                
             if p.src.find('.') == p.src.rfind('.') and p.src.find('.') != -1:
                 if p.src[len(p.src)-1] == '.':
                     p.tokenType = Token.tokenTypeUndefind
