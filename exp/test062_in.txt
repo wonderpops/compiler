@@ -11,4 +11,3 @@ Ident 3 7 m m
 Oper 3 8 : :
 Key 3 10 string string
 Sprt 3 16 ; ;
-EOF 3 17 None 

@@ -10,4 +10,3 @@ Int 3 6 4 4
 Ident 4 1 d d
 Oper 4 3 /= /=
 Int 4 6 5 5
-EOF 4 7 None 

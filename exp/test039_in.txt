@@ -1,2 +1,1 @@
-Undef
-EOF 1 16 None 
+ERROR: 1 1 Expect string but "'om-nom-nom-nom" found

@@ -8,4 +8,3 @@ Key 2 4 write write
 Sprt 2 10 ( (
 Str 2 11 solnyshko 'solnyshko'
 Sprt 2 22 ] ]
-EOF 2 23 None 

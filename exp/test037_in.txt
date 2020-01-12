@@ -1,2 +1,3 @@
-Undef
-EOF 3 11 None 
+ERROR: 1 1 Expect string but "'l a
+ a
+  l a a '" found

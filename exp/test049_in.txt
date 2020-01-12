@@ -5,4 +5,3 @@ Oper 1 8 >= >=
 Oper 1 11 <> <>
 Oper 1 14 = =
 Oper 1 15 = =
-EOF 1 16 None 

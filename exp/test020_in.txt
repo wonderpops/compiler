@@ -10,4 +10,3 @@ Sprt 2 10 ( (
 Ident 2 11 i i
 Sprt 2 12 ) )
 Sprt 2 13 ; ;
-EOF 2 14 None 

@@ -17,4 +17,3 @@ Sprt 2 7 ] ]
 Oper 2 9 := :=
 Str 2 12   ' '
 Sprt 2 15 ; ;
-EOF 3 4 None 

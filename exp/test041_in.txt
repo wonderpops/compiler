@@ -1,3 +1,2 @@
 Ident 1 1 id id
-Undef
-EOF 1 6 None 
+ERROR: 3 1 Undefinded "!id" found

@@ -45,4 +45,3 @@ Key 4 40 writeln writeln
 Key 4 48 read read
 Key 4 53 readln readln
 Key 4 60 length length
-EOF 4 66 None 

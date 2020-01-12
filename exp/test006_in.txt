@@ -1,2 +1,1 @@
-Undef
-EOF 1 8 None 
+ERROR: 1 1 Undefinded "טףןרעפע" found

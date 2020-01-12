@@ -10,4 +10,3 @@ Sprt 1 23 ] ]
 Key 1 25 of of
 Key 1 28 integer integer
 Sprt 1 35 ; ;
-EOF 1 36 None 

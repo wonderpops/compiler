@@ -25,4 +25,3 @@ Oper 1 40 <> <>
 Str 1 42  ''
 Sprt 1 44 ) )
 Key 1 46 then then
-EOF 1 50 None 

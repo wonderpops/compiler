@@ -1,5 +1,4 @@
 Ident 1 1 c c
 Oper 1 3 := :=
 Ident 1 6 a a
-Undef
-EOF 1 9 None 
+ERROR: 7 1 Undefinded "\n" found

@@ -1,2 +1,1 @@
-Undef
-EOF 1 6 None 
+ERROR: 1 1 Expect int or float but "1.1.1" found

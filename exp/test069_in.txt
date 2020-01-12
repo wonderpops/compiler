@@ -5,4 +5,3 @@ Sprt 1 4 ] ]
 Oper 1 6 := :=
 Ident 1 9 max max
 Sprt 1 12 ; ;
-EOF 1 13 None 

@@ -11,5 +11,4 @@ Oper 1 19 * *
 Oper 1 21 ^ ^
 Sprt 1 23 ; ;
 Oper 1 25 : :
-Undef
-EOF 1 30 None 
+ERROR: 27 1 Expect string but "' "" found

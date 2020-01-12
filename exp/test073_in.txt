@@ -10,4 +10,3 @@ Sprt 1 13 , ,
 Str 1 15   ' '
 Sprt 1 18 ) )
 Sprt 1 19 ; ;
-EOF 1 21 None 

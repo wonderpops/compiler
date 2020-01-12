@@ -1,2 +1,1 @@
 Str 1 1 lalal l  alal la    la    l lala       lalala 'lalal l  alal la    la    l lala       lalala'
-EOF 1 48 None 

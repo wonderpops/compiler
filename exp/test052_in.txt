@@ -2,4 +2,3 @@ Int 1 1 2345 2345
 Str 1 6 345678 '345678'
 Ident 1 15 dfghj dfghj
 Str 1 21 fghjk 'fghjk'
-EOF 1 28 None 

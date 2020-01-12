@@ -20,4 +20,3 @@ Ident 4 29 modwrite modwrite
 Ident 4 38 writelnread writelnread
 Key 4 50 readln readln
 Key 4 57 length length
-EOF 4 63 None 

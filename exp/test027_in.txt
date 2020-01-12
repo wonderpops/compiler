@@ -4,4 +4,3 @@ Oper 1 5 = =
 Ident 1 7 m m
 Key 1 9 mod mod
 Ident 1 13 d d
-EOF 1 14 None 

@@ -14,4 +14,3 @@ Key 1 43 integer integer
 Sprt 1 50 ; ;
 Key 1 52 forward forward
 Sprt 1 59 ; ;
-EOF 1 60 None 
