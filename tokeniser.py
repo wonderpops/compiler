@@ -97,8 +97,7 @@ class Tokeniser:
 
             if p.src.find('.') == p.src.rfind('.') and p.src.find('.') != -1:
                 if p.src[len(p.src)-1] == '.':
-                    p.tokenType = Token.tokenTypeUndefind
-                    return p
+                    raise Exception('ERROR: ', str(p.pos), ' ', str(p.line), ' ','Expect float but "', p.src, '" found.')
                 p.tokenType = Token.tokenTypeDouble
                 p.value = float(p.src)
                 return p
@@ -106,8 +105,7 @@ class Tokeniser:
                 p.value = int(p.src)
                 return p
             else:
-                p.tokenType = Token.tokenTypeUndefind
-                return p
+                raise Exception('ERROR: ', str(p.pos), ' ', str(p.line), ' ','Expect int or float but "', p.src, '" found')
 
         #Operands
         if self.str[self.pos] in Token.simpleOperands:
@@ -125,14 +123,12 @@ class Tokeniser:
                         p.value = p.src
                         return p
                     else:
-                        p.tokenType = Token.tokenTypeUndefind
-                        return
+                        raise Exception('ERROR: ', str(p.pos), ' ', str(p.line), ' ','Expect operand "', p.src, '" found')
                 elif p.src in Token.simpleOperands:
                     p.value = p.src
                     return p
                 else:
-                    p.tokenType = Token.tokenTypeUndefind
-                    return p
+                    raise Exception('ERROR: ', str(p.pos), ' ', str(p.line), ' ','Expect operand but "', p.src, '" found')
         
         #Separators
         if self.str[self.pos] in Token.separators:
@@ -174,21 +170,18 @@ class Tokeniser:
             if (self.pos < len(self.str)):
                 t.src += self.str[self.pos]
             else:
-                t.tokenType = Token.tokenTypeUndefind
-                return t
+                raise Exception('ERROR: ', str(t.pos), ' ', str(t.line), ' ','Expect string but "', t.src, '" found')
 
             if (t.src.find('\n') != -1):
                 self.pos += 1
-                t.tokenType = Token.tokenTypeUndefind
-                return t
+                raise Exception('ERROR: ', str(t.pos), ' ', str(t.line), ' ','Expect string but "', t.src, '" found')
 
             #self.pos += 1
             if  self.str[self.pos] != '\n' or self.str[self.pos] != ' ':
                 self.pos += 1
                 return t
             else:
-                t.tokenType = Token.tokenTypeUndefind
-                return t          
+                raise Exception('ERROR: ', str(t.pos), ' ', str(t.line), ' ','Expect string but "', t.src, '" found')          
         else:
             t = Token(Token.tokenTypeUndefind, self.line, self.pos - self.lineStart)
             t.src += self.str[self.pos]
@@ -196,4 +189,4 @@ class Tokeniser:
             while ((self.pos < len(self.str)) and (self.str[self.pos] != '\n') and (self.str[self.pos] != ' ')):
                 t.src += self.str[self.pos]
                 self.pos += 1
-            return t
+            raise Exception('ERROR: ', str(t.pos), ' ', str(t.line), ' ','Undefinded "', t.src, '" found')
