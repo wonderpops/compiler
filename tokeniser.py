@@ -91,8 +91,9 @@ class Tokeniser:
                     p.value = int(p.src)
                     return p
                 else:
+                    p.src += self.str[self.pos]
                     self.pos += 1
-                p.src += self.str[self.pos]
+                
 
             if p.src.find('.') == p.src.rfind('.') and p.src.find('.') != -1:
                 if p.src[len(p.src)-1] == '.':
