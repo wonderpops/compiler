@@ -8,10 +8,14 @@ lex = Tokeniser(''.join(f.readlines()))
 
 if sys.argv[1] == 'T':
     while True:
-        t = lex.Next()
-        if t.tokenType == Token.tokenTypeEOF:
-            break
-        print(t)
+        try:
+            t = lex.Next()
+        except Exception as err:
+            print(''.join(err.args))
+        else:
+            if t.tokenType == Token.tokenTypeEOF:
+                break
+            print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
     print(p.ParseExpr())

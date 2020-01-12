@@ -21,31 +21,33 @@ for f in files:
     inp = open('in/' + f, 'r')
     lex = Tokeniser(''.join(inp.readlines()))
     while True:
-        t = lex.Next()
         out = open('out/' + f, 'a')
-        if t.tokenType == Token.tokenTypeUndefind:
-           out.write(str(t.tokenType)+'\n') 
+        try:
+            t = lex.Next()
+        except Exception as err:
+            out.write(''.join(err.args) + '\n')
         else:
-            out.write(str(t.tokenType) + ' ' + str(t.line)  + ' ' + str(t.pos)  + ' ' + str(t.value) + ' ' + str(t.src) + '\n')
-        if t.tokenType == Token.tokenTypeEOF:
-            expstr = ''
-            exp = open('exp/' + f, 'r')
-            for line in exp:
-                expstr += line
+            if t.tokenType == Token.tokenTypeEOF:
+                expstr = ''
+                exp = open('exp/' + f, 'r')
+                for line in exp:
+                    expstr += line
 
-            out.close()
-            out = open('out/' + f, 'r')
-            outstr = ''
-            for line in out:
-                outstr += line
+                out.close()
+                out = open('out/' + f, 'r')
+                outstr = ''
+                for line in out:
+                    outstr += line
 
-            if expstr == outstr:
-                print('ok')
-                ok += 1
+                if expstr == outstr:
+                    print('ok')
+                    ok += 1
+                else:
+                    print('failed')
+                    print('----------------------------')
+                    print(outstr)
+                    print('----------------------------')
+                break
             else:
-                print('failed')
-                print('----------------------------')
-                print(outstr)
-                print('----------------------------')
-            break
+                out.write(str(t.tokenType) + ' ' + str(t.line)  + ' ' + str(t.pos)  + ' ' + str(t.value) + ' ' + str(t.src) + '\n')
 print('ok: ', ok, 'failed: ', n-ok)
