@@ -1,0 +1,98 @@
+CompilationUnit     -->     ProgramModule
+ProgramModule       -->     yprogram yident ProgramParameters ';' Block '.'
+ProgramParameters   -->     '(' IdentList ')'
+IdentList           -->     yident {',' yident}
+
+
+Block               -->     [Declarations] StatementSequence
+Declarations        -->     [ConstantDefBlock]
+                            [TypeDefBlock]
+                            [VariableDeclBlock]
+                            [SubprogDeclList]
+ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
+TypeDefBlock        -->     ytype TypeDef ';' {TypeDef ';'}
+VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
+ConstantDef         -->     yident '=' ConstExpression
+TypeDef             -->     yident '=' Type
+VariableDecl        -->     IdentList ':' Type
+
+
+ConstExpression     -->     [UnaryOperator] ConstFactor
+                          | " ' " ycharacter " ' "
+                          | ynil
+ConstFactor         -->     yident
+                          | ynumber
+                          | ytrue | yfalse | ynil
+Type                -->     yident
+                          | ArrayType
+                          | PointerType
+                          | RecordType
+                          | SetType
+ArrayType           -->     yarray '[' Subrange {',' Subrange} ']' yof Type
+Subrange            -->     ConstFactor '..' ConstFactor
+                          | " ' " ycharacter '..' ycharacter " ' "
+RecordType          -->     yrecord FieldListSequence yend
+SetType             -->     yset yof Subrange
+PointerType         -->     '^' yident
+FieldListSequence   -->     FieldList {';' FieldList}
+FieldList           -->     IdentList ':' Type
+
+
+StatementSequence   -->     ybegin Statement {';' Statement} yend
+Statement           -->     Assignment
+                          | ProcedureCall
+                          | IfStatement
+                          | CaseStatement
+                          | WhileStatement
+                          | RepeatStatement
+                          | ForStatement
+                          | IOStatement
+                          | MemoryStatement
+                          | StatementSequence
+                          | empty
+Assignment          -->     Designator ':=' Expression
+ProcedureCall       -->     yident [ActualParameters]
+IfStatement         -->     yif Expression ythen Statement
+                             [yelse Statement]
+CaseStatement       -->     ycase Expression yof Case {';' Case} yend
+Case                -->     CaseLabelList ':' Statement
+CaseLabelList       -->     ConstExpression {',' ConstExpression }
+WhileStatement      -->     ywhile Expression ydo Statement
+RepeatStatement     -->     yrepeat StatementSequence yuntil Expression
+ForStatement        -->     yfor yident ':=' Expression WhichWay Expression
+                             ydo Statement
+WhichWay            -->     yto | ydownto
+IOStatement         -->     yread '(' DesignatorList ')'
+                          | yreadln [ '(' DesignatorList ')' ]
+                          | ywrite '(' ExpList ')'
+                          | ywriteln [ '(' ExpList ')' ]
+DesignatorList      -->     Designator {',' Designator }
+Designator          -->     yident [ DesignatorStuff ]
+DesignatorStuff     -->     {'.' yident | '[' ExpList ']' | '^' }
+ActualParameters    -->     '(' ExpList ')'
+ExpList             -->     Expression { ',' Expression }
+MemoryStatement     -->     ynew '(' yident ')' | ydispose '(' yident ')'
+
+
+Expression          -->     SimpleExpression [ Relation SimpleExpression ]
+SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
+Term                -->     Factor {MultOperator Factor}
+Factor              -->     ynumber
+                          | ystring | ytrue | yfalse | ynil
+                          | Designator
+                          | '(' Expression ')'
+                          | ynot Factor
+                          | Setvalue
+                          | FunctionCall
+Setvalue            -->     '[' [Element {',' Element} ] ']'
+FunctionCall        -->     yident ActualParameters
+Element             -->     ConstExpression ['..' ConstExpression ]
+
+
+SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
+ProcedureDecl       -->     ProcedureHeading ';' Block
+FunctionDecl        -->     FunctionHeading ':' yident ';' Block
+ProcedureHeading    -->     yprocedure yident [FormalParameters]
+FunctionHeading     -->     yfunction yident [FormalParameters]
+FormalParameters    -->     '(' OneFormalParam {';' OneFormalParam} ')'
+OneFormalParam      -->     [yvar] IdentList ':' yident
