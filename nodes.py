@@ -36,3 +36,12 @@ class UnaryOpNode(ExprNode):
 @dataclass
 class KeyWordNode(ExprNode):
     name: str
+
+@dataclass
+class FunctionCallNode(ExprNode):
+    name: str
+
+@dataclass
+class FunctionNode(ExprNode):
+    name: str
+    parameters: []
