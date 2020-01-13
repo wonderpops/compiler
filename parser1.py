@@ -13,8 +13,18 @@ class Parser:
             if type(left) == KeyWordNode and left.name == 'not':
                 op = self.cur
                 right = self.ParseTerm()
-                left = UnaryOpNode(op, right)
+                if type(right) == BinaryOpNode and right.op in ['<', '>', '<>', '<=', '>=', 'and', 'or', 'not']:
+                    left = UnaryOpNode(op, right)
+                    return left
+                else:
+                    raise Exception('wrong not')
+            if type(left) == FunctionCallNode:
+                print(left)
+                name = self.cur
+                right = self.ParseFunctionCall()
+                left = FunctionNode(name, right)
                 return left
+
             if self.cur.tokenType == Token.tokenTypeOperators and self.cur.value in ['+', '-']:
                 #print('+-')
                 op = self.cur
@@ -30,6 +40,12 @@ class Parser:
         left = self.ParseFactor()
         #print('2', left, self.cur)
         while True:
+            if type(left) == FunctionCallNode:
+                print(left)
+                name = self.cur
+                right = self.ParseFunctionCall()
+                left = FunctionNode(name, right)
+                return left
             if self.cur.tokenType == Token.tokenTypeOperators and self.cur.value in ['*', '/']:
                 if type(left) != StringNode:
                     op = self.cur
@@ -48,7 +64,10 @@ class Parser:
             return LiteralIntNode(t.value)
         elif self.cur.tokenType == Token.tokenTypeIdentificator:
             self.cur = self.tokeniser.Next()
-            return VarNode(t.value)
+            if self.cur.value == '(':
+                return FunctionCallNode(t.value)
+            else:
+                return VarNode(t.value)
         elif self.cur.tokenType == Token.tokenTypeDouble:
             self.cur = self.tokeniser.Next()
             return LiteralFloatNode(t.value)
@@ -67,3 +86,27 @@ class Parser:
             return KeyWordNode(t.value)
         else:
             raise Exception('end')
+    
+    def ParseFunctionCall(self):
+
+        left = self.ParseActualParameters()
+
+        return left
+
+    
+    def ParseActualParameters(self):
+        if self.cur.value == '(':
+            self.cur = self.tokeniser.Next()
+            p = self.ParseExprList()
+            self.cur = self.tokeniser.Next()
+            return p
+    
+    def ParseExprList(self):
+        p = []
+        while self.cur.value != ')':
+            if self.cur.value == ',':
+                self.cur = self.tokeniser.Next()
+            p.append(self.ParseExpr())
+        return p
+
+        
