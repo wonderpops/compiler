@@ -11,7 +11,7 @@ class Parser:
         #print('1', left, self.cur)
         while True:
             if type(left) == KeyWordNode and left.name == 'not':
-                op = self.cur
+                op = left.name
                 right = self.ParseTerm()
                 left = UnaryOpNode(op, right)
                 return left
