@@ -40,8 +40,5 @@ class KeyWordNode(ExprNode):
 @dataclass
 class FunctionCallNode(ExprNode):
     name: str
-
-@dataclass
-class FunctionNode(ExprNode):
-    name: str
     parameters: []
+    
