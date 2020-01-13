@@ -11,6 +11,10 @@ class VarNode(ExprNode):
     name: str
 
 @dataclass
+class StringNode(ExprNode):
+    value: str
+
+@dataclass
 class LiteralIntNode(ExprNode):
     value: int
 
@@ -23,3 +27,12 @@ class BinaryOpNode(ExprNode):
     op: str
     left: ExprNode
     right: ExprNode
+
+@dataclass
+class UnaryOpNode(ExprNode):
+    op: str
+    left: ExprNode
+
+@dataclass
+class KeyWordNode(ExprNode):
+    name: str

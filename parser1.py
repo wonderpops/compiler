@@ -10,12 +10,20 @@ class Parser:
         left = self.ParseTerm()
         #print('1', left, self.cur)
         while True:
+            if type(left) == KeyWordNode and left.name == 'not':
+                op = self.cur
+                right = self.ParseTerm()
+                left = UnaryOpNode(op, right)
+                return left
             if self.cur.tokenType == Token.tokenTypeOperators and self.cur.value in ['+', '-']:
                 #print('+-')
                 op = self.cur
                 self.cur = self.tokeniser.Next()
                 right = self.ParseTerm()
-                left = BinaryOpNode(op, left, right)
+                if (type(left) == StringNode and type(right) == StringNode) or (type(left) != StringNode and type(right) != StringNode):
+                    left = BinaryOpNode(op, left, right)
+                else:
+                    raise Exception('diff types')
             return left          
 
     def ParseTerm(self):
@@ -23,11 +31,13 @@ class Parser:
         #print('2', left, self.cur)
         while True:
             if self.cur.tokenType == Token.tokenTypeOperators and self.cur.value in ['*', '/']:
-                #print('*/')
-                op = self.cur
-                self.cur = self.tokeniser.Next()
-                right = self.ParseFactor()
-                left = BinaryOpNode(op, left, right)
+                if type(left) != StringNode:
+                    op = self.cur
+                    self.cur = self.tokeniser.Next()
+                    right = self.ParseFactor()
+                    left = BinaryOpNode(op, left, right)
+                else:
+                    raise Exception('string in */')
             return left  
 
     def ParseFactor(self):
@@ -46,8 +56,14 @@ class Parser:
             self.cur = self.tokeniser.Next()
             p = self.ParseExpr()
             if self.cur.value != ')':
-                raise Exception()
+                raise Exception('no right )')
             self.cur = self.tokeniser.Next()
             return p
+        elif self.cur.tokenType == Token.tokenTypeString:
+            self.cur = self.tokeniser.Next()
+            return StringNode(t.value)
+        elif self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            return KeyWordNode(t.value)
         else:
-            raise Exception()
+            raise Exception('end')
