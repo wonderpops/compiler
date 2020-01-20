@@ -8,6 +8,12 @@ class ExprNode(Node):
 
 class StatementNode(Node):
     pass
+class BlockNode(Node):
+    pass
+
+@dataclass
+class IdentListNode(Node):
+    idents: []
 
 @dataclass
 class DesignatorNode(Node):
@@ -96,4 +102,28 @@ class WhileNode(StatementNode):
 class RepeatNode(StatementNode):
     statements: []
     condition: ExprNode
+
+@dataclass
+class FormalParametersNode(ExprNode):
+    params: IdentListNode
+
+@dataclass
+class ProcedureHeadingNode(ExprNode):
+    name: str
+    params: FormalParametersNode
+
+@dataclass
+class FunctionHeadingNode(ExprNode):
+    name: str
+    params: FormalParametersNode
+
+@dataclass
+class ProcedureDeclNode(ExprNode):
+    heading: ProcedureHeadingNode
+    block: BlockNode
+
+@dataclass
+class OneFormalParamNode(ExprNode):
+    ids: IdentListNode
+    idsType: str
     

@@ -6,6 +6,15 @@ class Parser:
         self.tokeniser = tokeniser
         self.cur = self.tokeniser.Next()
 
+    def ParseIdentList(self):
+        ids = []
+        while (self.cur.tokenType == Token.tokenTypeIdentificator):
+            ids.append(self.cur)
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == ',':
+                self.cur = self.tokeniser.Next()
+        return ids
+
     def ParseStatementSequence(self):
         if self.cur.value == "begin":
             statements = []
@@ -109,6 +118,7 @@ class Parser:
         return d
 
     def ParseDesignator(self, name):
+        print(self.cur)
         return DesignatorNode(name)  
 
     def ParseActualParameters(self):
@@ -205,3 +215,54 @@ class Parser:
     def ParseFunctionCall(self, name):               
         p = self.ParseActualParameters()
         return FunctionCallNode(name, p)
+
+    def ParseSubprogDeclList(self):
+        pass
+
+    def ParseProcedureDecl(self):
+        pass
+
+    def ParseProcedureHeading(self):
+        name = ''
+        params = []
+        if self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            name = self.cur.value
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == '(':
+                params = self.ParseFormalParameters()
+        return ProcedureHeadingNode(name, params)
+    
+    def ParseFunctionHeading(self):
+        name = ''
+        params = []
+        if self.cur.value == 'function' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            name = self.cur.value
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == '(':
+                params = self.ParseFormalParameters()
+        return FunctionHeadingNode(name, params)
+
+    def ParseFormalParameters(self):
+        params = []
+        if self.cur.value == '(':
+            while self.cur.value != ')':
+                self.cur = self.tokeniser.Next()
+                if self.cur == ';':
+                    self.cur == self.tokeniser.Next()
+                params.append(self.ParseOneFormalParam())
+        return FormalParametersNode(params)
+
+
+    def ParseOneFormalParam(self):
+        ids = []
+        typ = ''
+        if self.cur.value == 'var' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+        ids = self.ParseIdentList()
+        if self.cur.value == ':':
+            self.cur = self.tokeniser.Next()
+            typ = self.cur.value  
+            self.cur = self.tokeniser.Next()     
+        return OneFormalParamNode(ids, typ)
