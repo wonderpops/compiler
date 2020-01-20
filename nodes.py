@@ -15,7 +15,7 @@ class DesignatorNode(Node):
 
 @dataclass
 class DesignatorListNode(Node):
-    Designators: []
+    designators: []
 
 @dataclass
 class IOStatmentNode(Node):
@@ -35,7 +35,7 @@ class ActualParametersNode(ExprNode):
 
 @dataclass
 class ExpListNode(ExprNode):
-    expList: []
+    expressions: []
 
 @dataclass
 class StringNode(ExprNode):
