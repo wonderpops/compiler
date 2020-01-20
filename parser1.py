@@ -6,6 +6,49 @@ class Parser:
         self.tokeniser = tokeniser
         self.cur = self.tokeniser.Next()
 
+    def ParseStatementSequence(self):
+        if self.cur.value == "begin":
+            statements = []
+            self.cur = self.tokeniser.Next()
+            while self.cur.value != "end":
+                if self.cur.value == ';':
+                    self.cur = self.tokeniser.Next()
+                statements.append(self.ParseStatement())
+                left = StatementSequenceNode(statements)
+                return left
+        
+    def ParseStatement(self):
+        t = self.cur
+        if self.cur.value == "if":
+            self.cur = self.tokeniser.Next()
+            left = self.ParseIfStatement()
+            self.cur = self.tokeniser.Next()
+            return left
+        elif self.cur.tokenType == Token.tokenTypeIdentificator:
+            self.cur = self.tokeniser.Next()
+            return VarNode(t.value) 
+        else:
+            raise Exception("not a ctatement")
+            
+    
+    def ParseIfStatement(self):
+        cond = self.ParseExpr()
+        if self.cur.value == "then":
+            self.cur = self.tokeniser.Next()
+            ifTrue = self.ParseStatement()
+            if self.cur.value == "else":
+                self.cur = self.tokeniser.Next()
+                ifFalse = self.ParseStatement()
+                cond = CompleteIfNode(cond, ifTrue, ifFalse)
+            else:
+                cond = IncompleteIfNode(cond, ifTrue)
+            return cond
+        else:
+            raise Exception("keyword 'then' was expected")          
+
+
+
+
     def ParseExpr(self):
         left = self.ParseSimpleExpr()
         #print('expr', self.cur)
@@ -78,9 +121,6 @@ class Parser:
         elif self.cur.tokenType == Token.tokenTypeString:
             self.cur = self.tokeniser.Next()
             return StringNode(t.value)
-        #elif self.cur.tokenType == Token.tokenTypeKeyWord:
-        #    self.cur = self.tokeniser.Next()
-        #    return KeyWordNode(t.value)
         else:
             raise Exception('end')
 
@@ -100,4 +140,3 @@ class Parser:
             #print('exprlist', l, self.cur)
         return l
 
-        

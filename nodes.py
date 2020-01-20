@@ -6,6 +6,9 @@ class Node:
 class ExprNode(Node):
     pass
 
+class StatementNode(Node):
+    pass
+
 @dataclass
 class VarNode(ExprNode):
     name: str
@@ -33,12 +36,29 @@ class UnaryOpNode(ExprNode):
     op: str
     left: ExprNode
 
-@dataclass
-class KeyWordNode(ExprNode):
-    name: str
 
 @dataclass
 class FunctionCallNode(ExprNode):
-    name: str
+    name: VarNode
     parameters: []
-    
+
+
+@dataclass
+class StatementSequenceNode(StatementNode):
+    statements: []
+
+@dataclass
+class AssignmentNode(StatementNode):
+    name: VarNode
+    value: ExprNode
+
+@dataclass
+class CompleteIfNode(StatementNode):
+    condition: ExprNode
+    ifTrue: StatementNode
+    ifFalse: StatementNode
+
+@dataclass
+class IncompleteIfNode(StatementNode):
+    condition: ExprNode
+    ifTrue: StatementNode
