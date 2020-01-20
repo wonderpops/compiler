@@ -6,9 +6,36 @@ class Node:
 class ExprNode(Node):
     pass
 
+class StatementNode(Node):
+    pass
+
 @dataclass
-class VarNode(ExprNode):
+class DesignatorNode(Node):
     name: str
+
+@dataclass
+class DesignatorListNode(Node):
+    Designators: []
+
+@dataclass
+class IOStatmentNode(Node):
+    name: str
+
+@dataclass
+class InStatmentNode(IOStatmentNode):
+    designatorList: DesignatorListNode
+
+@dataclass
+class OutStatmentNode(IOStatmentNode):
+    expList: ExprNode
+
+@dataclass
+class ActualParametersNode(ExprNode):
+    expList: ExprNode
+
+@dataclass
+class ExpListNode(ExprNode):
+    expList: []
 
 @dataclass
 class StringNode(ExprNode):
@@ -33,12 +60,29 @@ class UnaryOpNode(ExprNode):
     op: str
     left: ExprNode
 
-@dataclass
-class KeyWordNode(ExprNode):
-    name: str
 
 @dataclass
 class FunctionCallNode(ExprNode):
-    name: str
+    name: DesignatorNode
     parameters: []
-    
+
+
+@dataclass
+class StatementSequenceNode(StatementNode):
+    statements: []
+
+@dataclass
+class AssignmentNode(StatementNode):
+    name: DesignatorNode
+    value: ExprNode
+
+@dataclass
+class CompleteIfNode(StatementNode):
+    condition: ExprNode
+    ifTrue: StatementNode
+    ifFalse: StatementNode
+
+@dataclass
+class IncompleteIfNode(StatementNode):
+    condition: ExprNode
+    ifTrue: StatementNode

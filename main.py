@@ -6,31 +6,21 @@ from nodes import *
 path = sys.argv[2]
 f = open(path, 'r', encoding = 'utf-8')
 lex = Tokeniser(''.join(f.readlines()))
+cnr = '└ '
 
 #def __str__
-def parseTree(deep, node):
+def getTree(deep, node):
     deep += 1
     if type(node) == UnaryOpNode:
-        return '  '*deep + '└ ' + node.op + "\n" + parseTree(deep, node.left)
+        return '  '*deep + cnr + node.op + "\n" + getTree(deep, node.left)
     elif type(node) == BinaryOpNode:
-        return '  '*deep + '└ ' + node.op + "\n" + parseTree(deep, node.left) + "\n" + parseTree(deep, node.right)
+        return '  '*deep + cnr + node.op + "\n" + getTree(deep, node.left) + "\n" + getTree(deep, node.right)
     elif type(node) == FunctionCallNode:
-        return '  '*deep + '└ ' + node.name + "\n" + "\n".join(map(lambda n: parseTree(deep, n), node.parameters))
-    elif type(node) == VarNode:
-        return '  '*deep + '└ ' + node.name
+        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.parameters))
+    elif type(node) == DesignatorNode:
+        return '  '*deep + cnr + node.name
     else:
-        return '  '*deep + '└ ' + str(node.value)
-        #if type(node) == list :
-        #    return ['  '*deep + '└ ' + str(node)]
-        #else:
-        #    return ['  '*deep + '└ ' + str(node.value)]
-
-def printTree(node):
-    if len(node)>1 and type(node) == tuple or type(node) == list:
-        for f in node:
-            printTree(f)
-            if type(f) == str:
-                print(''.join(f))
+        return '  '*deep + cnr + str(node.value)
 
 
 if sys.argv[1] == 'T':
@@ -45,5 +35,5 @@ if sys.argv[1] == 'T':
             print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
-    x = parseTree(0, p.ParseExpr())
+    x = getTree(0, p.ParseExpr())
     print(x)
