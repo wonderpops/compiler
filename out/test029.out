@@ -1,0 +1,6 @@
+Ident 1 1 na na
+Oper 1 4 : :
+Oper 1 6 = =
+Ident 1 8 n n
+ERROR: 10 1 Undefinded "\" found
+Ident 1 12 a a

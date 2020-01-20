@@ -1,0 +1,10 @@
+Key 1 1 while while
+Ident 1 7 i i
+Oper 1 9 <= <=
+Int 1 12 5 5
+Key 1 14 do do
+Key 1 17 begin begin
+Key 2 4 write write
+Sprt 2 10 ( (
+Str 2 11 solnyshko 'solnyshko'
+Sprt 2 22 ] ]
