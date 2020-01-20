@@ -9,7 +9,7 @@ directOut = 'out'
 ffiles = os.listdir(direct)
 
 for f in ffiles:
-    ffile = open('out/' + f, 'w')
+    ffile = open('out/' + f[0:7] + '.out', 'w')
     ffile.close()
 
 n = 0
@@ -21,7 +21,7 @@ for f in files:
     inp = open('in/' + f, 'r')
     lex = Tokeniser(''.join(inp.readlines()))
     while True:
-        out = open('out/' + f, 'a')
+        out = open('out/' + f[0:7] + '.out', 'a')
         try:
             t = lex.Next()
         except Exception as err:
@@ -29,12 +29,12 @@ for f in files:
         else:
             if t.tokenType == Token.tokenTypeEOF:
                 expstr = ''
-                exp = open('exp/' + f, 'r')
+                exp = open('exp/' + f[0:7] + '_in.txt', 'r')
                 for line in exp:
                     expstr += line
 
                 out.close()
-                out = open('out/' + f, 'r')
+                out = open('out/' + f[0:7] + '.out', 'r')
                 outstr = ''
                 for line in out:
                     outstr += line

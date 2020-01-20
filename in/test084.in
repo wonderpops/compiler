@@ -1,0 +1,9 @@
+begin
+   a := 5;
+   repeat
+      begin
+         readln(x);
+         a : = a - x;
+   until x >= 0; { <-- выходим, если x>=0 }
+   writeln('bu');
+end.

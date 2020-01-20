@@ -1,0 +1,12 @@
+Ident 1 1 swap swap
+Sprt 1 5 ( (
+Ident 1 6 a a
+Sprt 1 7 [ [
+Ident 1 8 o o
+Sprt 1 9 ] ]
+Sprt 1 10 , ,
+Ident 1 12 a a
+Sprt 1 13 [ [
+Ident 1 14 i i
+Sprt 1 15 ] ]
+Sprt 1 16 ) )
