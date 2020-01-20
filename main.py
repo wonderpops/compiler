@@ -16,9 +16,11 @@ def getTree(deep, node):
     elif type(node) == BinaryOpNode:
         return '  '*deep + cnr + node.op + "\n" + getTree(deep, node.left) + "\n" + getTree(deep, node.right)
     elif type(node) == FunctionCallNode:
-        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.parameters))
+        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.parameters.expList.expressions))
     elif type(node) == DesignatorNode:
         return '  '*deep + cnr + node.name
+    elif type(node) == InStatmentNode:
+        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.designatorList.designators))
     else:
         return '  '*deep + cnr + str(node.value)
 
@@ -35,5 +37,5 @@ if sys.argv[1] == 'T':
             print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
-    x = getTree(0, p.ParseExpr())
+    x = getTree(0, p.ParseIOStatement())
     print(x)
