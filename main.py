@@ -21,6 +21,10 @@ def getTree(deep, node):
         return '  '*deep + cnr + node.name
     elif type(node) == InStatmentNode:
         return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.designatorList.designators))
+    elif type(node) == FunctionHeadingNode or type(node) == ProcedureHeadingNode:
+        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.params.params))
+    elif type(node) == OneFormalParamNode:
+        return '  '*deep + cnr + node.idsType + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.ids))
     else:
         return '  '*deep + cnr + str(node.value)
 
@@ -37,5 +41,5 @@ if sys.argv[1] == 'T':
             print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
-    x = getTree(0, p.ParseIOStatement())
+    x = getTree(0, p.ParseProcedureHeading())
     print(x)
