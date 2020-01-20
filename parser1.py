@@ -13,9 +13,13 @@ class Parser:
             while self.cur.value != "end":
                 if self.cur.value == ';':
                     self.cur = self.tokeniser.Next()
-                statements.append(self.ParseStatement())
-                left = StatementSequenceNode(statements)
-                return left
+                else:
+                    statements.append(self.ParseStatement())
+                    #print(statements)
+                    #print(self.cur)
+            left = StatementSequenceNode(statements)
+            print('334234', left)
+            return left
         
     def ParseStatement(self):
         t = self.cur
@@ -24,11 +28,27 @@ class Parser:
             left = self.ParseIfStatement()
             self.cur = self.tokeniser.Next()
             return left
+        elif self.cur.value == "while":
+            self.cur = self.tokeniser.Next()
+            left = self.ParseWhileStatement()
+            self.cur = self.tokeniser.Next()
+            return left
+        elif self.cur.value == "begin":
+            left = self.ParseStatementSequence()
+            self.cur = self.tokeniser.Next()
+            return left
+        elif self.cur.value == "repeat":
+            self.cur = self.tokeniser.Next()
+            left = self.ParseRepeatStatement()
+            self.cur = self.tokeniser.Next()
+            return left
         elif self.cur.tokenType == Token.tokenTypeIdentificator:
             self.cur = self.tokeniser.Next()
+           # print(t.value)
             return VarNode(t.value) 
         else:
-            raise Exception("not a ctatement")
+            print(self.cur, t.value)
+            raise Exception("not a statement")
             
     
     def ParseIfStatement(self):
@@ -45,10 +65,28 @@ class Parser:
             return cond
         else:
             raise Exception("keyword 'then' was expected")          
-
-
-
-
+    
+    def ParseWhileStatement(self):
+        cond = self.ParseExpr()
+        if self.cur.value == "do":
+            self.cur = self.tokeniser.Next()
+            ifTrue = self.ParseStatement()
+            cond = WhileNode(cond, ifTrue)
+            return cond
+        else:
+            raise Exception ("keyword 'do' was expected")
+    
+    def ParseRepeatStatement(self):
+        statements = self.ParseStatement()
+        if self.cur.value == "until":
+            self.cur = self.tokeniser.Next()
+            cond = self.ParseExpr()
+            cond = RepeatNode(statements, cond)
+            return cond
+        else:
+            print(self.cur)
+            raise Exception ("keyword 'until' was expected")
+        
     def ParseExpr(self):
         left = self.ParseSimpleExpr()
         #print('expr', self.cur)

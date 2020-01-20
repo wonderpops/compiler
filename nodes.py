@@ -62,3 +62,14 @@ class CompleteIfNode(StatementNode):
 class IncompleteIfNode(StatementNode):
     condition: ExprNode
     ifTrue: StatementNode
+
+@dataclass
+class WhileNode(StatementNode):
+    condition: ExprNode
+    ifTrue: StatementNode
+
+@dataclass
+class RepeatNode(StatementNode):
+    statements: []
+    condition: ExprNode
+    
