@@ -85,6 +85,49 @@ class Parser:
             self.cur = self.tokeniser.Next()
             return NilNode()
 
+    def ParseType(self):
+        t = self.cur
+        if self.cur.value == "integer":
+            return TypeNode('integer')
+        elif self.cur.value == "double": 
+            return TypeNode('double')
+        elif self.cur.value == "string":
+            return TypeNode('string')
+        elif self.cur.value == "array":
+            return self.ParseArrayType()
+        else:
+            raise Exception("expected array type")
+
+    def ParseArrayType(self):
+        if self.cur.value == "array":
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == "[":
+                subranges = []
+                self.cur = self.tokeniser.Next()
+                while self.cur.value != "]":
+                    if self.cur.value == ',':
+                        self.cur = self.tokeniser.Next()
+                    else:
+                        subranges.append(self.ParseSubrange())
+                if  self.cur.value == "of":
+                    self.cur = self.tokeniser.Next()
+                    return self.ParseType()
+                else:
+                    raise Exception("expected type of array")
+                left = SubrangeArrayTypeNode(subranges)
+                return left
+            else:
+                raise Exception("expected [") 
+    
+    def ParseSubrange(self):
+        p = self.ParseConstFactor()
+        self.cur = self.tokeniser.Next()
+        if self.cur.value == "..":
+            self.cur = self.tokeniser.Next()
+            f = self.ParseConstFactor()
+            return f
+        return p
+
     def ParseStatementSequence(self):
         if self.cur.value == "begin":
             statements = []
