@@ -48,6 +48,10 @@ class StringNode(ExprNode):
     value: str
 
 @dataclass
+class NilNode(ExprNode):
+    value: "nil"
+
+@dataclass
 class LiteralIntNode(ExprNode):
     value: int
 

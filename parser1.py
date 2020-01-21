@@ -208,6 +208,9 @@ class Parser:
         elif self.cur.tokenType == Token.tokenTypeString:
             self.cur = self.tokeniser.Next()
             return StringNode(t.value)
+        elif self.cur.value == 'nil':
+            self.cur = self.tokeniser.Next()
+            return NilNode(t.value)
         else:
             #print(self.cur)
             raise Exception('end')
