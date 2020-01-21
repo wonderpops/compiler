@@ -8,12 +8,46 @@ class ExprNode(Node):
 
 class StatementNode(Node):
     pass
+
 class BlockNode(Node):
     pass
 
 @dataclass
+class IdentificatorNode(Node):
+    name: str
+
+@dataclass
 class IdentListNode(Node):
     idents: []
+
+@dataclass
+class ConstDefBlockNode(Node):
+    constants: []
+
+@dataclass
+class ConstDefNode(Node):
+    ident: str
+    value: ExprNode
+
+@dataclass
+class ConstExpressionNode(Node):
+    op: str
+    value: ExprNode
+
+
+@dataclass
+class TypeNode(Node):
+    name: str
+
+@dataclass
+class ArrayTypeNode(Node):
+    artype: 
+    subranges: []
+
+@dataclass
+class SubrangeNode(TypeNode):
+    left: ExprNode
+    right: ExprNode
 
 @dataclass
 class DesignatorNode(Node):
@@ -48,6 +82,10 @@ class StringNode(ExprNode):
     value: str
 
 @dataclass
+class NilNode(ExprNode):
+    value: "nil"
+
+@dataclass
 class LiteralIntNode(ExprNode):
     value: int
 
@@ -66,6 +104,10 @@ class UnaryOpNode(ExprNode):
     op: str
     left: ExprNode
 
+@dataclass
+class NotNode(UnaryOpNode):
+    op: str
+    left: ExprNode
 
 @dataclass
 class FunctionCallNode(ExprNode):

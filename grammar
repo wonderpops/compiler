@@ -83,23 +83,23 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +   IdentList           -->     yident {',' yident}
 
 
-       Block               -->     [Declarations] StatementSequence
-       Declarations        -->     [ConstantDefBlock]
+      Block               -->     [Declarations] StatementSequence
+      Declarations        -->   + [ConstantDefBlock]
                             [VariableDeclBlock]
                             [SubprogDeclList]
-       ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
-       VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
-       ConstantDef         -->     yident '=' ConstExpression
-       VariableDecl        -->     IdentList ':' Type
+   +  ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
+      VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
+   +  ConstantDef         -->     yident '=' ConstExpression
+      VariableDecl        -->     IdentList ':' Type
 
 
-       ConstExpression     -->     [UnaryOperator] ConstFactor
-                            | " ' " ycharacter " ' "
-                            | ynil
-       ConstFactor         -->     yident
-                            | ynumber
-                            | ynil
-   +   Type                -->     yident
+   +  ConstExpression     -->    + [UnaryOperator] ConstFactor
+                        +   | " ' " ycharacter " ' "
+                        +   | ynil
+   +  ConstFactor         -->    + yident
+                        +   | ynumber
+                        +   | ynil
+   +  Type                -->     yident
                             | ArrayType
    +   ArrayType           -->     yarray '[' Subrange {',' Subrange} ']' yof Type
    +   Subrange            -->     ConstFactor '..' ConstFactor
@@ -135,15 +135,15 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +   ActualParameters     -->     '(' ExpList ')'
    +   ExpList             -->     Expression { ',' Expression }
 
-   +   Expression          -->     SimpleExpression [ Relation SimpleExpression ]
-   +   SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
-   +   Term                -->     Factor {MultOperator Factor}
-  +/-  Factor              -->     ynumber
+   +  Expression          -->     SimpleExpression [ Relation SimpleExpression ]
+   +  SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
+   +  Term                -->     Factor {MultOperator Factor}
+   + Factor              -->    + ynumber
                         +   | ystring 
-                            | ynil
+                        +   | ynil
                         +   | Designator
                         +   | '(' Expression ')'
-                            | ynot Factor
+                        +   | ynot Factor
                         +   | FunctionCall
    +   FunctionCall        -->     yident ActualParameters
        Element             -->     ConstExpression ['..' ConstExpression ]

@@ -15,6 +15,119 @@ class Parser:
                 self.cur = self.tokeniser.Next()
         return ids
 
+    def ParseBlock(self):
+        pass
+
+    def ParseDeclaration(self):
+        pass
+
+    def ParseConstantDefBlock(self):
+        constants = []
+        if self.cur.value == 'const' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            constants.append(self.ParseConstantDef())
+            while self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+                self.cur = self.tokeniser.Next()
+                if self.cur.tokenType == Token.tokenTypeIdentificator:
+                    constants.append(self.ParseConstantDef())
+                else:
+                    break
+        return ConstDefBlockNode(constants)
+
+    def ParseVariableDecBlock(self):
+        pass
+
+    def ParseConstantDef(self):
+        ident = ''
+        value = ''
+        if self.cur.tokenType == Token.tokenTypeIdentificator:
+            ident = self.cur.value
+            self.cur = self.tokeniser.Next()
+        if self.cur.value == '=' and self.cur.tokenType == Token.tokenTypeOperators:
+            self.cur = self.tokeniser.Next()
+            value = self.ParseConstExpression()
+        return ConstDefNode(ident, value)
+
+    def ParseVariableDec(self):
+        ids = []
+        if self.cur.tokenType == Token.tokenTypeIdentificator:
+            ids = self.ParseIdentList()
+        if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeSeparators:
+            self.cur = self.tokeniser.Next()
+        return #VarDecNode(ids,)
+
+    def ParseConstExpression(self):
+        op = ''
+        value = ''
+        if self.cur.value in ['+', '-']:
+            op = self.cur.value
+            self.cur = self.tokeniser.Next()
+            value = self.ParseConstFactor()
+        elif self.cur.tokenType == Token.tokenTypeString:
+            value = self.cur.value
+        elif self.cur.tokenType == Token.tokenTypeKeyWord and self.cur.value == 'nil':
+            value = NilNode().value
+        return ConstExpressionNode(op, value)
+
+
+    def ParseConstFactor(self):
+        t = self.cur
+        if self.cur.tokenType == Token.tokenTypeIdentificator:
+            self.cur = self.tokeniser.Next()
+            return IdentificatorNode(t.name)
+        elif self.cur.tokenType == Token.tokenTypeInt:
+            self.cur = self.tokeniser.Next()
+            return LiteralIntNode(t.value)
+        elif self.cur.tokenType == Token.tokenTypeDouble:
+            self.cur = self.tokeniser.Next()
+            return LiteralFloatNode(t.value)
+        elif self.cur.tokenType == Token.tokenTypeKeyWord and self.cur.value == 'nil':
+            self.cur = self.tokeniser.Next()
+            return NilNode()
+
+    def ParseType(self):
+        t = self.cur
+        if self.cur.value == "integer":
+            return TypeNode('integer')
+        elif self.cur.value == "double": 
+            return TypeNode('double')
+        elif self.cur.value == "string":
+            return TypeNode('string')
+        elif self.cur.value == "array":
+            return self.ParseArrayType()
+        else:
+            raise Exception("expected array type")
+
+    def ParseArrayType(self):
+        if self.cur.value == "array":
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == "[":
+                subranges = []
+                self.cur = self.tokeniser.Next()
+                while self.cur.value != "]":
+                    if self.cur.value == ',':
+                        self.cur = self.tokeniser.Next()
+                    else:
+                        subranges.append(self.ParseSubrange())
+                if  self.cur.value == "of":
+                    self.cur = self.tokeniser.Next()
+                    return self.ParseType()
+                else:
+                    raise Exception("expected type of array")
+                left = SubrangeArrayTypeNode(subranges)
+                return left
+            else:
+                raise Exception("expected [") 
+    
+    def ParseSubrange(self):
+        p = self.ParseConstFactor()
+        self.cur = self.tokeniser.Next()
+        if self.cur.value == "..":
+            self.cur = self.tokeniser.Next()
+            f = self.ParseConstFactor()
+            return f
+        return p
+
     def ParseStatementSequence(self):
         if self.cur.value == "begin":
             statements = []
@@ -248,6 +361,10 @@ class Parser:
                 raise Exception('string in */')
         return left  
 
+    def ParseNot(self):
+        left = self.ParseFactor()
+        return left
+
     def ParseFactor(self):
         t = self.cur
         #print('factor', t)
@@ -273,6 +390,13 @@ class Parser:
         elif self.cur.tokenType == Token.tokenTypeString:
             self.cur = self.tokeniser.Next()
             return StringNode(t.value)
+        elif self.cur.value == 'nil':
+            self.cur = self.tokeniser.Next()
+            return NilNode(t.value)
+        elif self.cur.value == 'not':
+            self.cur = self.tokeniser.Next()
+            p = self.ParseNot()
+            return NotNode('not', p)
         else:
             print(self.cur)
             raise Exception('end')
