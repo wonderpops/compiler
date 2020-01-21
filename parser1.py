@@ -23,25 +23,28 @@ class Parser:
         
     def ParseStatement(self):
         t = self.cur
-        if self.cur.value == "if":
-            self.cur = self.tokeniser.Next()
-            left = self.ParseIfStatement()
-            self.cur = self.tokeniser.Next()
-            return left
-        elif self.cur.value == "while":
-            self.cur = self.tokeniser.Next()
-            left = self.ParseWhileStatement()
-            self.cur = self.tokeniser.Next()
-            return left
-        elif self.cur.value == "begin":
-            left = self.ParseStatementSequence()
-            self.cur = self.tokeniser.Next()
-            return left
-        elif self.cur.value == "repeat":
-            self.cur = self.tokeniser.Next()
-            left = self.ParseRepeatStatement()
-            self.cur = self.tokeniser.Next()
-            return left
+        if self.cur.tokenType == Token.tokenTypeKeyWord:
+            if self.cur.value == "if":
+                self.cur = self.tokeniser.Next()
+                left = self.ParseIfStatement()
+                self.cur = self.tokeniser.Next()
+                return left
+            elif self.cur.value == "while":
+                self.cur = self.tokeniser.Next()
+                left = self.ParseWhileStatement()
+                self.cur = self.tokeniser.Next()
+                return left
+            elif self.cur.value == "begin":
+                left = self.ParseStatementSequence()
+                self.cur = self.tokeniser.Next()
+                return left
+            elif self.cur.value == "repeat":
+                self.cur = self.tokeniser.Next()
+                left = self.ParseRepeatStatement()
+                self.cur = self.tokeniser.Next()
+                return left
+            else:
+                raise Exception("not a statement")
         elif self.cur.tokenType == Token.tokenTypeIdentificator:
             self.cur = self.tokeniser.Next()
             return DesignatorNode(t.value) 
