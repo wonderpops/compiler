@@ -28,7 +28,18 @@ class Parser:
         pass
 
     def ParseConstExpression(self):
-        pass
+        op = ''
+        value = ''
+        if self.cur.value in ['+', '-']:
+            op = self.cur.value
+            self.cur = self.tokeniser.Next()
+            value = self.ParseConstFactor().value
+        elif self.cur.tokenType == Token.tokenTypeString:
+            value = self.cur.value
+        elif self.cur.tokenType == Token.tokenTypeKeyWord and self.cur.value == 'nil':
+            value = NilNode().value
+        return ConstExpressionNode(op, value)
+
 
     def ParseConstFactor(self):
         t = self.cur
@@ -43,7 +54,7 @@ class Parser:
             return LiteralFloatNode(t.value)
         elif self.cur.tokenType == Token.tokenTypeKeyWord and self.cur.value == 'nil':
             self.cur = self.tokeniser.Next()
-            return NilNode(t.value)
+            return NilNode()
 
     def ParseStatementSequence(self):
         if self.cur.value == "begin":

@@ -93,12 +93,12 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
       VariableDecl        -->     IdentList ':' Type
 
 
-      ConstExpression     -->     [UnaryOperator] ConstFactor
-                            | " ' " ycharacter " ' "
-                            | ynil
-      ConstFactor         -->     yident
-                            | ynumber
-                            | ynil
+   +  ConstExpression     -->    + [UnaryOperator] ConstFactor
+                        +   | " ' " ycharacter " ' "
+                        +   | ynil
+   +  ConstFactor         -->    + yident
+                        +   | ynumber
+                        +   | ynil
       Type                -->     yident
                             | ArrayType
       ArrayType           -->     yarray '[' Subrange {',' Subrange} ']' yof Type
