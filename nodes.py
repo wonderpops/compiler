@@ -21,6 +21,11 @@ class IdentListNode(Node):
     idents: []
 
 @dataclass
+class ConstDefNode(Node):
+    ident: str
+    value: ExprNode
+
+@dataclass
 class ConstExpressionNode(Node):
     op: str
     value: ExprNode

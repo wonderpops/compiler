@@ -25,7 +25,15 @@ class Parser:
         pass
 
     def ParseConstantDef(self):
-        pass
+        ident = ''
+        value = ''
+        if self.cur.tokenType == Token.tokenTypeIdentificator:
+            ident = self.cur.value
+            self.cur = self.tokeniser.Next()
+        if self.cur.value == '=' and self.cur.tokenType == Token.tokenTypeOperators:
+            self.cur = self.tokeniser.Next()
+            value = self.ParseConstExpression()
+        return ConstDefNode(ident, value)
 
     def ParseConstExpression(self):
         op = ''
@@ -33,7 +41,7 @@ class Parser:
         if self.cur.value in ['+', '-']:
             op = self.cur.value
             self.cur = self.tokeniser.Next()
-            value = self.ParseConstFactor().value
+            value = self.ParseConstFactor()
         elif self.cur.tokenType == Token.tokenTypeString:
             value = self.cur.value
         elif self.cur.tokenType == Token.tokenTypeKeyWord and self.cur.value == 'nil':
