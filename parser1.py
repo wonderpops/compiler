@@ -98,24 +98,25 @@ class Parser:
                         self.cur = self.tokeniser.Next()
                     else:
                         subranges.append(self.ParseSubrange())
+                self.cur = self.tokeniser.Next()
                 if  self.cur.value == "of":
                     self.cur = self.tokeniser.Next()
-                    return self.ParseType()
+                    typ = self.ParseType()
                 else:
                     raise Exception("expected type of array")
-                left = SubrangeArrayTypeNode(subranges)
+                left = ArrayTypeNode(typ, subranges)
                 return left
             else:
                 raise Exception("expected [") 
     
     def ParseSubrange(self):
         p = self.ParseConstFactor()
-        self.cur = self.tokeniser.Next()
         if self.cur.value == "..":
             self.cur = self.tokeniser.Next()
             f = self.ParseConstFactor()
-            return f
-        return p
+        else:
+            raise Exception("expected .. ")
+        return SubrangeNode(p, f)
 
     def ParseStatementSequence(self):
         if self.cur.value == "begin":

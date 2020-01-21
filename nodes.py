@@ -41,11 +41,11 @@ class TypeNode(Node):
 
 @dataclass
 class ArrayTypeNode(Node):
-    artype: 
+    artype: ExprNode
     subranges: []
 
 @dataclass
-class SubrangeNode(TypeNode):
+class SubrangeNode(ExprNode):
     left: ExprNode
     right: ExprNode
 
