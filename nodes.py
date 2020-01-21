@@ -30,6 +30,11 @@ class ConstDefNode(Node):
     value: ExprNode
 
 @dataclass
+class VarDeclNode(Node):
+    idents: []
+    idsType: ExprNode
+
+@dataclass
 class ConstExpressionNode(Node):
     op: str
     value: ExprNode
@@ -41,7 +46,7 @@ class TypeNode(Node):
 
 @dataclass
 class ArrayTypeNode(Node):
-    artype: 
+    artype: ExprNode 
     subranges: []
 
 @dataclass

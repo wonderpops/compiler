@@ -48,13 +48,14 @@ class Parser:
             value = self.ParseConstExpression()
         return ConstDefNode(ident, value)
 
-    def ParseVariableDec(self):
+    def ParseVariableDecl(self):
         ids = []
         if self.cur.tokenType == Token.tokenTypeIdentificator:
             ids = self.ParseIdentList()
+            self.cur = self.tokeniser.Next()
         if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeSeparators:
             self.cur = self.tokeniser.Next()
-        return #VarDecNode(ids,)
+        return VarDeclNode(ids, self.ParseType())
 
     def ParseConstExpression(self):
         op = ''
@@ -86,7 +87,6 @@ class Parser:
             return NilNode()
 
     def ParseType(self):
-        t = self.cur
         if self.cur.value == "integer":
             return TypeNode('integer')
         elif self.cur.value == "double": 
@@ -111,10 +111,10 @@ class Parser:
                         subranges.append(self.ParseSubrange())
                 if  self.cur.value == "of":
                     self.cur = self.tokeniser.Next()
-                    return self.ParseType()
+                    typ =  self.ParseType()
                 else:
                     raise Exception("expected type of array")
-                left = SubrangeArrayTypeNode(subranges)
+                left = ArrayTypeNode(typ, subranges)
                 return left
             else:
                 raise Exception("expected [") 
