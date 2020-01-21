@@ -16,9 +16,15 @@ def getTree(deep, node):
     elif type(node) == BinaryOpNode:
         return '  '*deep + cnr + node.op + "\n" + getTree(deep, node.left) + "\n" + getTree(deep, node.right)
     elif type(node) == FunctionCallNode:
-        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.parameters))
+        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.parameters.expList.expressions))
     elif type(node) == DesignatorNode:
         return '  '*deep + cnr + node.name
+    elif type(node) == InStatmentNode:
+        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.designatorList.designators))
+    elif type(node) == FunctionHeadingNode or type(node) == ProcedureHeadingNode:
+        return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.params.params))
+    elif type(node) == OneFormalParamNode:
+        return '  '*deep + cnr + node.idsType + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.ids))
     else:
         return '  '*deep + cnr + str(node.value)
 

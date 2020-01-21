@@ -6,6 +6,15 @@ class Parser:
         self.tokeniser = tokeniser
         self.cur = self.tokeniser.Next()
 
+    def ParseIdentList(self):
+        ids = []
+        while (self.cur.tokenType == Token.tokenTypeIdentificator):
+            ids.append(self.cur)
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == ',':
+                self.cur = self.tokeniser.Next()
+        return ids
+
     def ParseStatementSequence(self):
         if self.cur.value == "begin":
             statements = []
@@ -92,7 +101,7 @@ class Parser:
         if self.cur.tokenType == Token.tokenTypeKeyWord:
             if name == 'read' or name == 'readln':
                 d = DesignatorListNode([])
-                d.Designators = self.ParseDesignatorList().Designators
+                d.designators = self.ParseDesignatorList().designators
                 return InStatmentNode(name, d)
             elif name == 'write' or name == 'writeln':
                 e = ExpListNode([])
@@ -105,13 +114,14 @@ class Parser:
         if self.cur.value == '(':
             self.cur = self.tokeniser.Next()
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
-            d.Designators.append(self.ParseDesignator(self.cur.value))
+            d.designators.append(self.ParseDesignator(self.cur.value))
             self.cur = self.tokeniser.Next()
             if self.cur.value == ',':
                 self.cur = self.tokeniser.Next()
         return d
 
     def ParseDesignator(self, name):
+        print(self.cur)
         return DesignatorNode(name)  
 
     def ParseActualParameters(self):
@@ -125,7 +135,7 @@ class Parser:
         if self.cur.value == '(':
             self.cur = self.tokeniser.Next()
         while self.cur.value != ')':
-            l.expList.append(self.ParseExpr())
+            l.expressions.append(self.ParseExpr())
             if self.cur.value == ',':
                 self.cur = self.tokeniser.Next()
             #print('exprlist', l, self.cur)
@@ -208,3 +218,54 @@ class Parser:
     def ParseFunctionCall(self, name):               
         p = self.ParseActualParameters()
         return FunctionCallNode(name, p)
+
+    def ParseSubprogDeclList(self):
+        pass
+
+    def ParseProcedureDecl(self):
+        pass
+
+    def ParseProcedureHeading(self):
+        name = ''
+        params = []
+        if self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            name = self.cur.value
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == '(':
+                params = self.ParseFormalParameters()
+        return ProcedureHeadingNode(name, params)
+    
+    def ParseFunctionHeading(self):
+        name = ''
+        params = []
+        if self.cur.value == 'function' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            name = self.cur.value
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == '(':
+                params = self.ParseFormalParameters()
+        return FunctionHeadingNode(name, params)
+
+    def ParseFormalParameters(self):
+        params = []
+        if self.cur.value == '(':
+            while self.cur.value != ')':
+                self.cur = self.tokeniser.Next()
+                if self.cur == ';':
+                    self.cur == self.tokeniser.Next()
+                params.append(self.ParseOneFormalParam())
+        return FormalParametersNode(params)
+
+
+    def ParseOneFormalParam(self):
+        ids = []
+        typ = ''
+        if self.cur.value == 'var' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+        ids = self.ParseIdentList()
+        if self.cur.value == ':':
+            self.cur = self.tokeniser.Next()
+            typ = self.cur.value  
+            self.cur = self.tokeniser.Next()     
+        return OneFormalParamNode(ids, typ)
