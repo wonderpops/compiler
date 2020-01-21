@@ -41,7 +41,7 @@ class TypeNode(Node):
 
 @dataclass
 class ArrayTypeNode(Node):
-    artype: 
+    artype: ExprNode
     subranges: []
 
 @dataclass
@@ -164,6 +164,9 @@ class ForNode(StatementNode):
     way: WichWayNode
     statements: StatementNode
 
+@dataclass
+class EmptyNode(StatementNode):
+    value: str
 
 @dataclass
 class FormalParametersNode(ExprNode):

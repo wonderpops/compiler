@@ -83,23 +83,23 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +   IdentList           -->     yident {',' yident}
 
 
-      Block               -->     [Declarations] StatementSequence
-      Declarations        -->   + [ConstantDefBlock]
+       Block               -->     [Declarations] StatementSequence
+       Declarations        -->   + [ConstantDefBlock]
                             [VariableDeclBlock]
                             [SubprogDeclList]
-   +  ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
-      VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
-   +  ConstantDef         -->     yident '=' ConstExpression
-      VariableDecl        -->     IdentList ':' Type
+   +   ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
+       VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
+   +   ConstantDef         -->     yident '=' ConstExpression
+       VariableDecl        -->     IdentList ':' Type
 
 
-   +  ConstExpression     -->    + [UnaryOperator] ConstFactor
+   +   ConstExpression     -->    + [UnaryOperator] ConstFactor
                         +   | " ' " ycharacter " ' "
                         +   | ynil
-   +  ConstFactor         -->    + yident
+   +   ConstFactor         -->    + yident
                         +   | ynumber
                         +   | ynil
-   +  Type                -->     yident
+   +   Type                -->     yident
                             | ArrayType
    +   ArrayType           -->     yarray '[' Subrange {',' Subrange} ']' yof Type
    +   Subrange            -->     ConstFactor '..' ConstFactor
@@ -115,7 +115,7 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
                         +   | ForStatement
                         +   | IOStatement
                         +   | StatementSequence
-                            | empty
+                        +   | empty
    +   Assignment          -->     Designator ':=' Expression
    +   ProcedureCall       -->     yident [ActualParameters]
    +   IfStatement         -->     yif Expression ythen Statement

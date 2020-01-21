@@ -114,7 +114,7 @@ class Parser:
                     return self.ParseType()
                 else:
                     raise Exception("expected type of array")
-                left = SubrangeArrayTypeNode(subranges)
+                left = ArrayTypeNode(subranges)
                 return left
             else:
                 raise Exception("expected [") 
@@ -137,7 +137,10 @@ class Parser:
                     self.cur = self.tokeniser.Next()
                 else:
                     statements.append(self.ParseStatement())
-            left = StatementSequenceNode(statements)
+            if not statements:
+                left = EmptyNode('empty')
+            else:
+                left = StatementSequenceNode(statements)
             return left
         
     def ParseStatement(self):
