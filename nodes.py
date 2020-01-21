@@ -79,8 +79,14 @@ class StatementSequenceNode(StatementNode):
 
 @dataclass
 class AssignmentNode(StatementNode):
-    name: DesignatorNode
+    op: str
+    designator: DesignatorNode
     value: ExprNode
+
+@dataclass
+class ProcedureCallNode(StatementNode):
+    name: DesignatorNode
+    parameters: []
 
 @dataclass
 class CompleteIfNode(StatementNode):
@@ -102,6 +108,20 @@ class WhileNode(StatementNode):
 class RepeatNode(StatementNode):
     statements: []
     condition: ExprNode
+
+@dataclass
+class WichWayNode(StatementNode):
+    name: str
+
+
+@dataclass
+class ForNode(StatementNode):
+    designator: DesignatorNode
+    left: ExprNode
+    right: ExprNode
+    way: WichWayNode
+    statements: StatementNode
+
 
 @dataclass
 class FormalParametersNode(ExprNode):
