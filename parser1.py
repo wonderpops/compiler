@@ -22,7 +22,17 @@ class Parser:
         pass
 
     def ParseConstantDefBlock(self):
-        pass
+        constants = []
+        if self.cur.value == 'const' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            constants.append(self.ParseConstantDef())
+            while self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+                self.cur = self.tokeniser.Next()
+                if self.cur.tokenType == Token.tokenTypeIdentificator:
+                    constants.append(self.ParseConstantDef())
+                else:
+                    break
+        return ConstDefBlockNode(constants)
 
     def ParseConstantDef(self):
         ident = ''
