@@ -36,6 +36,20 @@ class ConstExpressionNode(Node):
 
 
 @dataclass
+class TypeNode(Node):
+    name: str
+
+@dataclass
+class ArrayTypeNode(Node):
+    artype: 
+    subranges: []
+
+@dataclass
+class SubrangeNode(TypeNode):
+    left: ExprNode
+    right: ExprNode
+
+@dataclass
 class DesignatorNode(Node):
     name: str
 
