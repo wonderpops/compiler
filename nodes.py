@@ -8,8 +8,13 @@ class ExprNode(Node):
 
 class StatementNode(Node):
     pass
+
 class BlockNode(Node):
     pass
+
+@dataclass
+class IdentificatorNode(Node):
+    name: str
 
 @dataclass
 class IdentListNode(Node):

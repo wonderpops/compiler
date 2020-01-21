@@ -15,6 +15,36 @@ class Parser:
                 self.cur = self.tokeniser.Next()
         return ids
 
+    def ParseBlock(self):
+        pass
+
+    def ParseDeclaration(self):
+        pass
+
+    def ParseConstantDefBlock(self):
+        pass
+
+    def ParseConstantDef(self):
+        pass
+
+    def ParseConstExpression(self):
+        pass
+
+    def ParseConstFactor(self):
+        t = self.cur
+        if self.cur.tokenType == Token.tokenTypeIdentificator:
+            self.cur = self.tokeniser.Next()
+            return IdentificatorNode(t.name)
+        elif self.cur.tokenType == Token.tokenTypeInt:
+            self.cur = self.tokeniser.Next()
+            return LiteralIntNode(t.value)
+        elif self.cur.tokenType == Token.tokenTypeDouble:
+            self.cur = self.tokeniser.Next()
+            return LiteralFloatNode(t.value)
+        elif self.cur.tokenType == Token.tokenTypeKeyWord and self.cur.value == 'nil':
+            self.cur = self.tokeniser.Next()
+            return NilNode(t.value)
+
     def ParseStatementSequence(self):
         if self.cur.value == "begin":
             statements = []
