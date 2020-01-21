@@ -81,6 +81,10 @@ class UnaryOpNode(ExprNode):
     op: str
     left: ExprNode
 
+@dataclass
+class NotNode(UnaryOpNode):
+    op: str
+    left: ExprNode
 
 @dataclass
 class FunctionCallNode(ExprNode):

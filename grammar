@@ -138,12 +138,12 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +  Expression          -->     SimpleExpression [ Relation SimpleExpression ]
    +  SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
    +  Term                -->     Factor {MultOperator Factor}
-  +/- Factor              -->     ynumber
+   + Factor              -->    + ynumber
                         +   | ystring 
-                            | ynil
+                        +   | ynil
                         +   | Designator
                         +   | '(' Expression ')'
-                            | ynot Factor
+                        +   | ynot Factor
                         +   | FunctionCall
    +   FunctionCall        -->     yident ActualParameters
        Element             -->     ConstExpression ['..' ConstExpression ]

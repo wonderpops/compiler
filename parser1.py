@@ -224,6 +224,10 @@ class Parser:
                 raise Exception('string in */')
         return left  
 
+    def ParseNot(self):
+        left = self.ParseFactor()
+        return left
+
     def ParseFactor(self):
         t = self.cur
         #print('factor', t)
@@ -252,6 +256,10 @@ class Parser:
         elif self.cur.value == 'nil':
             self.cur = self.tokeniser.Next()
             return NilNode(t.value)
+        elif self.cur.value == 'not':
+            self.cur = self.tokeniser.Next()
+            p = self.ParseNot()
+            return NotNode('not', p)
         else:
             #print(self.cur)
             raise Exception('end')
