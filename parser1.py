@@ -34,6 +34,9 @@ class Parser:
                     break
         return ConstDefBlockNode(constants)
 
+    def ParseVariableDecBlock(self):
+        pass
+
     def ParseConstantDef(self):
         ident = ''
         value = ''
@@ -44,6 +47,14 @@ class Parser:
             self.cur = self.tokeniser.Next()
             value = self.ParseConstExpression()
         return ConstDefNode(ident, value)
+
+    def ParseVariableDec(self):
+        ids = []
+        if self.cur.tokenType == Token.tokenTypeIdentificator:
+            ids = self.ParseIdentList()
+        if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeSeparators:
+            self.cur = self.tokeniser.Next()
+        return #VarDecNode(ids,)
 
     def ParseConstExpression(self):
         op = ''
