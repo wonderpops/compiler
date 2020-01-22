@@ -25,6 +25,10 @@ class ConstDefBlockNode(Node):
     constants: []
 
 @dataclass
+class VarDeclBlockNode(Node):
+    variables: []
+
+@dataclass
 class ConstDefNode(Node):
     ident: str
     value: ExprNode
@@ -50,7 +54,7 @@ class ArrayTypeNode(Node):
     subranges: []
 
 @dataclass
-class SubrangeNode(TypeNode):
+class SubrangeNode(ExprNode):
     left: ExprNode
     right: ExprNode
 

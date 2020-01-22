@@ -34,8 +34,18 @@ class Parser:
                     break
         return ConstDefBlockNode(constants)
 
-    def ParseVariableDecBlock(self):
-        pass
+    def ParseVariableDeclBlock(self):
+        varbls = []
+        if self.cur.value == 'var' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            varbls.append(self.ParseVariableDecl())
+            while self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+                self.cur = self.tokeniser.Next()
+                if self.cur.tokenType == Token.tokenTypeIdentificator:
+                    varbls.append(self.ParseVariableDecl())
+                else:
+                    break
+        return VarDeclBlockNode(varbls) 
 
     def ParseConstantDef(self):
         ident = ''
@@ -88,10 +98,13 @@ class Parser:
 
     def ParseType(self):
         if self.cur.value == "integer":
+            self.cur = self.tokeniser.Next()
             return TypeNode('integer')
         elif self.cur.value == "double": 
+            self.cur = self.tokeniser.Next()
             return TypeNode('double')
         elif self.cur.value == "string":
+            self.cur = self.tokeniser.Next()
             return TypeNode('string')
         elif self.cur.value == "array":
             return self.ParseArrayType()
@@ -109,6 +122,7 @@ class Parser:
                         self.cur = self.tokeniser.Next()
                     else:
                         subranges.append(self.ParseSubrange())
+                self.cur = self.tokeniser.Next()
                 if  self.cur.value == "of":
                     self.cur = self.tokeniser.Next()
                     typ =  self.ParseType()
@@ -121,12 +135,10 @@ class Parser:
     
     def ParseSubrange(self):
         p = self.ParseConstFactor()
-        self.cur = self.tokeniser.Next()
         if self.cur.value == "..":
             self.cur = self.tokeniser.Next()
             f = self.ParseConstFactor()
-            return f
-        return p
+        return SubrangeNode(p,f)
 
     def ParseStatementSequence(self):
         if self.cur.value == "begin":

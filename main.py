@@ -41,5 +41,5 @@ if sys.argv[1] == 'T':
             print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
-    x = getTree(0, p.ParseProcedureHeading())
-    print(x)
+    #x = getTree(0, p.ParseProcedureHeading())
+    print(p.ParseArrayType())

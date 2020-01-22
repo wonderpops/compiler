@@ -90,7 +90,7 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +  ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
       VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
    +  ConstantDef         -->     yident '=' ConstExpression
-      VariableDecl        -->     IdentList ':' Type
+   +  VariableDecl        -->     IdentList ':' Type
 
 
    +  ConstExpression     -->    + [UnaryOperator] ConstFactor
