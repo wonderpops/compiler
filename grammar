@@ -84,14 +84,14 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +   IdentList           -->     yident {',' yident}
 
 
-       Block               -->     [Declarations] StatementSequence
-       Declarations        -->   + [ConstantDefBlock]
-                            [VariableDeclBlock]
-                            [SubprogDeclList]
-   +   ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
-       VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
-   +   ConstantDef         -->     yident '=' ConstExpression
-       VariableDecl        -->     IdentList ':' Type
+   +   Block               -->     [Declarations] StatementSequence
+   +   Declarations        -->   + [ConstantDefBlock]
+                        +   [VariableDeclBlock]
+                        +   [SubprogDeclList]
+   +  ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
+   +  VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
+   +  ConstantDef         -->     yident '=' ConstExpression
+   +  VariableDecl        -->     IdentList ':' Type
 
 
    +   ConstExpression     -->    + [UnaryOperator] ConstFactor
@@ -150,9 +150,9 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
        Element             -->     ConstExpression ['..' ConstExpression ]
 
 
-       SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
-       ProcedureDecl       -->     ProcedureHeading ';' Block
-       FunctionDecl        -->     FunctionHeading ':' yident ';' Block
+   +   SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
+   +   ProcedureDecl       -->     ProcedureHeading ';' Block
+   +   FunctionDecl        -->     FunctionHeading ':' yident ';' Block
    +   ProcedureHeading    -->     yprocedure yident [FormalParameters]
    +   FunctionHeading     -->     yfunction yident [FormalParameters]
    +   FormalParameters    -->     '(' OneFormalParam {';' OneFormalParam} ')'
