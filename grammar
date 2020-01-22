@@ -150,8 +150,8 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
 
 
        SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
-       ProcedureDecl       -->     ProcedureHeading ';' Block
-       FunctionDecl        -->     FunctionHeading ':' yident ';' Block
+   +   ProcedureDecl       -->     ProcedureHeading ';' Block
+   +   FunctionDecl        -->     FunctionHeading ':' yident ';' Block
    +   ProcedureHeading    -->     yprocedure yident [FormalParameters]
    +   FunctionHeading     -->     yfunction yident [FormalParameters]
    +   FormalParameters    -->     '(' OneFormalParam {';' OneFormalParam} ')'

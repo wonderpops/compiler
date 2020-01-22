@@ -426,7 +426,22 @@ class Parser:
         pass
 
     def ParseProcedureDecl(self):
-        pass
+        head = self.ParseProcedureHeading()
+        self.cur = self.tokeniser.Next()
+        if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeSeparators:
+            self.cur = self.tokeniser.Next()
+        return ProcedureDeclNode(head, self.ParseBlock())
+
+    def ParseFunctionDecl(self):
+        head = self.ParseFunctionHeading()
+        fType = ''
+        self.cur = self.tokeniser.Next()
+        if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeOperators:
+            self.cur = self.tokeniser.Next()
+        if self.cur.tokenType == Token.tokenTypeKeyWord:
+            fType = self.cur.value
+            self.cur = self.tokeniser.Next()
+        return FunctionDeclNode(head, fType, self.ParseBlock())
 
     def ParseProcedureHeading(self):
         name = ''

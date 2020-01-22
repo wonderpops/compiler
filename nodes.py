@@ -182,6 +182,12 @@ class FormalParametersNode(ExprNode):
     params: IdentListNode
 
 @dataclass
+class FunctionDeclNode(ExprNode): 
+    heading: ExprNode
+    functType: str
+    block: ExprNode
+
+@dataclass
 class ProcedureHeadingNode(ExprNode):
     name: str
     params: FormalParametersNode
