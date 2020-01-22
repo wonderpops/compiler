@@ -125,7 +125,7 @@ class Parser:
                 self.cur = self.tokeniser.Next()
                 if  self.cur.value == "of":
                     self.cur = self.tokeniser.Next()
-                    typ =  self.ParseType()
+                    typ = self.ParseType()
                 else:
                     raise Exception("expected type of array")
                 left = ArrayTypeNode(typ, subranges)
@@ -138,7 +138,9 @@ class Parser:
         if self.cur.value == "..":
             self.cur = self.tokeniser.Next()
             f = self.ParseConstFactor()
-        return SubrangeNode(p,f)
+        else:
+            raise Exception("expected .. ")
+        return SubrangeNode(p, f)
 
     def ParseStatementSequence(self):
         if self.cur.value == "begin":
@@ -149,39 +151,78 @@ class Parser:
                     self.cur = self.tokeniser.Next()
                 else:
                     statements.append(self.ParseStatement())
-                    #print(statements)
-                    #print(self.cur)
-            left = StatementSequenceNode(statements)
-            print('334234', left)
+            if not statements:
+                left = EmptyNode('empty')
+            else:
+                left = StatementSequenceNode(statements)
             return left
         
     def ParseStatement(self):
         t = self.cur
-        if self.cur.value == "if":
-            self.cur = self.tokeniser.Next()
-            left = self.ParseIfStatement()
-            self.cur = self.tokeniser.Next()
-            return left
-        elif self.cur.value == "while":
-            self.cur = self.tokeniser.Next()
-            left = self.ParseWhileStatement()
-            self.cur = self.tokeniser.Next()
-            return left
-        elif self.cur.value == "begin":
-            left = self.ParseStatementSequence()
-            self.cur = self.tokeniser.Next()
-            return left
-        elif self.cur.value == "repeat":
-            self.cur = self.tokeniser.Next()
-            left = self.ParseRepeatStatement()
-            self.cur = self.tokeniser.Next()
-            return left
+        if self.cur.tokenType == Token.tokenTypeKeyWord:
+            if self.cur.value == "if":
+                self.cur = self.tokeniser.Next()
+                left = self.ParseIfStatement()
+                #self.cur = self.tokeniser.Next()
+                return left
+            elif self.cur.value == "while":
+                self.cur = self.tokeniser.Next()
+                left = self.ParseWhileStatement()
+                #self.cur = self.tokeniser.Next()
+                return left
+            elif self.cur.value == "begin":
+                left = self.ParseStatementSequence()
+                #self.cur = self.tokeniser.Next()
+                return left
+            elif self.cur.value == "repeat":
+                self.cur = self.tokeniser.Next()
+                left = self.ParseRepeatStatement()
+                #self.cur = self.tokeniser.Next()
+                return left
+            elif self.cur.value == "for":
+                self.cur = self.tokeniser.Next()
+                left = self.ParseForStatement()
+                return left
+            elif self.cur.value in ['read', 'readln', 'write', 'writeln']:
+                left = self.ParseIOStatement()
+                #self.cur = self.tokeniser.Next()
+                return left
+            else:
+                raise Exception("not a statement")
         elif self.cur.tokenType == Token.tokenTypeIdentificator:
+            t = self.cur
             self.cur = self.tokeniser.Next()
-            return DesignatorNode(t.value) 
+            if self.cur.value == ":=":
+                left = self.ParseAssignment(t)
+                #self.cur = self.tokeniser.Next()
+                return left
+            else:
+                left = self.ParseProcedureCall(t)
+                #self.cur = self.tokeniser.Next()
+                return left
         else:
-            raise Exception("not a ctatement")   
+            raise Exception("not a statement")   
     
+    def ParseAssignment(self, des):
+        left = self.ParseDesignator(des.value)
+        self.cur = self.tokeniser.Next()
+        right = self.ParseExpr()
+        left = AssignmentNode(':=', left, right)
+        return left
+    
+    def ParseProcedureCall(self, ident):
+        left = self.ParseDesignator(ident.value)
+        print(self.cur)
+        if self.cur == '(':
+            p = self.ParseActualParameters()
+            left = ProcedureCallNode(left, p)
+        elif self.cur.value in ['+', '*', ';']:
+            left = ProcedureCallNode(left, [])
+        else:
+            print(self.cur)
+            raise Exception('incorrect procedure call')
+        return left
+
     def ParseIfStatement(self):
         cond = self.ParseExpr()
         if self.cur.value == "then":
@@ -218,6 +259,35 @@ class Parser:
             print(self.cur)
             raise Exception ("keyword 'until' was expected")
 
+    def ParseForStatement(self):
+        name = self.ParseDesignator(self.cur.value)
+        self.cur = self.tokeniser.Next()
+        if self.cur.value == ':=':
+            self.cur = self.tokeniser.Next()
+            left = self.ParseExpr()
+            way = self.ParseWay()
+            right = self.ParseExpr()
+            if self.cur.value == 'do':
+                self.cur = self.tokeniser.Next()
+                st = self.ParseStatement()
+            else:
+                raise Exception('"do" was expected')
+            return ForNode(name, left, right, way, st)
+        else:
+            print(self.cur)
+            raise Exception('invalid "for" syntax')
+    
+    def ParseWay(self):
+        t = self.cur.value
+        if self.cur.value == 'to':
+            self.cur = self.tokeniser.Next()
+            return WichWayNode(t)
+        elif self.cur.value == 'downto':
+            self.cur = self.tokeniser.Next()
+            return WichWayNode(t)
+        else:
+            raise Exception('"to" or "downto" were expected')
+
     def ParseIOStatement(self):
         name = self.cur.value
         if self.cur.tokenType == Token.tokenTypeKeyWord:
@@ -243,7 +313,7 @@ class Parser:
         return d
 
     def ParseDesignator(self, name):
-        print(self.cur)
+        #print(self.cur)
         return DesignatorNode(name)  
 
     def ParseActualParameters(self):
@@ -345,7 +415,7 @@ class Parser:
             p = self.ParseNot()
             return NotNode('not', p)
         else:
-            #print(self.cur)
+            print(self.cur)
             raise Exception('end')
 
     def ParseFunctionCall(self, name):               

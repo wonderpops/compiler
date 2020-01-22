@@ -1,7 +1,0 @@
-Ident 1 1 s s
-Oper 1 2 : :
-Key 1 3 string string
-Sprt 1 9 [ [
-Int 1 10 255 255
-Sprt 1 13 ] ]
-Sprt 1 14 ; ;

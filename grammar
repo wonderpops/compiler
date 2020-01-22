@@ -78,13 +78,13 @@ My naming convention:  All non‐terminals start with a capital letter.  All lex
 (terminals) are lowercase.  All reserved words and lexical tokens such as ident are the word 
 itself preceded with the letter 'y' , for example,   if is yif,  ident is yident, etc. 
 
-      CompilationUnit     -->     ProgramModule
-      ProgramModule       -->     yprogram yident ProgramParameters ';' Block '.'
-   +  IdentList           -->     yident {',' yident}
+       CompilationUnit     -->     ProgramModule
+       ProgramModule       -->     yprogram yident ProgramParameters ';' Block '.'
+   +   IdentList           -->     yident {',' yident}
 
 
-      Block               -->     [Declarations] StatementSequence
-      Declarations        -->   + [ConstantDefBlock]
+       Block               -->     [Declarations] StatementSequence
+       Declarations        -->   + [ConstantDefBlock]
                             [VariableDeclBlock]
                             [SubprogDeclList]
    +  ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
@@ -93,47 +93,47 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +  VariableDecl        -->     IdentList ':' Type
 
 
-   +  ConstExpression     -->    + [UnaryOperator] ConstFactor
+   +   ConstExpression     -->    + [UnaryOperator] ConstFactor
                         +   | " ' " ycharacter " ' "
                         +   | ynil
-   +  ConstFactor         -->    + yident
+   +   ConstFactor         -->    + yident
                         +   | ynumber
                         +   | ynil
-      Type                -->     yident
+   +   Type                -->     yident
                             | ArrayType
-      ArrayType           -->     yarray '[' Subrange {',' Subrange} ']' yof Type
-      Subrange            -->     ConstFactor '..' ConstFactor
+   +   ArrayType           -->     yarray '[' Subrange {',' Subrange} ']' yof Type
+   +   Subrange            -->     ConstFactor '..' ConstFactor
                             | " ' " ycharacter '..' ycharacter " ' "
 
 
-   +  StatementSequence   -->     ybegin Statement {';' Statement} yend
-  +/- Statement           -->     Assignment
-                            | ProcedureCall
+   +   StatementSequence   -->     ybegin Statement {';' Statement} yend
+  +/-  Statement           -->   +  Assignment
+                        +   | ProcedureCall
                         +   | IfStatement
                         +   | WhileStatement
                         +   | RepeatStatement
-                            | ForStatement
-                            | IOStatement
+                        +   | ForStatement
+                        +   | IOStatement
                         +   | StatementSequence
-                            | empty
-      Assignment          -->     Designator ':=' Expression
-      ProcedureCall       -->     yident [ActualParameters]
-   +  IfStatement         -->     yif Expression ythen Statement
+                        +   | empty
+   +   Assignment          -->     Designator ':=' Expression
+   +   ProcedureCall       -->     yident [ActualParameters]
+   +   IfStatement         -->     yif Expression ythen Statement
                             +   [yelse Statement]
-   +  WhileStatement      -->     ywhile Expression ydo Statement
-   +  RepeatStatement     -->     yrepeat StatementSequence yuntil Expression
-      ForStatement        -->     yfor yident ':=' Expression WhichWay Expression
+   +   WhileStatement      -->     ywhile Expression ydo Statement
+   +   RepeatStatement     -->     yrepeat StatementSequence yuntil Expression
+   +   ForStatement        -->     yfor yident ':=' Expression WhichWay Expression
                                 ydo Statement
-      WhichWay            -->     yto | ydownto
-   +  IOStatement         -->     yread '(' DesignatorList ')'
+   +   WhichWay            -->     yto | ydownto
+   +   IOStatement         -->     yread '(' DesignatorList ')'
                            | yreadln [ '(' DesignatorList ')' ]
                            | ywrite '(' ExpList ')'
                            | ywriteln [ '(' ExpList ')' ]
-   +  DesignatorList      -->     Designator {',' Designator }
-   +  Designator          -->     yident [ DesignatorStuff ]
-      DesignatorStuff     -->     {'.' yident | '[' ExpList ']' | '^' }
-   + ActualParameters    -->     '(' ExpList ')'
-   +  ExpList             -->     Expression { ',' Expression }
+   +   DesignatorList      -->     Designator {',' Designator }
+   +   Designator          -->     yident [ DesignatorStuff ]
+       DesignatorStuff     -->     {'.' yident | '[' ExpList ']' | '^' }
+   +   ActualParameters     -->     '(' ExpList ')'
+   +   ExpList             -->     Expression { ',' Expression }
 
    +  Expression          -->     SimpleExpression [ Relation SimpleExpression ]
    +  SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
