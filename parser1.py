@@ -10,8 +10,9 @@ class Parser:
     def ParseProgramModule(self):
         if self.cur.value == 'program':
             self.cur = self.tokeniser.Next()
-            name = self.ParseDesignator(self.cur.value)
-            self.cur = self.tokeniser.Next()
+            if self.cur.tokenType == Token.tokenTypeIdentificator:
+                name = self.cur
+                self.cur = self.tokeniser.Next()
             params = []
             if self.cur.value == '(':
                 self.cur = self.tokeniser.Next()
@@ -260,8 +261,10 @@ class Parser:
         return left
     
     def ParseProcedureCall(self, ident):
-        left = self.ParseDesignator(ident.value)
-        if self.cur == '(':
+        left = ''
+        if ident.tokenType == Token.tokenTypeIdentificator:
+            left = ident
+        if self.cur.value == '(':
             p = self.ParseActualParameters()
             left = ProcedureCallNode(left, p)
         elif self.cur.value in ['+', '*', ';']:
@@ -306,7 +309,7 @@ class Parser:
             raise Exception ("keyword 'until' was expected")
 
     def ParseForStatement(self):
-        name = self.ParseDesignator(self.cur.value)
+        name = self.cur
         self.cur = self.tokeniser.Next()
         if self.cur.value == ':=':
             self.cur = self.tokeniser.Next()
@@ -358,12 +361,10 @@ class Parser:
         return d
 
     def ParseDesignator(self, name):
-        #print(self.cur)
         return DesignatorNode(name)  
 
     def ParseActualParameters(self):
         p = self.ParseExprList()
-        #print('acpar', p)
         return ActualParametersNode(p)
     
     def ParseExprList(self):
@@ -375,7 +376,7 @@ class Parser:
             l.expressions.append(self.ParseExpr())
             if self.cur.value == ',':
                 self.cur = self.tokeniser.Next()
-            #print('exprlist', l, self.cur)
+        self.cur = self.tokeniser.Next()
         return l         
 
     def ParseExpr(self):
