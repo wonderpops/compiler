@@ -12,6 +12,7 @@ class StatementNode(Node):
 class BlockNode(Node):
     pass
 
+
 @dataclass
 class IdentificatorNode(Node):
     name: str
@@ -19,6 +20,16 @@ class IdentificatorNode(Node):
 @dataclass
 class IdentListNode(Node):
     idents: []
+
+@dataclass
+class ProgramParamsNode(Node):
+    params: IdentListNode
+
+@dataclass
+class ProgramModuleNode(Node):
+    name: str
+    params: ProgramParamsNode
+    body: BlockNode
 
 @dataclass
 class ConstDefBlockNode(Node):

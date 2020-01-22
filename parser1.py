@@ -6,6 +6,35 @@ class Parser:
         self.tokeniser = tokeniser
         self.cur = self.tokeniser.Next()
 
+
+    def ParseProgramModule(self):
+        if self.cur.value == 'program':
+            self.cur = self.tokeniser.Next()
+            name = self.ParseDesignator(self.cur.value)
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == '(':
+                self.cur = self.tokeniser.Next()
+                params = self.ParseProgramParams()
+            if self.cur.value == ';':
+                self.cur = self.tokeniser.Next()
+                body = self.ParseBlock()
+                if self.cur.value == '.':
+                    return ProgramModuleNode(name, params, body)
+                else:
+                    raise Exception('period (.) was expected')
+            else:
+                raise Exception('semicolon (;) or program parameters declaration was expected')
+        else:
+            raise Exception('program declaration was expected')
+
+    def ParseProgramParams(self):
+        p = self.ParseIdentList()
+        if self.cur.value == ')':
+            self.cur = self.tokeniser.Next()
+            return ProgramParamsNode(p)
+        else:
+            raise Exception('closing bracket expected')
+    
     def ParseIdentList(self):
         ids = []
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
@@ -115,11 +144,7 @@ class Parser:
                     typ = self.ParseType()
                 else:
                     raise Exception("expected type of array")
-<<<<<<< HEAD
                 left = ArrayTypeNode(typ, subranges)
-=======
-                left = ArrayTypeNode(subranges)
->>>>>>> 29d2e523ce6f3c8548aa950e410e842fd8c58657
                 return left
             else:
                 raise Exception("expected [") 

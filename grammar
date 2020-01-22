@@ -79,7 +79,8 @@ My naming convention:  All non‐terminals start with a capital letter.  All lex
 itself preceded with the letter 'y' , for example,   if is yif,  ident is yident, etc. 
 
        CompilationUnit     -->     ProgramModule
-       ProgramModule       -->     yprogram yident ProgramParameters ';' Block '.'
+   +   ProgramModule       -->     yprogram yident [ProgramParameters] ';' Block '.'
+   +   ProgramParameters   -->     '(' IdentList ')'
    +   IdentList           -->     yident {',' yident}
 
 
@@ -107,7 +108,7 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
 
 
    +   StatementSequence   -->     ybegin Statement {';' Statement} yend
-  +/-  Statement           -->   +  Assignment
+   +  Statement           -->   +  Assignment
                         +   | ProcedureCall
                         +   | IfStatement
                         +   | WhileStatement
@@ -135,10 +136,10 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +   ActualParameters     -->     '(' ExpList ')'
    +   ExpList             -->     Expression { ',' Expression }
 
-   +  Expression          -->     SimpleExpression [ Relation SimpleExpression ]
-   +  SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
-   +  Term                -->     Factor {MultOperator Factor}
-   + Factor              -->    + ynumber
+   +   Expression          -->     SimpleExpression [ Relation SimpleExpression ]
+   +   SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
+   +   Term                -->     Factor {MultOperator Factor}
+   +   Factor              -->    + ynumber
                         +   | ystring 
                         +   | ynil
                         +   | Designator
