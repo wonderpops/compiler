@@ -16,7 +16,15 @@ class Parser:
         return ids
 
     def ParseBlock(self):
-        pass
+        decl = []
+        sec = ''
+        if self.cur.value == 'const' or self.cur.value == 'var' or self.cur.value == 'function' or self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseDeclarations())
+            while self.cur.value == 'const' or self.cur.value == 'var' or self.cur.value == 'function' or self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+                decl.append(self.ParseDeclarations())   
+        if self.cur.value == "begin" and self.cur.tokenType == Token.tokenTypeKeyWord:
+            sec = self.ParseStatementSequence()
+        return BlockNode(decl, sec)
 
     def ParseDeclarations(self):
         decl = []
@@ -159,6 +167,9 @@ class Parser:
                     self.cur = self.tokeniser.Next()
                 else:
                     statements.append(self.ParseStatement())
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+                self.cur = self.tokeniser.Next()
             if not statements:
                 left = EmptyNode('empty')
             else:
@@ -220,14 +231,12 @@ class Parser:
     
     def ParseProcedureCall(self, ident):
         left = self.ParseDesignator(ident.value)
-        print(self.cur)
         if self.cur == '(':
             p = self.ParseActualParameters()
             left = ProcedureCallNode(left, p)
         elif self.cur.value in ['+', '*', ';']:
             left = ProcedureCallNode(left, [])
         else:
-            print(self.cur)
             raise Exception('incorrect procedure call')
         return left
 
@@ -264,7 +273,6 @@ class Parser:
             cond = RepeatNode(statements, cond)
             return cond
         else:
-            print(self.cur)
             raise Exception ("keyword 'until' was expected")
 
     def ParseForStatement(self):
@@ -282,7 +290,6 @@ class Parser:
                 raise Exception('"do" was expected')
             return ForNode(name, left, right, way, st)
         else:
-            print(self.cur)
             raise Exception('invalid "for" syntax')
     
     def ParseWay(self):
@@ -423,7 +430,6 @@ class Parser:
             p = self.ParseNot()
             return NotNode('not', p)
         else:
-            print(self.cur)
             raise Exception('end')
 
     def ParseFunctionCall(self, name):               
@@ -464,6 +470,7 @@ class Parser:
         if self.cur.tokenType == Token.tokenTypeKeyWord:
             fType = self.cur.value
             self.cur = self.tokeniser.Next()
+        self.cur = self.tokeniser.Next()
         return FunctionDeclNode(head, fType, self.ParseBlock())
 
     def ParseProcedureHeading(self):

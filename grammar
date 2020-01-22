@@ -83,7 +83,7 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +   IdentList           -->     yident {',' yident}
 
 
-       Block               -->     [Declarations] StatementSequence
+   +   Block               -->     [Declarations] StatementSequence
    +   Declarations        -->   + [ConstantDefBlock]
                         +   [VariableDeclBlock]
                         +   [SubprogDeclList]

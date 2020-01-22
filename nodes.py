@@ -9,9 +9,6 @@ class ExprNode(Node):
 class StatementNode(Node):
     pass
 
-class BlockNode(Node):
-    pass
-
 @dataclass
 class IdentificatorNode(Node):
     name: str
@@ -21,8 +18,13 @@ class IdentListNode(Node):
     idents: []
 
 @dataclass
+class BlockNode(Node):
+    declarations: []
+    StatementSequence: Node
+
+@dataclass
 class DeclarationsNode(Node):
-    Declarations: []
+    declarations: []
 
 @dataclass
 class ConstDefBlockNode(Node):
