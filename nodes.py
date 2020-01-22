@@ -77,6 +77,7 @@ class SubrangeNode(ExprNode):
 @dataclass
 class DesignatorNode(Node):
     name: str
+    stuff: []
 
 @dataclass
 class DesignatorListNode(Node):

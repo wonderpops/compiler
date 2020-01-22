@@ -242,7 +242,7 @@ class Parser:
         elif self.cur.tokenType == Token.tokenTypeIdentificator:
             t = self.cur
             self.cur = self.tokeniser.Next()
-            if self.cur.value == ":=":
+            if self.cur.value == ":=" or self.cur.value == '[':
                 left = self.ParseAssignment(t)
                 #self.cur = self.tokeniser.Next()
                 return left
@@ -361,7 +361,13 @@ class Parser:
         return d
 
     def ParseDesignator(self, name):
-        return DesignatorNode(name)  
+        stuff = []
+        if self.cur.value == '[':
+            stuff = self.ParseDesignatorStuff()
+        return DesignatorNode(name, stuff)
+
+    def ParseDesignatorStuff(self):
+        return self.ParseExprList()  
 
     def ParseActualParameters(self):
         p = self.ParseExprList()
@@ -372,7 +378,7 @@ class Parser:
         self.cur = self.tokeniser.Next()
         if self.cur.value == '(':
             self.cur = self.tokeniser.Next()
-        while self.cur.value != ')':
+        while self.cur.value != ')' and self.cur.value != ']':
             l.expressions.append(self.ParseExpr())
             if self.cur.value == ',':
                 self.cur = self.tokeniser.Next()
