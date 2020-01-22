@@ -42,4 +42,4 @@ if sys.argv[1] == 'T':
 elif sys.argv[1] == 'P':
     p = Parser(lex)
     #x = getTree(0, p.ParseProcedureHeading())
-    print(p.ParseArrayType())
+    print(p.ParseProgramModule())

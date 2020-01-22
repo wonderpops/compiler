@@ -147,8 +147,6 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
                         +   | ynot Factor
                         +   | FunctionCall
    +   FunctionCall        -->     yident ActualParameters
-       Element             -->     ConstExpression ['..' ConstExpression ]
-
 
    +   SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
    +   ProcedureDecl       -->     ProcedureHeading ';' Block

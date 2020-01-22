@@ -12,6 +12,7 @@ class Parser:
             self.cur = self.tokeniser.Next()
             name = self.ParseDesignator(self.cur.value)
             self.cur = self.tokeniser.Next()
+            params = []
             if self.cur.value == '(':
                 self.cur = self.tokeniser.Next()
                 params = self.ParseProgramParams()
