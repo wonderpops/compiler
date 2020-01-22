@@ -178,6 +178,10 @@ class EmptyNode(StatementNode):
     value: str
 
 @dataclass
+class SubprogDeclListNode(ExprNode):
+    declList: []
+
+@dataclass
 class FormalParametersNode(ExprNode):
     params: IdentListNode
 

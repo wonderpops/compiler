@@ -149,7 +149,7 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
        Element             -->     ConstExpression ['..' ConstExpression ]
 
 
-       SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
+   +   SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
    +   ProcedureDecl       -->     ProcedureHeading ';' Block
    +   FunctionDecl        -->     FunctionHeading ':' yident ';' Block
    +   ProcedureHeading    -->     yprocedure yident [FormalParameters]

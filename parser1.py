@@ -423,7 +423,22 @@ class Parser:
         return FunctionCallNode(name, p)
 
     def ParseSubprogDeclList(self):
-        pass
+        DeclList = []
+        if self.cur.value == 'function' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            DeclList.append(self.ParseFunctionDecl())
+        elif self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            DeclList.append(self.ParseProcedureDecl())
+        while self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == 'function' and self.cur.tokenType == Token.tokenTypeKeyWord:
+                DeclList.append(self.ParseFunctionDecl())
+            elif self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+                DeclList.append(self.ParseProcedureDecl())
+            else:
+                break
+        return SubprogDeclListNode(DeclList)
+            
+
 
     def ParseProcedureDecl(self):
         head = self.ParseProcedureHeading()
