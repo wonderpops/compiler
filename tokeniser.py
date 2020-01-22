@@ -86,10 +86,12 @@ class Tokeniser:
         if self.str[self.pos].isdigit():
             p = Token(Token.tokenTypeInt, self.line, self.pos - self.lineStart)
             while self.pos < len(self.str) and (self.str[self.pos].isdigit() or self.str[self.pos] == '.'):
-
                 if self.str[self.pos] == '.' and (self.pos < len(self.str) - 1) and self.str[self.pos + 1] == '.':
                     p.value = int(p.src)
-                    return p
+                    if p.value > 32767:
+                        raise Exception('ERROR: value of integer out of range')
+                    else:
+                        return p
                 else:
                     p.src += self.str[self.pos]
                     self.pos += 1
@@ -100,10 +102,15 @@ class Tokeniser:
                     raise Exception('ERROR: ', str(p.pos), ' ', str(p.line), ' ','Expect float but "', p.src, '" found.')
                 p.tokenType = Token.tokenTypeDouble
                 p.value = float(p.src)
+                if p.value > 1.7*(10**38):
+                    raise Exception('ERROR: value of real out of range')
                 return p
             elif (p.src.find('.') < 0):
                 p.value = int(p.src)
-                return p
+                if p.value > 32767:
+                    raise Exception('ERROR: value of integer out of range')
+                else:
+                    return p
             else:
                 raise Exception('ERROR: ', str(p.pos), ' ', str(p.line), ' ','Expect int or float but "', p.src, '" found')
 
@@ -141,9 +148,13 @@ class Tokeniser:
         #Identificator
         if self.str[self.pos].lower() in Token.CyrSymb or self.str[self.pos] == '_':
             t = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
+            lenStr = 0
             while (self.pos < len(self.str) and
                 (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_')):
                 t.src += self.str[self.pos]
+                lenStr += 1  
+                if lenStr > 127:
+                    raise Exception('ERROR: ident length out of range')
                 self.pos += 1
             if t.src in Token.keyWords:
                 t.tokenType = Token.tokenTypeKeyWord
@@ -157,16 +168,21 @@ class Tokeniser:
             t = Token(Token.tokenTypeString, self.line, self.pos - self.lineStart)
             t.src += self.str[self.pos]
             self.pos += 1
+            lenStr = 0
             while (self.pos < len(self.str) and self.str[self.pos] != "'"):
-                t.src += self.str[self.pos]
-                if (self.str[self.pos] == '\n'):
-                    self.line += 1
+                t.src += self.str[self.pos] 
+                lenStr += 1  
+                if lenStr > 255:
+                    raise Exception('ERROR: string length out of range')
+                else:
+                    if (self.str[self.pos] == '\n'):
+                        self.line += 1
+                        self.pos += 1
+                        self.lineStart = self.pos
                     self.pos += 1
-                    self.lineStart = self.pos
-                self.pos += 1
-                
-            t.value = t.src[1:]    
 
+            t.value = t.src[1:]    
+            
             if (self.pos < len(self.str)):
                 t.src += self.str[self.pos]
             else:
