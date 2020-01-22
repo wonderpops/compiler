@@ -6,6 +6,36 @@ class Parser:
         self.tokeniser = tokeniser
         self.cur = self.tokeniser.Next()
 
+
+    def ParseProgramModule(self):
+        if self.cur.value == 'program':
+            self.cur = self.tokeniser.Next()
+            name = self.ParseDesignator(self.cur.value)
+            self.cur = self.tokeniser.Next()
+            params = []
+            if self.cur.value == '(':
+                self.cur = self.tokeniser.Next()
+                params = self.ParseProgramParams()
+            if self.cur.value == ';':
+                self.cur = self.tokeniser.Next()
+                body = self.ParseBlock()
+                if self.cur.value == '.':
+                    return ProgramModuleNode(name, params, body)
+                else:
+                    raise Exception('period (.) was expected')
+            else:
+                raise Exception('semicolon (;) or program parameters declaration was expected')
+        else:
+            raise Exception('program declaration was expected')
+
+    def ParseProgramParams(self):
+        p = self.ParseIdentList()
+        if self.cur.value == ')':
+            self.cur = self.tokeniser.Next()
+            return ProgramParamsNode(p)
+        else:
+            raise Exception('closing bracket expected')
+    
     def ParseIdentList(self):
         ids = []
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
@@ -16,10 +46,25 @@ class Parser:
         return ids
 
     def ParseBlock(self):
-        pass
+        decl = []
+        sec = ''
+        if self.cur.value == 'const' or self.cur.value == 'var' or self.cur.value == 'function' or self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseDeclarations())
+            while self.cur.value == 'const' or self.cur.value == 'var' or self.cur.value == 'function' or self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+                decl.append(self.ParseDeclarations())   
+        if self.cur.value == "begin" and self.cur.tokenType == Token.tokenTypeKeyWord:
+            sec = self.ParseStatementSequence()
+        return BlockNode(decl, sec)
 
-    def ParseDeclaration(self):
-        pass
+    def ParseDeclarations(self):
+        decl = []
+        if self.cur.value == 'const' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseConstantDefBlock())
+        if self.cur.value == 'var' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseVariableDeclBlock())
+        if self.cur.value == 'function' or self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseSubprogDeclList())
+        return DeclarationsNode(decl)
 
     def ParseConstantDefBlock(self):
         constants = []
@@ -34,8 +79,18 @@ class Parser:
                     break
         return ConstDefBlockNode(constants)
 
-    def ParseVariableDecBlock(self):
-        pass
+    def ParseVariableDeclBlock(self):
+        varbls = []
+        if self.cur.value == 'var' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            self.cur = self.tokeniser.Next()
+            varbls.append(self.ParseVariableDecl())
+            while self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+                self.cur = self.tokeniser.Next()
+                if self.cur.tokenType == Token.tokenTypeIdentificator:
+                    varbls.append(self.ParseVariableDecl())
+                else:
+                    break
+        return VarDeclBlockNode(varbls) 
 
     def ParseConstantDef(self):
         ident = ''
@@ -48,13 +103,14 @@ class Parser:
             value = self.ParseConstExpression()
         return ConstDefNode(ident, value)
 
-    def ParseVariableDec(self):
+    def ParseVariableDecl(self):
         ids = []
         if self.cur.tokenType == Token.tokenTypeIdentificator:
             ids = self.ParseIdentList()
+            self.cur = self.tokeniser.Next()
         if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeSeparators:
             self.cur = self.tokeniser.Next()
-        return #VarDecNode(ids,)
+        return VarDeclNode(ids, self.ParseType())
 
     def ParseConstExpression(self):
         op = ''
@@ -62,6 +118,7 @@ class Parser:
         if self.cur.value in ['+', '-']:
             op = self.cur.value
             self.cur = self.tokeniser.Next()
+        elif self.cur.tokenType == Token.tokenTypeInt or self.cur.tokenType == Token.tokenTypeDouble:
             value = self.ParseConstFactor()
         elif self.cur.tokenType == Token.tokenTypeString:
             value = self.cur.value
@@ -86,12 +143,14 @@ class Parser:
             return NilNode()
 
     def ParseType(self):
-        t = self.cur
         if self.cur.value == "integer":
+            self.cur = self.tokeniser.Next()
             return TypeNode('integer')
         elif self.cur.value == "double": 
+            self.cur = self.tokeniser.Next()
             return TypeNode('double')
         elif self.cur.value == "string":
+            self.cur = self.tokeniser.Next()
             return TypeNode('string')
         elif self.cur.value == "array":
             return self.ParseArrayType()
@@ -115,11 +174,7 @@ class Parser:
                     typ = self.ParseType()
                 else:
                     raise Exception("expected type of array")
-<<<<<<< HEAD
                 left = ArrayTypeNode(typ, subranges)
-=======
-                left = ArrayTypeNode(subranges)
->>>>>>> 29d2e523ce6f3c8548aa950e410e842fd8c58657
                 return left
             else:
                 raise Exception("expected [") 
@@ -142,6 +197,9 @@ class Parser:
                     self.cur = self.tokeniser.Next()
                 else:
                     statements.append(self.ParseStatement())
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+                self.cur = self.tokeniser.Next()
             if not statements:
                 left = EmptyNode('empty')
             else:
@@ -203,14 +261,12 @@ class Parser:
     
     def ParseProcedureCall(self, ident):
         left = self.ParseDesignator(ident.value)
-        print(self.cur)
         if self.cur == '(':
             p = self.ParseActualParameters()
             left = ProcedureCallNode(left, p)
         elif self.cur.value in ['+', '*', ';']:
             left = ProcedureCallNode(left, [])
         else:
-            print(self.cur)
             raise Exception('incorrect procedure call')
         return left
 
@@ -247,7 +303,6 @@ class Parser:
             cond = RepeatNode(statements, cond)
             return cond
         else:
-            print(self.cur)
             raise Exception ("keyword 'until' was expected")
 
     def ParseForStatement(self):
@@ -265,7 +320,6 @@ class Parser:
                 raise Exception('"do" was expected')
             return ForNode(name, left, right, way, st)
         else:
-            print(self.cur)
             raise Exception('invalid "for" syntax')
     
     def ParseWay(self):
@@ -406,7 +460,6 @@ class Parser:
             p = self.ParseNot()
             return NotNode('not', p)
         else:
-            print(self.cur)
             raise Exception('end')
 
     def ParseFunctionCall(self, name):               
@@ -414,10 +467,41 @@ class Parser:
         return FunctionCallNode(name, p)
 
     def ParseSubprogDeclList(self):
-        pass
+        DeclList = []
+        if self.cur.value == 'function' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            DeclList.append(self.ParseFunctionDecl())
+        elif self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            DeclList.append(self.ParseProcedureDecl())
+        while self.cur.value == ';' and self.cur.tokenType == Token.tokenTypeSeparators:
+            self.cur = self.tokeniser.Next()
+            if self.cur.value == 'function' and self.cur.tokenType == Token.tokenTypeKeyWord:
+                DeclList.append(self.ParseFunctionDecl())
+            elif self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+                DeclList.append(self.ParseProcedureDecl())
+            else:
+                break
+        return SubprogDeclListNode(DeclList)
+            
+
 
     def ParseProcedureDecl(self):
-        pass
+        head = self.ParseProcedureHeading()
+        self.cur = self.tokeniser.Next()
+        if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeSeparators:
+            self.cur = self.tokeniser.Next()
+        return ProcedureDeclNode(head, self.ParseBlock())
+
+    def ParseFunctionDecl(self):
+        head = self.ParseFunctionHeading()
+        fType = ''
+        self.cur = self.tokeniser.Next()
+        if self.cur.value == ':' and self.cur.tokenType == Token.tokenTypeOperators:
+            self.cur = self.tokeniser.Next()
+        if self.cur.tokenType == Token.tokenTypeKeyWord:
+            fType = self.cur.value
+            self.cur = self.tokeniser.Next()
+        self.cur = self.tokeniser.Next()
+        return FunctionDeclNode(head, fType, self.ParseBlock())
 
     def ParseProcedureHeading(self):
         name = ''

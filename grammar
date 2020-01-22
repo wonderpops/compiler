@@ -79,18 +79,19 @@ My naming convention:  All non‐terminals start with a capital letter.  All lex
 itself preceded with the letter 'y' , for example,   if is yif,  ident is yident, etc. 
 
        CompilationUnit     -->     ProgramModule
-       ProgramModule       -->     yprogram yident ProgramParameters ';' Block '.'
+   +   ProgramModule       -->     yprogram yident [ProgramParameters] ';' Block '.'
+   +   ProgramParameters   -->     '(' IdentList ')'
    +   IdentList           -->     yident {',' yident}
 
 
-       Block               -->     [Declarations] StatementSequence
-       Declarations        -->   + [ConstantDefBlock]
-                            [VariableDeclBlock]
-                            [SubprogDeclList]
-   +   ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
-       VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
-   +   ConstantDef         -->     yident '=' ConstExpression
-       VariableDecl        -->     IdentList ':' Type
+   +   Block               -->     [Declarations] StatementSequence
+   +   Declarations        -->   + [ConstantDefBlock]
+                        +   [VariableDeclBlock]
+                        +   [SubprogDeclList]
+   +  ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
+   +  VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
+   +  ConstantDef         -->     yident '=' ConstExpression
+   +  VariableDecl        -->     IdentList ':' Type
 
 
    +   ConstExpression     -->    + [UnaryOperator] ConstFactor
@@ -107,7 +108,7 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
 
 
    +   StatementSequence   -->     ybegin Statement {';' Statement} yend
-  +/-  Statement           -->   +  Assignment
+   +  Statement           -->   +  Assignment
                         +   | ProcedureCall
                         +   | IfStatement
                         +   | WhileStatement
@@ -135,10 +136,10 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
    +   ActualParameters     -->     '(' ExpList ')'
    +   ExpList             -->     Expression { ',' Expression }
 
-   +  Expression          -->     SimpleExpression [ Relation SimpleExpression ]
-   +  SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
-   +  Term                -->     Factor {MultOperator Factor}
-   + Factor              -->    + ynumber
+   +   Expression          -->     SimpleExpression [ Relation SimpleExpression ]
+   +   SimpleExpression    -->     [UnaryOperator] Term {AddOperator Term}
+   +   Term                -->     Factor {MultOperator Factor}
+   +   Factor              -->    + ynumber
                         +   | ystring 
                         +   | ynil
                         +   | Designator
@@ -146,12 +147,10 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
                         +   | ynot Factor
                         +   | FunctionCall
    +   FunctionCall        -->     yident ActualParameters
-       Element             -->     ConstExpression ['..' ConstExpression ]
 
-
-       SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
-       ProcedureDecl       -->     ProcedureHeading ';' Block
-       FunctionDecl        -->     FunctionHeading ':' yident ';' Block
+   +   SubprogDeclList     -->     {ProcedureDecl ';' | FunctionDecl ';'}
+   +   ProcedureDecl       -->     ProcedureHeading ';' Block
+   +   FunctionDecl        -->     FunctionHeading ':' yident ';' Block
    +   ProcedureHeading    -->     yprocedure yident [FormalParameters]
    +   FunctionHeading     -->     yfunction yident [FormalParameters]
    +   FormalParameters    -->     '(' OneFormalParam {';' OneFormalParam} ')'

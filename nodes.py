@@ -9,9 +9,6 @@ class ExprNode(Node):
 class StatementNode(Node):
     pass
 
-class BlockNode(Node):
-    pass
-
 @dataclass
 class IdentificatorNode(Node):
     name: str
@@ -21,13 +18,41 @@ class IdentListNode(Node):
     idents: []
 
 @dataclass
+class ProgramParamsNode(Node):
+    params: IdentListNode
+
+@dataclass
+class BlockNode(Node):
+    declarations: []
+    StatementSequence: Node
+
+@dataclass
+class ProgramModuleNode(Node):
+    name: str
+    params: ProgramParamsNode
+    body: BlockNode
+
+@dataclass
+class DeclarationsNode(Node):
+    declarations: []
+
+@dataclass
 class ConstDefBlockNode(Node):
     constants: []
+
+@dataclass
+class VarDeclBlockNode(Node):
+    variables: []
 
 @dataclass
 class ConstDefNode(Node):
     ident: str
     value: ExprNode
+
+@dataclass
+class VarDeclNode(Node):
+    idents: []
+    idsType: ExprNode
 
 @dataclass
 class ConstExpressionNode(Node):
@@ -41,7 +66,7 @@ class TypeNode(Node):
 
 @dataclass
 class ArrayTypeNode(Node):
-    artype: ExprNode
+    artype: ExprNode 
     subranges: []
 
 @dataclass
@@ -169,8 +194,18 @@ class EmptyNode(StatementNode):
     value: str
 
 @dataclass
+class SubprogDeclListNode(ExprNode):
+    declList: []
+
+@dataclass
 class FormalParametersNode(ExprNode):
     params: IdentListNode
+
+@dataclass
+class FunctionDeclNode(ExprNode): 
+    heading: ExprNode
+    functType: str
+    block: ExprNode
 
 @dataclass
 class ProcedureHeadingNode(ExprNode):
