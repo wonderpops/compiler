@@ -18,8 +18,15 @@ class Parser:
     def ParseBlock(self):
         pass
 
-    def ParseDeclaration(self):
-        pass
+    def ParseDeclarations(self):
+        decl = []
+        if self.cur.value == 'const' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseConstantDefBlock())
+        if self.cur.value == 'var' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseVariableDeclBlock())
+        if self.cur.value == 'function' or self.cur.value == 'procedure' and self.cur.tokenType == Token.tokenTypeKeyWord:
+            decl.append(self.ParseSubprogDeclList())
+        return DeclarationsNode(decl)
 
     def ParseConstantDefBlock(self):
         constants = []
@@ -73,6 +80,7 @@ class Parser:
         if self.cur.value in ['+', '-']:
             op = self.cur.value
             self.cur = self.tokeniser.Next()
+        elif self.cur.tokenType == Token.tokenTypeInt or self.cur.tokenType == Token.tokenTypeDouble:
             value = self.ParseConstFactor()
         elif self.cur.tokenType == Token.tokenTypeString:
             value = self.cur.value

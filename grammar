@@ -84,11 +84,11 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
 
 
        Block               -->     [Declarations] StatementSequence
-       Declarations        -->   + [ConstantDefBlock]
-                            [VariableDeclBlock]
-                            [SubprogDeclList]
+   +   Declarations        -->   + [ConstantDefBlock]
+                        +   [VariableDeclBlock]
+                        +   [SubprogDeclList]
    +  ConstantDefBlock    -->     yconst ConstantDef ';' {ConstantDef ';'}
-      VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
+   +  VariableDeclBlock   -->     yvar VariableDecl ';' {VariableDecl ';'}
    +  ConstantDef         -->     yident '=' ConstExpression
    +  VariableDecl        -->     IdentList ':' Type
 
