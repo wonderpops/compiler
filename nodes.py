@@ -83,6 +83,11 @@ class SubrangeNode(ExprNode):
     right: ExprNode
 
 @dataclass
+class DesignatorNode(Node):
+    name: str
+    stuff: []
+
+@dataclass
 class DesignatorListNode(Node):
     designators: []
 
@@ -228,7 +233,7 @@ class ForNode(StatementNode):
 @dataclass
 class EmptyNode(StatementNode):
     value: str
-    
+
     def __str__(self):
         return''.join(map(str, [cnr, self.value]))
 
