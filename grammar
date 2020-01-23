@@ -132,8 +132,8 @@ itself preceded with the letter 'y' , for example,   if is yif,  ident is yident
                            | ywriteln [ '(' ExpList ')' ]
    +   DesignatorList      -->     Designator {',' Designator }
    +   Designator          -->     yident [ DesignatorStuff ]
-       DesignatorStuff     -->     {'.' yident | '[' ExpList ']' | '^' }
-   +   ActualParameters     -->     '(' ExpList ')'
+       DesignatorStuff     -->     {'[' ExpList ']'}
+   +   ActualParameters    -->     '(' ExpList ')'
    +   ExpList             -->     Expression { ',' Expression }
 
    +   Expression          -->     SimpleExpression [ Relation SimpleExpression ]
