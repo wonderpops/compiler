@@ -8,7 +8,6 @@ f = open(path, 'r', encoding = 'utf-8')
 lex = Tokeniser(''.join(f.readlines()))
 cnr = '└ '
 
-#def __str__
 def getTree(deep, node):
     deep += 1
     #print(node)
@@ -43,5 +42,5 @@ if sys.argv[1] == 'T':
             print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
-    x = getTree(0, p.ParseExpr())
-    print(x)
+    #x = getTree(0, p.ParseProgramModule())
+    print(p.ParseProgramModule())

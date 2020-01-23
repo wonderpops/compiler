@@ -1,1 +1,13 @@
 _ это идентификатор
+
+тест
+for i := 5
+f := f + 1; 
+выдает ERROR: Semicolon ";" was expected, but := found
+
+program tre(f);
+begin
+write(r);
+f := n(gh, fd, 45,);
+end.
+не выдает ошибку

@@ -115,13 +115,6 @@ class ExpListNode(ExprNode):
     expressions: []
 
 @dataclass
-class DesignatorNode(Node):
-    name: str
-
-    def __str__(self):
-        return''.join(map(str, [cnr, self.name]))
-
-@dataclass
 class StringNode(ExprNode):
     value: str
 
