@@ -8,6 +8,7 @@ class ExceptionMessage:
     ER107 = '_107: Closing square bracket "]" was expected, but found'
     ER108 = '_108: Equality sign "=" was expected, but found'
     ER109 = '_109: Double dots ".." were expected, but found'
+    ER110 = '_110: Semicolon ";" or period "." was expected, end of file found'
     
     ER201 = '_201: Incorrect program name:'
     ER202 = '_202: Incorrect parameter'
@@ -28,6 +29,7 @@ class ExceptionMessage:
     ER404 = '_404: Operand was expected, but found'
     ER405 = '_405: String was expected, but found'
     ER406 = '_406: Unexpected was found'
+    ER407 = '_407: Real was expected, but found'
 
     ER501 = '_501: Keyword "of" was expected, but found'
     ER502 = '_502: Keyword "then" was expected, but found'
@@ -44,6 +46,6 @@ class ExceptionMessageGenerator:
     def getExceptionMessage(self, exceptionMessage, token):
         if token:
             return ('[' + str(token.pos) + ', ' + str(token.line) + '] ' +
-                    'ERROR' + exceptionMessage + ' "' + token.value + '"')
+                    'ERROR' + exceptionMessage + ' "' + str(token.value) + '"')
         else :
             return  ('ERROR'+exceptionMessage)   
