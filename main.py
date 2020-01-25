@@ -8,17 +8,18 @@ f = open(path, 'r', encoding = 'utf-8')
 lex = Tokeniser(''.join(f.readlines()))
 cnr = '└ '
 
-#def __str__
 def getTree(deep, node):
     deep += 1
-    if type(node) == UnaryOpNode:
-        return '  '*deep + cnr + node.op + "\n" + getTree(deep, node.left)
-    elif type(node) == BinaryOpNode:
-        return '  '*deep + cnr + node.op + "\n" + getTree(deep, node.left) + "\n" + getTree(deep, node.right)
-    elif type(node) == FunctionCallNode:
+    #print(node)
+    if isinstance(node, (UnaryOpNode, NotNode)):
+        return '  '*deep + str(node) + getTree(deep, node.left)
+    elif isinstance(node, BinaryOpNode):
+        return '  '*deep + str(node) + getTree(deep, node.left) + "\n" + getTree(deep, node.right)
+    elif isinstance(node, (FunctionCallNode, ProcedureCallNode)):
         return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.parameters.expList.expressions))
-    elif type(node) == DesignatorNode:
-        return '  '*deep + cnr + node.name
+    elif isinstance(node, (DesignatorNode, StringNode, NilNode, IOStatmentNode,
+                           TypeNode, IdentificatorNode, LiteralFloatNode, WichWayNode, EmptyNode)):
+        return '  '*deep + str(node)
     elif type(node) == InStatmentNode:
         return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.designatorList.designators))
     elif type(node) == FunctionHeadingNode or type(node) == ProcedureHeadingNode:
@@ -26,7 +27,7 @@ def getTree(deep, node):
     elif type(node) == OneFormalParamNode:
         return '  '*deep + cnr + node.idsType + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.ids))
     else:
-        return '  '*deep + cnr + str(node.value)
+        return '  '*deep + str(node)
 
 
 if sys.argv[1] == 'T':
@@ -41,5 +42,5 @@ if sys.argv[1] == 'T':
             print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
-    #x = getTree(0, p.ParseProcedureHeading())
+    #x = getTree(0, p.ParseProgramModule())
     print(p.ParseProgramModule())

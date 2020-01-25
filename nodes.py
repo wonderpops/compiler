@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+cnr = '└ '
+
 class Node:
     pass
 
@@ -12,6 +14,9 @@ class StatementNode(Node):
 @dataclass
 class IdentificatorNode(Node):
     name: str
+
+    def __str__(self):
+        return''.join(map(str, [cnr, self.name]))
 
 @dataclass
 class IdentListNode(Node):
@@ -64,6 +69,9 @@ class ConstExpressionNode(Node):
 class TypeNode(Node):
     name: str
 
+    def __str__(self):
+        return''.join(map(str, [cnr, self.name]))
+
 @dataclass
 class ArrayTypeNode(Node):
     artype: ExprNode 
@@ -77,6 +85,7 @@ class SubrangeNode(ExprNode):
 @dataclass
 class DesignatorNode(Node):
     name: str
+    stuff: []
 
 @dataclass
 class DesignatorListNode(Node):
@@ -85,6 +94,9 @@ class DesignatorListNode(Node):
 @dataclass
 class IOStatmentNode(Node):
     name: str
+
+    def __str__(self):
+        return''.join(map(str, [cnr, self.name]))
 
 @dataclass
 class InStatmentNode(IOStatmentNode):
@@ -106,17 +118,28 @@ class ExpListNode(ExprNode):
 class StringNode(ExprNode):
     value: str
 
+    def __str__(self):
+        return''.join(map(str, [cnr, self.value]))
+
 @dataclass
 class NilNode(ExprNode):
     value: "nil"
+
+    def __str__(self):
+        return''.join(map(str, [cnr, self.value]))
 
 @dataclass
 class LiteralIntNode(ExprNode):
     value: int
 
+    def __str__(self):
+        return''.join(map(str, [cnr, self.value]))
+
 @dataclass
 class LiteralFloatNode(ExprNode):
     value: float
+    def __str__(self):
+        return''.join(map(str, [cnr, self.value]))
 
 @dataclass
 class BinaryOpNode(ExprNode):
@@ -124,10 +147,18 @@ class BinaryOpNode(ExprNode):
     left: ExprNode
     right: ExprNode
 
+    def __str__(self):
+        return ''.join(map(str, [cnr, self.op, '\n']))
+
+
 @dataclass
 class UnaryOpNode(ExprNode):
     op: str
     left: ExprNode
+    def __str__(self):
+        return ''.join(map(str, [cnr, self.op, '\n']))
+
+
 
 @dataclass
 class NotNode(UnaryOpNode):
@@ -180,6 +211,9 @@ class RepeatNode(StatementNode):
 class WichWayNode(StatementNode):
     name: str
 
+    def __str__(self):
+        return''.join(map(str, [cnr, self.name]))
+
 
 @dataclass
 class ForNode(StatementNode):
@@ -192,6 +226,9 @@ class ForNode(StatementNode):
 @dataclass
 class EmptyNode(StatementNode):
     value: str
+
+    def __str__(self):
+        return''.join(map(str, [cnr, self.value]))
 
 @dataclass
 class SubprogDeclListNode(ExprNode):
