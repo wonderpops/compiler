@@ -1,0 +1,11 @@
+procedure pr;
+var i:integer;
+begin
+   for i:=1 to 60 do
+      begin
+         write('*');
+      end;
+end; 
+begin
+  a:= pr;
+end.

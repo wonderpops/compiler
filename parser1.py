@@ -1,11 +1,15 @@
 from nodes import *
 from tokeniser import Token, Tokeniser
+from exceptionMesages import ExceptionMessage, ExceptionMessageGenerator
 
 class Parser:
 
     def __init__(self, tokeniser):
         self.tokeniser = tokeniser
         self.cur = self.tokeniser.Next()
+        self.exMesGen = ExceptionMessageGenerator()
+        self.exMes = ExceptionMessage
+        #foundMessage = self.cur.value + ' found' 
 
 
     def ParseProgramModule(self):
@@ -16,7 +20,7 @@ class Parser:
                 name = IdentificatorNode(self.cur.value)
                 self.cur = self.tokeniser.Next()            
             else:
-                raise Exception('ERROR: Incorrect program name: ' + self.cur.value)
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER201, self.cur))
             if self.cur.src == '(':
                 self.cur = self.tokeniser.Next()
                 params = self.ParseProgramParams()
@@ -26,22 +30,22 @@ class Parser:
                 if self.cur.src == '.':
                     return ProgramModuleNode(name, params, body)
                 else:
-                    raise Exception('ERROR: Period "." was expected, but ' + self.cur.value + ' found')
+                    raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER101, self.cur))
             else:
-                raise Exception('ERROR: Semicolon ";" or program parameters declaration were expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER105, self.cur))
         else:
-            raise Exception('ERROR: Program declaration was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER301, self.cur))
 
     def ParseProgramParams(self):
         p = self.ParseIdentList()
         if not p:
-            raise Exception('ERROR: Program parameters were expected, but empty found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER302, None))
         else:
             if self.cur.src == ')':
                 self.cur = self.tokeniser.Next()
                 return ProgramParamsNode(p)
             else:
-                raise Exception('ERROR: Closing bracket ")" was expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER106, self.cur))
     
     def ParseIdentList(self):
         ids = []
@@ -51,9 +55,9 @@ class Parser:
             if self.cur.src == ',':
                 self.cur = self.tokeniser.Next()
             elif self.cur.src not in [')', ':'] :
-                raise Exception('ERROR: Comma "," was expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER102, self.cur))
         if self.cur.src not in [')', ':']:
-            raise Exception('ERROR: Incorrect parameter '+ self.cur.value)
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER202, self.cur))
         else:
             return IdentListNode(ids)
 
@@ -107,16 +111,16 @@ class Parser:
             ident = IdentificatorNode(self.cur.value)
             self.cur = self.tokeniser.Next()
         else:
-            raise Exception('ERROR: Identificator was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER401, self.cur))
         if self.cur.src == '=':
             self.cur = self.tokeniser.Next()
             value = self.ParseConstExpression()
         else:
-            raise Exception('ERROR: Equality sign "=" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER108, self.cur))
         if self.cur.src == ';':
             return ConstDefNode(ident, value)
         else:
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
 
     def ParseVariableDecl(self):
         ids = []
@@ -124,16 +128,16 @@ class Parser:
             ids = self.ParseIdentList()
             #self.cur = self.tokeniser.Next()
         else:
-            raise Exception('ERROR: Identificator was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER401, self.cur))
         if self.cur.src == ':':
             self.cur = self.tokeniser.Next()
             t = self.ParseType()
         else:
-            raise Exception('ERROR: Colon ":" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER103, self.cur))
         if self.cur.src == ';':
             return VarDeclNode(ids, t)
         else:
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         
 
     def ParseConstExpression(self):
@@ -152,7 +156,7 @@ class Parser:
             value = NilNode().value
             return ConstExpressionNode(op, value)
         else:
-            raise Exception('ERROR: Incorrect constant expression: ' + self.cur.value)   
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER203, self.cur))   
 
 
     def ParseConstFactor(self):
@@ -183,7 +187,7 @@ class Parser:
         elif self.cur.value == 'array':
             return self.ParseArrayType()
         else:
-            raise Exception('ERROR: Incorrect type: ' + self.cur.value)
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER204, self.cur))
 
     def ParseArrayType(self):        
         self.cur = self.tokeniser.Next()
@@ -196,20 +200,21 @@ class Parser:
                 else:
                     subranges.append(self.ParseSubrange())
             if self.cur.src != ']':
-                raise Exception('ERROR: Closing square bracket "]" was expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER107, self.cur))
             if not subranges:
-                raise Exception('ERROR: Incorrect array range' )
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER205, None))
             self.cur = self.tokeniser.Next()
         if  self.cur.src == 'of':
             self.cur = self.tokeniser.Next()
             t = self.ParseType()
         else:
-            raise Exception('ERROR: Key word "of" was expected, but ' + self.cur.value + ' found')
+            print(self.cur)
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER501, self.cur))
         if self.cur.src == ';':
             left = ArrayTypeNode(t, subranges)
             return left
         else:
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
              
     def ParseSubrange(self):
         p = self.ParseConstFactor()
@@ -218,7 +223,7 @@ class Parser:
             f = self.ParseConstFactor()
             return SubrangeNode(p, f)
         else:
-            raise Exception('ERROR: Double dots ".." were expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER109, self.cur))
 
     def ParseStatementSequence(self):
         if self.cur.src == 'begin':
@@ -233,7 +238,7 @@ class Parser:
             if self.cur.src == ';':
                self.cur = self.tokeniser.Next()
             elif self.cur.src != '.':
-                raise Exception('ERROR: Semicolon ";" or period "." was expected, end of file found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER110, None))
             if not statements:
                 left = EmptyNode('empty')
             else:
@@ -241,7 +246,7 @@ class Parser:
             if self.cur.tokenType != Token.tokenTypeEOF:
                 return left
             else:
-                raise Exception('ERROR: Operator was expected but end of file found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER402, None))
             
         
     def ParseStatement(self):
@@ -270,7 +275,7 @@ class Parser:
             else:
                 left = self.ParseProcedureCall(t)
         else:
-            raise Exception("ERROR: Incorrect statement: " + self.cur.value) 
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER206, self.cur)) 
         return left
 
     
@@ -291,7 +296,7 @@ class Parser:
         elif self.cur.src in ['+', '*', ';']:
             left = ProcedureCallNode(left, [])
         else:
-            raise Exception('ERROR: Procedure parameters or semicolon ";" were expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER303, self.cur))
         return left
 
     def ParseIfStatement(self):
@@ -307,7 +312,7 @@ class Parser:
                 cond = IncompleteIfNode(cond, ifTrue)
             return cond
         else:
-            raise Exception('ERROR: Keyword "then" was expected, but ' + self.cur.value + ' found')          
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER502, self.cur))          
     
     def ParseWhileStatement(self):
         cond = self.ParseExpr()
@@ -317,7 +322,7 @@ class Parser:
             cond = WhileNode(cond, ifTrue)
             return cond
         else:
-            raise Exception ('ERROR: Keyword "do" was expected, but ' + self.cur.value + ' found')
+            raise Exception (self.exMesGen.getExceptionMessage(self.exMes.ER503, self.cur))
     
     def ParseRepeatStatement(self):
         statements = self.ParseStatement()
@@ -328,7 +333,7 @@ class Parser:
             cond = RepeatNode(statements, cond)
             return cond
         else:
-            raise Exception ('ERROR: Keyword "until" was expected, but ' + self.cur.value + ' found')
+            raise Exception (self.exMesGen.getExceptionMessage(self.exMes.ER504, self.cur))
 
     def ParseForStatement(self):
         name = self.cur
@@ -342,10 +347,10 @@ class Parser:
                 self.cur = self.tokeniser.Next()
                 st = self.ParseStatement()
             else:
-                raise Exception('ERROR: Keyword "do" was expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER503, self.cur))
             return ForNode(name, left, right, way, st)
         else:
-            raise Exception('ERROR: Incorrect syntax of for loop: ' + self.cur.value)
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER207, self.cur))
     
     def ParseWay(self):
         t = self.cur.value
@@ -356,7 +361,7 @@ class Parser:
             self.cur = self.tokeniser.Next()
             return WichWayNode(t)
         else:
-            raise Exception('ERROR: Keywords "to" or "downto" were expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER505, self.cur))
 
     def ParseIOStatement(self):
         name = self.cur
@@ -365,13 +370,13 @@ class Parser:
             if self.cur.src == ';':
                 return InStatmentNode(name.value, d)
             else:
-                raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         elif self.cur.src in ['write', 'writeln']:
             e = self.ParseExprList()
             if self.cur.src == ';':
                 return OutStatmentNode(name.value, e)
             else:
-                raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
 
 
     def ParseDesignatorList(self):
@@ -388,7 +393,7 @@ class Parser:
             self.cur = self.tokeniser.Next()
             return DesignatorListNode(d)
         else:
-            raise Exception('ERROR: Closing bracket ")" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER106, self.cur))
 
     def ParseDesignator(self, name):
         stuff = []
@@ -425,7 +430,7 @@ class Parser:
         if self.cur.src in [';', 'then', 'do', 'to', 'downto', ')', ',', 'else']:
             return left
         else:
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
 
     def ParseSimpleExpr1(self):
         left = self.ParseTerm()
@@ -467,7 +472,7 @@ class Parser:
             self.cur = self.tokeniser.Next()
             p = self.ParseExpr()
             if self.cur.src != ')':
-                raise Exception('ERROR: Closing bracket ")" was expected, but ' + self.cur.value + ' found')
+                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER106, self.cur))
             self.cur = self.tokeniser.Next()
             return p
         elif self.cur.tokenType == Token.tokenTypeIdentificator:    
@@ -490,7 +495,7 @@ class Parser:
             p = self.ParseNot()
             return NotNode('not', p)
         else:
-            raise Exception('ERROR: Expression was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER304, self.cur))
 
     def ParseFunctionCall(self, name):               
         p = self.ParseActualParameters()
@@ -518,7 +523,7 @@ class Parser:
         self.cur = self.tokeniser.Next()
         block = self.ParseBlock()
         if self.cur.src == '.':
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         return ProcedureDeclNode(head, block)
 
     def ParseFunctionDecl(self):
@@ -533,11 +538,11 @@ class Parser:
         else:
             raise Exception('ERROR: Function type was expected, but ' + self.cur.value + ' found')
         if self.cur.src != ';':
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         self.cur = self.tokeniser.Next()
         block = self.ParseBlock()
         if self.cur.src == '.':
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         return FunctionDeclNode(head, fType, block)
 
     def ParseProcedureHeading(self):
@@ -550,7 +555,7 @@ class Parser:
             if self.cur.src == '(':
                 params = self.ParseFormalParameters()
         if self.cur.src != ';':
-            raise Exception('ERROR: Semicolon ";" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         return ProcedureHeadingNode(name, params)
     
     def ParseFunctionHeading(self):

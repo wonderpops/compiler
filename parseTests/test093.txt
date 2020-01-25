@@ -1,0 +1,16 @@
+var s:string;
+procedure pr(a:string);
+const n=10;
+var i:integer;
+begin
+   for i:=1 to n do 
+      begin
+         write(a);
+         writeln;
+      end;
+end;
+begin
+   writeln('simvol');
+   readln(s);
+   pr(s);
+end.

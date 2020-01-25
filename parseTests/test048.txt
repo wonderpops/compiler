@@ -1,0 +1,5 @@
+begin
+   a := 234;
+end.
+var
+   a: integer;

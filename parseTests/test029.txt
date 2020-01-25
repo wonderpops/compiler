@@ -1,0 +1,5 @@
+for i:=1 do n to
+   begin
+      readln(a);
+      k:=k+1;
+   end;

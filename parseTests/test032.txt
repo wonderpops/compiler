@@ -1,0 +1,4 @@
+for i:=1 to n do
+   for j:=1 to n do
+      k:=k+1;
+

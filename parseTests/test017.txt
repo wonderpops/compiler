@@ -1,0 +1,6 @@
+program a;
+var
+a, b: integer;
+s: string;
+begin
+end.

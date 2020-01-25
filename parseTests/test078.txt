@@ -1,0 +1,7 @@
+var
+  x: integer;
+begin
+  repeat
+    readln(x);
+  until x >= 0;
+end.

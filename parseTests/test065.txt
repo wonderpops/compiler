@@ -1,0 +1,13 @@
+program a;
+const n = 10;
+var
+   a, i, k: integer;
+begin
+   k := 1;
+   for i:=1 to n do
+      begin
+         readln(a);
+         if a >= 100 then
+            k:=k+1;
+      end;
+end.

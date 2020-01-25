@@ -1,0 +1,11 @@
+program a;
+var
+   a, i, k, n: integer;
+begin
+   for i:=1 to n do
+      begin
+         readln(a);
+         if a >= 100 then
+            k:=k+1;
+      end;
+end.
