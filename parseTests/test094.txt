@@ -1,0 +1,4 @@
+procedure sum(x, y: integer; var z: integer); 
+begin 
+   z := x + y; 
+end;

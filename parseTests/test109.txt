@@ -1,0 +1,5 @@
+var
+   a: array of array;
+begin
+   writeln(a);
+end.

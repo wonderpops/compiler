@@ -1,0 +1,11 @@
+procedure sum(x, y: integer; var z: integer); 
+begin 
+   x: = - y;
+   z := - x; 
+end;
+
+begin
+   readln(a,b);
+   sum(a,b,c);
+   writeln(-c);
+end.

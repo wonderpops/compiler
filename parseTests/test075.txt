@@ -1,0 +1,2 @@
+while i<s do
+   j:=i+1;

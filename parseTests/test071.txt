@@ -1,0 +1,12 @@
+program sledmax;
+const N = 10;
+var
+   i,k,max: integer;
+   a:array[1..N]of integer;
+begin
+   for i:=1 to N do
+      readln(a[i]);
+   if a[i]<0 then
+      k:=i;
+   write(a[i], ' ');
+end.

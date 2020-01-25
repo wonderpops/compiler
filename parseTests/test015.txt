@@ -1,0 +1,5 @@
+program a;
+var
+a:=integer;
+begin
+end.

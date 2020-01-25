@@ -1,0 +1,2 @@
+﻿function raz(a:integer):integer;
+   a:=a div 10;
