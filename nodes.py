@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-cnr = '└ '
 
 class Node:
     pass
@@ -15,8 +14,9 @@ class StatementNode(Node):
 class IdentificatorNode(Node):
     name: str
 
-    def __str__(self):
-        return''.join(map(str, [cnr, self.name]))
+@dataclass
+class StatementSequenceNode(StatementNode):
+    statements: []
 
 @dataclass
 class IdentListNode(Node):
@@ -27,19 +27,19 @@ class ProgramParamsNode(Node):
     params: IdentListNode
 
 @dataclass
-class BlockNode(Node):
+class DeclarationsNode(Node):
     declarations: []
-    StatementSequence: Node
+
+@dataclass
+class BlockNode(Node):
+    declarations: DeclarationsNode 
+    StatementSequence: StatementSequenceNode
 
 @dataclass
 class ProgramModuleNode(Node):
-    name: str
+    name: IdentificatorNode
     params: ProgramParamsNode
     body: BlockNode
-
-@dataclass
-class DeclarationsNode(Node):
-    declarations: []
 
 @dataclass
 class ConstDefBlockNode(Node):
@@ -51,41 +51,41 @@ class VarDeclBlockNode(Node):
 
 @dataclass
 class ConstDefNode(Node):
-    ident: str
+    ident: IdentificatorNode
     value: ExprNode
-
-@dataclass
-class VarDeclNode(Node):
-    idents: []
-    idsType: ExprNode
-
-@dataclass
-class ConstExpressionNode(Node):
-    op: str
-    value: ExprNode
-
 
 @dataclass
 class TypeNode(Node):
     name: str
 
-    def __str__(self):
-        return''.join(map(str, [cnr, self.name]))
+@dataclass
+class VarDeclNode(Node):
+    idents: IdentListNode
+    idsType: TypeNode
+
+@dataclass
+class ConstExpressionNode(Node):
+    op: str
+    value: Node
 
 @dataclass
 class ArrayTypeNode(Node):
-    artype: ExprNode 
+    artype: TypeNode
     subranges: []
 
 @dataclass
-class SubrangeNode(ExprNode):
-    left: ExprNode
-    right: ExprNode
+class SubrangeNode(Node):
+    left: Node
+    right: Node
+
+@dataclass
+class ExpListNode(ExprNode):
+    expressions: []
 
 @dataclass
 class DesignatorNode(Node):
-    name: str
-    stuff: []
+    name: IdentificatorNode
+    stuff: ExpListNode
 
 @dataclass
 class DesignatorListNode(Node):
@@ -95,51 +95,33 @@ class DesignatorListNode(Node):
 class IOStatmentNode(Node):
     name: str
 
-    def __str__(self):
-        return''.join(map(str, [cnr, self.name]))
-
 @dataclass
 class InStatmentNode(IOStatmentNode):
     designatorList: DesignatorListNode
 
 @dataclass
 class OutStatmentNode(IOStatmentNode):
-    expList: ExprNode
+    expList: ExpListNode
 
 @dataclass
-class ActualParametersNode(ExprNode):
-    expList: ExprNode
-
-@dataclass
-class ExpListNode(ExprNode):
-    expressions: []
+class ActualParametersNode(Node):
+    params: ExpListNode
 
 @dataclass
 class StringNode(ExprNode):
     value: str
 
-    def __str__(self):
-        return''.join(map(str, [cnr, self.value]))
-
 @dataclass
-class NilNode(ExprNode):
-    value: "nil"
-
-    def __str__(self):
-        return''.join(map(str, [cnr, self.value]))
+class NilNode(Node):
+    value: 'nil'
 
 @dataclass
 class LiteralIntNode(ExprNode):
     value: int
 
-    def __str__(self):
-        return''.join(map(str, [cnr, self.value]))
-
 @dataclass
 class LiteralFloatNode(ExprNode):
     value: float
-    def __str__(self):
-        return''.join(map(str, [cnr, self.value]))
 
 @dataclass
 class BinaryOpNode(ExprNode):
@@ -147,18 +129,10 @@ class BinaryOpNode(ExprNode):
     left: ExprNode
     right: ExprNode
 
-    def __str__(self):
-        return ''.join(map(str, [cnr, self.op, '\n']))
-
-
 @dataclass
 class UnaryOpNode(ExprNode):
     op: str
     left: ExprNode
-    def __str__(self):
-        return ''.join(map(str, [cnr, self.op, '\n']))
-
-
 
 @dataclass
 class NotNode(UnaryOpNode):
@@ -167,40 +141,33 @@ class NotNode(UnaryOpNode):
 
 @dataclass
 class FunctionCallNode(ExprNode):
-    name: DesignatorNode
-    parameters: []
-
-
-@dataclass
-class StatementSequenceNode(StatementNode):
-    statements: []
+    name: IdentificatorNode
+    params: []
 
 @dataclass
 class AssignmentNode(StatementNode):
     op: str
-    designator: DesignatorNode
-    value: ExprNode
+    varName: DesignatorNode
+    expression: ExprNode
 
 @dataclass
 class ProcedureCallNode(StatementNode):
-    name: DesignatorNode
-    parameters: []
-
-@dataclass
-class CompleteIfNode(StatementNode):
-    condition: ExprNode
-    ifTrue: StatementNode
-    ifFalse: StatementNode
+    name: IdentificatorNode
+    params: []
 
 @dataclass
 class IncompleteIfNode(StatementNode):
     condition: ExprNode
-    ifTrue: StatementNode
+    trueStatement: StatementNode
+
+@dataclass
+class CompleteIfNode(IncompleteIfNode):
+    falseStatement: StatementNode
 
 @dataclass
 class WhileNode(StatementNode):
     condition: ExprNode
-    ifTrue: StatementNode
+    trueStatement: StatementNode
 
 @dataclass
 class RepeatNode(StatementNode):
@@ -209,11 +176,7 @@ class RepeatNode(StatementNode):
 
 @dataclass
 class WichWayNode(StatementNode):
-    name: str
-
-    def __str__(self):
-        return''.join(map(str, [cnr, self.name]))
-
+    direction: str
 
 @dataclass
 class ForNode(StatementNode):
@@ -225,42 +188,39 @@ class ForNode(StatementNode):
 
 @dataclass
 class EmptyNode(StatementNode):
-    value: str
-
-    def __str__(self):
-        return''.join(map(str, [cnr, self.value]))
+    value: 'empty'
 
 @dataclass
-class SubprogDeclListNode(ExprNode):
+class SubprogDeclListNode(Node):
     declList: []
 
 @dataclass
-class FormalParametersNode(ExprNode):
-    params: IdentListNode
+class FormalParametersNode(Node):
+    params: []
 
 @dataclass
-class FunctionDeclNode(ExprNode): 
-    heading: ExprNode
-    functType: str
-    block: ExprNode
-
-@dataclass
-class ProcedureHeadingNode(ExprNode):
-    name: str
+class FunctionHeadingNode(Node):
+    name: IdentificatorNode
     params: FormalParametersNode
 
 @dataclass
-class FunctionHeadingNode(ExprNode):
-    name: str
+class FunctionDeclNode(Node): 
+    heading: FunctionHeadingNode
+    functType: TypeNode
+    block: BlockNode
+
+@dataclass
+class ProcedureHeadingNode(Node):
+    name: IdentificatorNode
     params: FormalParametersNode
 
 @dataclass
-class ProcedureDeclNode(ExprNode):
+class ProcedureDeclNode(Node):
     heading: ProcedureHeadingNode
     block: BlockNode
 
 @dataclass
-class OneFormalParamNode(ExprNode):
+class OneFormalParamNode(Node):
     ids: IdentListNode
-    idsType: str
+    idsType: TypeNode
     
