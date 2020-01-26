@@ -1,18 +1,1 @@
-Key 1 1 var var
-Ident 2 4 a a
-Oper 2 5 : :
-Key 2 7 array array
-Sprt 2 13 [ [
-Dbl 2 14 1.1 1.10
-Sprt 2 18 ] ]
-Key 2 20 of of
-Key 2 23 integer integer
-Sprt 2 30 ; ;
-Key 3 1 begin begin
-Key 4 4 writeln writeln
-Sprt 4 11 ( (
-Ident 4 12 a a
-Sprt 4 13 ) )
-Sprt 4 14 ; ;
-Key 5 1 end end
-Sprt 5 4 . .
+[1, 1] ERROR_301: Program declaration was expected, but found "progam"

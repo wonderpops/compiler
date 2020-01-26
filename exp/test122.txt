@@ -1,13 +1,1 @@
-Key 1 1 program program
-Ident 1 9 a a
-Sprt 1 10 ; ;
-Key 2 1 var var
-Ident 3 1 a a
-Oper 3 2 := :=
-Key 3 4 integer integer
-Sprt 3 11 ; ;
-Ident 4 1 a a
-Oper 4 3 := :=
-ERROR_601: Value of integer out of range
-Key 5 1 end end
-Sprt 5 4 . .
+[3, 2] ERROR_102: Comma "," or colon ":" was expected, but found ":="

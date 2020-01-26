@@ -1,2 +1,1 @@
-Key 1 1 program program
-Ident 1 9 a a
+[1, 10] ERROR_105: Semicolon ";" or program parameters declaration were expected, but found "None"

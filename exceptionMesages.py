@@ -1,6 +1,6 @@
 class ExceptionMessage:
     ER101 = '_101: Period "." was expected, but found'
-    ER102 = '_102: Comma "," was expected, but found'
+    ER102 = '_102: Comma "," or colon ":" was expected, but found'
     ER103 = '_103: Colon ":" was expected, but found'
     ER104 = '_104: Semicolon ";" was expected, but found'
     ER105 = '_105: Semicolon ";" or program parameters declaration were expected, but found'

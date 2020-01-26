@@ -1,15 +1,1 @@
-Key 1 1 program program
-Ident 1 9 a a
-Sprt 1 10 ; ;
-Key 2 1 var var
-Ident 3 4 a a
-Oper 3 5 : :
-Key 3 7 integer integer
-Sprt 3 14 ; ;
-Key 4 1 begin begin
-Ident 5 4 a a
-Oper 5 6 := :=
-Int 5 9 1 1
-Sprt 5 10 ; ;
-Key 6 1 end end
-Sprt 6 4 ; ;
+ERROR_402: Operator was expected, but end of file found

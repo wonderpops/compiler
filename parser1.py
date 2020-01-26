@@ -343,7 +343,7 @@ class Parser:
             raise Exception (self.exMesGen.getExceptionMessage(self.exMes.ER504, self.cur))
 
     def ParseForStatement(self):
-        name = self.cur
+        name = IdentificatorNode(self.cur.value)
         self.cur = self.tokeniser.Next()
         if self.cur.src == ':=':
             self.cur = self.tokeniser.Next()

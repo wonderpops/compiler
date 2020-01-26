@@ -1,6 +1,1 @@
-Ident 1 1 pop pop
-Sprt 1 4 ( (
-Ident 1 5 a a
-Oper 1 6 : :
-Key 1 8 integer integer
-Sprt 1 15 ) )
+[4, 4] ERROR_102: Comma "," was expected, but found "("

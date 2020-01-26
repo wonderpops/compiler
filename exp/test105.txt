@@ -1,6 +1,1 @@
-Key 1 1 not not
-Sprt 1 5 ( (
-Ident 1 6 a a
-Oper 1 8 < <
-Ident 1 10 b b
-Sprt 1 11 ) )
+ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a'), IdentificatorNode(name='b'), IdentificatorNode(name='c')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[AssignmentNode(op=':=', varName=DesignatorNode(name='c', stuff=[]), expression=NotNode(op='not', left=BinaryOpNode(op='>', left=DesignatorNode(name='a', stuff=[]), right=DesignatorNode(name='b', stuff=[]))))])))

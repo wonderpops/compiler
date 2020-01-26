@@ -1,8 +1,1 @@
-Int 1 1 123 123
-Oper 1 4 + +
-Ident 1 5 pop pop
-Sprt 1 8 ( (
-Ident 1 9 rf rf
-Sprt 1 11 , ,
-Ident 1 12 ty ty
-Sprt 1 14 ) )
+ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[AssignmentNode(op=':=', varName=DesignatorNode(name='c', stuff=[]), expression=BinaryOpNode(op='+', left=LiteralIntNode(value=123), right=FunctionCallNode(name=IdentificatorNode(name='pop'), params=ActualParametersNode(params=ExpListNode(expressions=[DesignatorNode(name='rf', stuff=[]), DesignatorNode(name='ty', stuff=[])])))))])))

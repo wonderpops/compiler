@@ -1,18 +1,1 @@
-Key 1 1 for for
-Ident 1 5 i i
-Oper 1 6 := :=
-Int 1 8 1 1
-Key 1 10 to to
-Ident 1 13 n n
-Key 1 15 do do
-Key 2 4 readln readln
-Sprt 2 10 ( (
-Ident 2 11 a a
-Sprt 2 12 ) )
-Sprt 2 13 ; ;
-Ident 3 4 k k
-Oper 3 5 := :=
-Ident 3 7 k k
-Oper 3 8 + +
-Int 3 9 1 1
-Sprt 3 10 ; ;
+ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='i'), IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[ForNode(designator=IdentificatorNode(name='i'), left=LiteralIntNode(value=1), right=DesignatorNode(name='n', stuff=[]), way=WichWayNode(direction='to'), statements=InStatmentNode(name='readln', designatorList=DesignatorListNode(designators=[DesignatorNode(name=IdentificatorNode(name='a'), stuff=[])]))), AssignmentNode(op=':=', varName=DesignatorNode(name='k', stuff=[]), expression=BinaryOpNode(op='+', left=DesignatorNode(name='k', stuff=[]), right=LiteralIntNode(value=1)))])))
