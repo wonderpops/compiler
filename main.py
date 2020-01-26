@@ -3,18 +3,18 @@ from tokeniser import Token, Tokeniser
 from parser1 import Parser
 from nodes import *
 
+
 path = sys.argv[2]
 f = open(path, 'r', encoding = 'utf-8')
 lex = Tokeniser(''.join(f.readlines()))
 cnr = '└ '
 
 def getTree(deep, node):
-    deep += 1
-    #print(node)
+    #deep +=1
     if isinstance(node, (UnaryOpNode, NotNode)):
         return '  '*deep + str(node) + getTree(deep, node.left)
     elif isinstance(node, BinaryOpNode):
-        return '  '*deep + str(node) + getTree(deep, node.left) + "\n" + getTree(deep, node.right)
+        return str(node) #+ getTree(deep, node.left) + "\n" + getTree(deep, node.right)
     elif isinstance(node, (FunctionCallNode, ProcedureCallNode)):
         return '  '*deep + cnr + node.name + "\n" + "\n".join(map(lambda n: getTree(deep, n), node.parameters.expList.expressions))
     elif isinstance(node, (DesignatorNode, StringNode, NilNode, IOStatmentNode,
@@ -29,6 +29,9 @@ def getTree(deep, node):
     else:
         return '  '*deep + str(node)
 
+def tree(node):
+    return str(node)
+
 
 if sys.argv[1] == 'T':
     while True:
@@ -42,5 +45,5 @@ if sys.argv[1] == 'T':
             print(t)
 elif sys.argv[1] == 'P':
     p = Parser(lex)
-    #x = getTree(0, p.ParseProgramModule())
+    #x = tree(p.ParseProgramModule())
     print(p.ParseProgramModule())

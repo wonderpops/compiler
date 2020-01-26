@@ -17,7 +17,7 @@ class Parser:
         if self.cur.src == 'program':
             self.cur = self.tokeniser.Next()
             if self.cur.tokenType == Token.tokenTypeIdentificator:
-                name = self.cur.value
+                name = IdentificatorNode(self.cur.value)
                 self.cur = self.tokeniser.Next()            
             else:
                 raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER201, self.cur))
@@ -59,7 +59,7 @@ class Parser:
         if self.cur.src not in [')', ':']:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER202, self.cur))
         else:
-            return ids
+            return IdentListNode(ids)
 
     def ParseBlock(self):
         decl = []
@@ -108,7 +108,7 @@ class Parser:
         ident = ''
         value = ''
         if self.cur.tokenType == Token.tokenTypeIdentificator:
-            ident = self.cur.value
+            ident = IdentificatorNode(self.cur.value)
             self.cur = self.tokeniser.Next()
         else:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER401, self.cur))
@@ -178,9 +178,9 @@ class Parser:
         if self.cur.value == 'integer':
             self.cur = self.tokeniser.Next()
             return TypeNode('integer')
-        elif self.cur.value == 'double': 
+        elif self.cur.value == 'real': 
             self.cur = self.tokeniser.Next()
-            return TypeNode('double')
+            return TypeNode('real')
         elif self.cur.value == 'string':
             self.cur = self.tokeniser.Next()
             return TypeNode('string')
@@ -289,7 +289,7 @@ class Parser:
     def ParseProcedureCall(self, ident):
         left = ''
         if ident.tokenType == Token.tokenTypeIdentificator:
-            left = ident
+            left = IdentificatorNode(ident)
         if self.cur.src == '(':
             p = self.ParseActualParameters()
             left = ProcedureCallNode(left, p)
@@ -366,15 +366,13 @@ class Parser:
     def ParseIOStatement(self):
         name = self.cur
         if self.cur.src in ['read', 'readln']:
-            d = DesignatorListNode([])
-            d.designators = self.ParseDesignatorList().designators            
+            d  = self.ParseDesignatorList()            
             if self.cur.src == ';':
                 return InStatmentNode(name.value, d)
             else:
                 raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         elif self.cur.src in ['write', 'writeln']:
-            e = ExpListNode([])
-            e.expressions = self.ParseExprList().expressions
+            e = self.ParseExprList()
             if self.cur.src == ';':
                 return OutStatmentNode(name.value, e)
             else:
@@ -382,18 +380,18 @@ class Parser:
 
 
     def ParseDesignatorList(self):
-        d = DesignatorListNode([])
+        d = []
         self.cur = self.tokeniser.Next()
         if self.cur.src == '(':
             self.cur = self.tokeniser.Next()
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
-            d.designators.append(self.ParseDesignator(self.cur.value))
+            d.append(self.ParseDesignator(IdentificatorNode(self.cur.value)))
             self.cur = self.tokeniser.Next()
             if self.cur.src == ',':
                 self.cur = self.tokeniser.Next()
         if self.cur.src == ')':
             self.cur = self.tokeniser.Next()
-            return d
+            return DesignatorListNode(d)
         else:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER106, self.cur))
 
@@ -411,16 +409,16 @@ class Parser:
         return ActualParametersNode(p)
     
     def ParseExprList(self):
-        l = ExpListNode([])
+        l = []
         self.cur = self.tokeniser.Next()
         if self.cur.src == '(':
             self.cur = self.tokeniser.Next()
         while self.cur.src not in [')', ']']:
-            l.expressions.append(self.ParseExpr())
+            l.append(self.ParseExpr())
             if self.cur.src == ',':
                 self.cur = self.tokeniser.Next()
         self.cur = self.tokeniser.Next()
-        return l         
+        return ExpListNode(l)       
 
     def ParseExpr(self):
         left = self.ParseSimpleExpr()
@@ -429,7 +427,7 @@ class Parser:
             self.cur = self.tokeniser.Next()
             right = self.ParseSimpleExpr()
             left = BinaryOpNode(op, left, right)
-        if self.cur.src in [';', 'then', 'do', 'to', 'downto', ')', ',']:
+        if self.cur.src in [';', 'then', 'do', 'to', 'downto', ')', ',', 'else']:
             return left
         else:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
@@ -480,7 +478,7 @@ class Parser:
         elif self.cur.tokenType == Token.tokenTypeIdentificator:    
             self.cur = self.tokeniser.Next()    
             if self.cur.src == '(':
-                return self.ParseFunctionCall(t.value)
+                return self.ParseFunctionCall(IdentificatorNode(t.value))
             else: 
                 return self.ParseDesignator(t.value)  
         elif self.cur.tokenType == Token.tokenTypeDouble:
@@ -534,10 +532,11 @@ class Parser:
         if self.cur.src == ':':
             self.cur = self.tokeniser.Next()
         else:
-            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER103, self.cur))
-        if self.cur.tokenType == Token.tokenTypeKeyWord:
-            fType = self.cur.value
-            self.cur = self.tokeniser.Next()
+            raise Exception('ERROR: Colon ":" was expected, but ' + self.cur.value + ' found')
+        if self.cur.src in ['integer', 'real', 'string']:
+            fType = self.ParseType()
+        else:
+            raise Exception('ERROR: Function type was expected, but ' + self.cur.value + ' found')
         if self.cur.src != ';':
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         self.cur = self.tokeniser.Next()
@@ -551,7 +550,7 @@ class Parser:
         params = []
         if self.cur.src == 'procedure':
             self.cur = self.tokeniser.Next()
-            name = self.cur.value
+            name = IdentificatorNode(self.cur.value)
             self.cur = self.tokeniser.Next()
             if self.cur.src == '(':
                 params = self.ParseFormalParameters()
@@ -564,7 +563,7 @@ class Parser:
         params = []
         if self.cur.src == 'function':
             self.cur = self.tokeniser.Next()
-            name = self.cur.value
+            name = IdentificatorNode(self.cur.value)
             self.cur = self.tokeniser.Next()
             if self.cur.src == '(':
                 params = self.ParseFormalParameters()
@@ -590,6 +589,5 @@ class Parser:
         ids = self.ParseIdentList()
         if self.cur.src == ':':
             self.cur = self.tokeniser.Next()
-            typ = self.cur.value  
-            self.cur = self.tokeniser.Next()     
+            typ = self.ParseType()    
         return OneFormalParamNode(ids, typ)
