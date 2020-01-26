@@ -2,6 +2,7 @@ from nodes import *
 from tokeniser import Token, Tokeniser
 from exceptionMesages import ExceptionMessage, ExceptionMessageGenerator
 
+
 class Parser:
 
     def __init__(self, tokeniser):
@@ -13,7 +14,7 @@ class Parser:
 
 
     def ParseProgramModule(self):
-        params = []
+        params = ProgramParamsNode([])
         if self.cur.src == 'program':
             self.cur = self.tokeniser.Next()
             if self.cur.tokenType == Token.tokenTypeIdentificator:
@@ -50,7 +51,7 @@ class Parser:
     def ParseIdentList(self):
         ids = []
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
-            ids.append(self.cur.value)
+            ids.append(IdentificatorNode(self.cur.value))
             self.cur = self.tokeniser.Next()
             if self.cur.src == ',':
                 self.cur = self.tokeniser.Next()
@@ -62,23 +63,27 @@ class Parser:
             return IdentListNode(ids)
 
     def ParseBlock(self):
-        decl = []
+        decl = DeclarationsNode(ConstDefBlockNode([]), VarDeclNode([], ''), SubprogDeclListNode([]))
         sec = ''
         while self.cur.src in ['const', 'var', 'function', 'procedure']:
-            decl.append(self.ParseDeclarations())  
+            decl = self.ParseDeclarations() 
         if self.cur.src == 'begin':
             sec = self.ParseStatementSequence()
         return BlockNode(decl, sec)
 
     def ParseDeclarations(self):
-        decl = []
+        c = ConstDefBlockNode([])
+        v = VarDeclNode([], '')
+        s = SubprogDeclListNode([])
+        dec = DeclarationsNode(c, v, s)
         if self.cur.src == 'const':
-            decl.append(self.ParseConstantDefBlock())
+            c = self.ParseConstantDefBlock()
         if self.cur.src == 'var':
-            decl.append(self.ParseVariableDeclBlock())
+            v = self.ParseVariableDeclBlock()
         if self.cur.src in ['function', 'procedure']:
-            decl.append(self.ParseSubprogDeclList())
-        return DeclarationsNode(decl)
+            s = self.ParseSubprogDeclList()
+        dec = DeclarationsNode(c, v, s)
+        return dec
 
     def ParseConstantDefBlock(self):
         constants = []
@@ -123,7 +128,8 @@ class Parser:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
 
     def ParseVariableDecl(self):
-        ids = []
+        t = TypeNode('')
+        ids = IdentListNode([])
         if self.cur.tokenType == Token.tokenTypeIdentificator:
             ids = self.ParseIdentList()
             #self.cur = self.tokeniser.Next()
@@ -135,7 +141,8 @@ class Parser:
         else:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER103, self.cur))
         if self.cur.src == ';':
-            return VarDeclNode(ids, t)
+            v = VarDeclNode(ids, t)
+            return v
         else:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         
@@ -532,11 +539,11 @@ class Parser:
         if self.cur.src == ':':
             self.cur = self.tokeniser.Next()
         else:
-            raise Exception('ERROR: Colon ":" was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER103, self.cur))
         if self.cur.src in ['integer', 'real', 'string']:
             fType = self.ParseType()
         else:
-            raise Exception('ERROR: Function type was expected, but ' + self.cur.value + ' found')
+            raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER204, self.cur))
         if self.cur.src != ';':
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         self.cur = self.tokeniser.Next()

@@ -27,27 +27,33 @@ class ProgramParamsNode(Node):
     params: IdentListNode
 
 @dataclass
-class DeclarationsNode(Node):
-    declarations: []
-
-@dataclass
-class BlockNode(Node):
-    declarations: DeclarationsNode 
-    StatementSequence: StatementSequenceNode
-
-@dataclass
-class ProgramModuleNode(Node):
-    name: IdentificatorNode
-    params: ProgramParamsNode
-    body: BlockNode
-
-@dataclass
 class ConstDefBlockNode(Node):
     constants: []
 
 @dataclass
 class VarDeclBlockNode(Node):
     variables: []
+
+@dataclass
+class SubprogDeclListNode(Node):
+    declList: []
+
+@dataclass
+class DeclarationsNode(Node):
+    constants: ConstDefBlockNode
+    variables: VarDeclBlockNode
+    subprogs: SubprogDeclListNode
+
+@dataclass
+class BlockNode(Node):
+    declarations: DeclarationsNode 
+    statementSequence: StatementSequenceNode
+
+@dataclass
+class ProgramModuleNode(Node):
+    name: IdentificatorNode
+    params: ProgramParamsNode
+    body: BlockNode
 
 @dataclass
 class ConstDefNode(Node):
@@ -189,10 +195,6 @@ class ForNode(StatementNode):
 @dataclass
 class EmptyNode(StatementNode):
     value: 'empty'
-
-@dataclass
-class SubprogDeclListNode(Node):
-    declList: []
 
 @dataclass
 class FormalParametersNode(Node):
