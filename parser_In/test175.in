@@ -1,0 +1,8 @@
+program asd;
+var
+a: integer;
+begin
+   while i<s do
+   j:=i+1;
+end.
+

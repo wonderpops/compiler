@@ -453,7 +453,18 @@ class Parser:
             op = self.cur.value        
             self.cur = self.tokeniser.Next()
             right = self.ParseTerm()
-            return UnaryOpNode(op, right)
+            left = UnaryOpNode(op, right)
+            if self.cur.src in ['+', '-']:
+                op = self.cur.src
+                self.cur = self.tokeniser.Next()
+                right = self.ParseTerm()
+                left = BinaryOpNode(op, left, right)
+            if self.cur.src in ['*', '/']:
+                op = self.cur.src
+                self.cur = self.tokeniser.Next()
+                right = self.ParseTerm()
+                left = BinaryOpNode(op, left, right)
+            return left
         else:
             return self.ParseSimpleExpr1()
 

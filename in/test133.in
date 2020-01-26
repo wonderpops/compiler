@@ -1,5 +1,0 @@
-for y:=1 to 10 do
-   begin
-      readln(a);
-      k:=k+1;
-   end;

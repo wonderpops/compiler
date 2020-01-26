@@ -1,5 +1,0 @@
-var
-   a: array [,] of integer;
-begin
-   writeln(a);
-end.

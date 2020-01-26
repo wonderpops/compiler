@@ -1,4 +1,0 @@
-function raz(a:integer);
-   begin
-      result:=0;
-   end;

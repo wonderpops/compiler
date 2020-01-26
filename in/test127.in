@@ -1,3 +1,0 @@
-for i:=1 to n do
-   readln(a);
-   k:=k+1;

@@ -1,0 +1,9 @@
+program asd;
+var
+a: integer;
+begin
+   for j:=i to n-1 do
+      begin
+         a[j]:=a[j+1];
+      end;
+end.

@@ -1,0 +1,11 @@
+program gh;
+var
+s: string;
+procedure Tabulate (k:real);
+begin
+   x[k]:=A+k*h;
+   y[k]:=x[k]*x[k]*x[k]-(2*x[k]);
+end;
+begin
+   Tabulate(i);
+end.

@@ -1,0 +1,8 @@
+program da;
+var
+   a: array [1..n] of integer;
+   n: inteher;
+begin
+   readln(n);
+   writeln(a);
+end.

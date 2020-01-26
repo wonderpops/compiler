@@ -1,4 +1,0 @@
-function (a:integer):integer;
-   begin
-      result:=0;
-   end;

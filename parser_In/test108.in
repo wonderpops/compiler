@@ -1,0 +1,6 @@
+program asd;
+var
+a: integer;
+begin
+   c:=123+pop(rf,ty);
+end.

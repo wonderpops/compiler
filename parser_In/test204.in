@@ -1,0 +1,7 @@
+program gh;
+var
+   a: array [] of integer;
+   n: inteher;
+begin
+   writeln(a);
+end.

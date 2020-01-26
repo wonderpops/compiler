@@ -1,3 +1,0 @@
-if a >= 100 then
-   begin
-      k:=k+1;

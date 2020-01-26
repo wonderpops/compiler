@@ -1,0 +1,13 @@
+program asd;
+var
+i,a: integer;
+begin
+   for i=1 to n do
+      begin
+         readln(a);
+         k:=k+1;
+      end;
+end.
+
+
+

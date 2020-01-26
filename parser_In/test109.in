@@ -1,0 +1,6 @@
+program asd;
+var
+a: integer;
+begin
+   c:='lol' + 'lol';
+end.

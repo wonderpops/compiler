@@ -1,4 +1,0 @@
-if a mod 2 = 0 then
-   a:=a+9;
-else
-   a:=a+11;

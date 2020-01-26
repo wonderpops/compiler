@@ -1,5 +1,0 @@
-begin 
-var
-   a: string;
-   a:= 1;
-end.

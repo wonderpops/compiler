@@ -1,0 +1,6 @@
+program asd;
+begin
+   a := 234;
+end.
+var
+   a: integer;
