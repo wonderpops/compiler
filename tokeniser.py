@@ -22,11 +22,10 @@ class Token:
     tokenTypeDoubleDot = 'DDot'
     tokenTypeComment = 'Comment'
 
-    keyWords = {'and', 'array', 'begin', 'case', 'const', 'div', 'do', 'downto', 'else', 'end', 'file', 'for', 'function',
-                'goto', 'if', 'in', 'label', 'mod', 'nil', 'not', 'of', 'or', 'packed', 'procedure', 'program', 'record',
-                'repeat', 'set', 'then', 'to', 'type', 'until', 'while', 'var', 'with', 'integer', 'real', 'string', 'break',
-                'exit', 'forward', 'writeln', 'write', 'read', 'readln', 'length'}
-    simpleOperands = {'+', '-', '=',  '>', '<',  '*', '/', '^', ':'}
+    keyWords = {'and', 'array', 'begin', 'const', 'do', 'downto', 'else', 'end', 'for', 'function',
+                'if', 'nil', 'not', 'of', 'procedure', 'program', 'repeat', 'then', 'to', 'until',
+                'while', 'var', 'with', 'integer', 'real', 'string', 'writeln', 'write', 'read', 'readln'}
+    simpleOperands = {'+', '-', '=',  '>', '<',  '*', '/', ':'}
     complexOperands = {'<>', '<=', '>=', ':=', '+=', '-=', '*=', '/='}
 
     separators = {'(', ')', '{', '}', '[', ']', ';', ',', '.'}
@@ -53,7 +52,7 @@ class Tokeniser:
             else:
                 break
 
-        #End of file
+        #End of file reached
         if self.pos >= len(self.str):
             return Token(Token.tokenTypeEOF, self.line, self.pos - self.lineStart)
 
@@ -63,11 +62,11 @@ class Tokeniser:
             if self.str[self.pos] == '.':
                 p = Token(Token.tokenTypeDoubleDot, self.line, self.pos -1 - self.lineStart)
                 p.src = '..'
-                p.value = '..'
+                p.value = p.src
                 self.pos += 1
                 return p
             else:
-                self.pos += -1
+                self.pos -= 1
                 
         #Comment
         if self.str[self.pos] == '/':
@@ -85,7 +84,6 @@ class Tokeniser:
             else:
                 self.pos -= 1
 
-
         #Int and Double
         if self.str[self.pos].isdigit():
             p = Token(Token.tokenTypeInt, self.line, self.pos - self.lineStart)
@@ -98,8 +96,7 @@ class Tokeniser:
                         return p
                 else:
                     p.src += self.str[self.pos]
-                    self.pos += 1
-                
+                    self.pos += 1                
 
             if p.src.find('.') == p.src.rfind('.') and p.src.find('.') != -1:
                 if p.src[len(p.src)-1] == '.':
@@ -118,7 +115,7 @@ class Tokeniser:
             else:
                 raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER403, p))
 
-        #Operands
+        #Operand
         if self.str[self.pos] in Token.simpleOperands:
             p = Token(Token.tokenTypeOperators, self.line, self.pos - self.lineStart)
             while self.pos < len(self.str):
@@ -141,7 +138,7 @@ class Tokeniser:
                 else:
                     raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER404, p))
         
-        #Separators
+        #Separator
         if self.str[self.pos] in Token.separators:
             p = Token(Token.tokenTypeSeparators, self.line, self.pos - self.lineStart)
             p.src += self.str[self.pos]
@@ -154,7 +151,7 @@ class Tokeniser:
             t = Token(Token.tokenTypeIdentificator, self.line, self.pos - self.lineStart)
             lenStr = 0
             while (self.pos < len(self.str) and
-                (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_')):
+                  (self.str[self.pos].isdigit() or self.str[self.pos].isalpha() or self.str[self.pos] == '_')):
                 t.src += self.str[self.pos]
                 lenStr += 1  
                 if lenStr > 127:
@@ -163,9 +160,7 @@ class Tokeniser:
             if t.src in Token.keyWords:
                 t.tokenType = Token.tokenTypeKeyWord
             t.value = t.src 
-            return t
-
-       
+            return t       
 
         #String
         if self.str[self.pos] == "'":
@@ -184,8 +179,8 @@ class Tokeniser:
                         self.pos += 1
                         self.lineStart = self.pos
                     self.pos += 1
-
-            t.value = t.src[1:]    
+            
+            t.value = t.src[1:] 
             
             if (self.pos < len(self.str)):
                 t.src += self.str[self.pos]
@@ -196,7 +191,6 @@ class Tokeniser:
                 self.pos += 1
                 raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER405, t))
 
-            #self.pos += 1
             if  self.str[self.pos] != '\n' or self.str[self.pos] != ' ':
                 self.pos += 1
                 return t
