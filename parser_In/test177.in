@@ -1,3 +1,9 @@
-if s[j+1]=' ' then
-   s[j]:=s[j+k];
-   s[j]:=s[j+1];
+program asd;
+var
+a: integer;
+begin
+   if s[j+1]=' ' then
+    s[j]:=s[j+k];
+    s[j]:=s[j+1];
+end.
+

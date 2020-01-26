@@ -1,3 +1,6 @@
+program df;
+var
+f: real;
 procedure sum(); 
 begin 
    x: = - y;

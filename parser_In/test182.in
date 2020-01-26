@@ -1,3 +1,6 @@
+program asd;
+var
+a: integer;
 function raz(a:integer) of integer;
    begin
       result:=0;
@@ -7,3 +10,7 @@ function raz(a:integer) of integer;
             result:=result+1;
          end;
    end;
+begin
+end.
+
+

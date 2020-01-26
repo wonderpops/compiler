@@ -1,2 +1,8 @@
-if 10 > 100 then
-   k:=k+1;
+program asd;
+var
+i,a: integer;
+begin
+   if 10 > 100 then
+      k:=k+1;
+end.
+

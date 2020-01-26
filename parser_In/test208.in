@@ -1,3 +1,4 @@
+program gh;
 var
    a: array of [1..n] of array;
 begin

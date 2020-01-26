@@ -1,8 +1,15 @@
-if a >= 100 then
-   begin
-      if b < 10 then 
-         begin
-            k:=k+1;
-         end;
-   end;
+program asd;
+var
+i,a: integer;
+begin
+   if a >= 100 then
+      begin
+         if b < 10 then 
+            begin
+               k:=k+1;
+            end;
+      end;
 end.
+
+
+

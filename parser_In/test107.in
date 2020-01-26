@@ -1,1 +1,7 @@
-pop(a,b,c,d)
+program asd;
+var
+a: integer;
+pop(a,b,c,d);
+begin
+   c:=a + b;
+end.

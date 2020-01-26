@@ -1,3 +1,6 @@
+program df;
+var
+f: real;
 procedure sum(x, y: integer; var z: integer); 
 begin 
    z := x + y; 

@@ -1,3 +1,6 @@
+program gh;
+var
+s: string;
 procedure Tabulate (k:real);
 begin
    x[k]:=A+k*h;

@@ -1,2 +1,8 @@
-if a = b then
-   k:=k+1;
+program asd;
+var
+i,a: integer;
+begin
+   if a = b then
+      k:=k+1;
+end.
+

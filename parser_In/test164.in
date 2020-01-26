@@ -1,5 +1,12 @@
-Key 1 1 writeln writeln
-Sprt 1 8 ( (
-Str 1 9 В слове должно быть больше двух букв 'В слове должно быть больше двух букв'
-Sprt 1 47 ) )
-Sprt 1 48 ; ;
+program a;
+var
+   a, i, k, n: integer;
+begin
+   n := 10;
+   k := 1;
+   for i:=1 to n do
+      begin
+         readln(a);
+         if a >= 100 then
+      end;
+end.

@@ -1,2 +1,10 @@
-for i:=1 to n do
-end;
+program asd;
+var
+i,a: integer;
+begin
+   for i:=1 to n do
+    end;
+end.
+
+
+

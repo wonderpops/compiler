@@ -1,4 +1,10 @@
+program asd;
+var
+a: integer;
 function (a:integer):integer;
    begin
       result:=0;
    end;
+begin
+end.
+
