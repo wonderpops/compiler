@@ -28,7 +28,7 @@ class ExceptionMessage:
     ER403 = '_403: Integer or real expected, but found'
     ER404 = '_404: Operand was expected, but found'
     ER405 = '_405: String was expected, but found'
-    ER406 = '_406: Unexpected was found'
+    ER406 = '_406: Undefind token type'
     ER407 = '_407: Real was expected, but found'
 
     ER501 = '_501: Keyword "of" was expected, but found'
