@@ -1,0 +1,8 @@
+Int 1 1 123 123
+Oper 1 4 + +
+Ident 1 5 pop pop
+Sprt 1 8 ( (
+Ident 1 9 rf rf
+Sprt 1 11 , ,
+Ident 1 12 ty ty
+Sprt 1 14 ) )

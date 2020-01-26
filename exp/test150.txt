@@ -1,0 +1,5 @@
+Key 1 1 var var
+Ident 2 4 a a
+Oper 2 5 : :
+Ident 2 7 float float
+Sprt 2 12 ; ;

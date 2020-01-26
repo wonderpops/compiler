@@ -1,8 +1,0 @@
-Ident 1 1 i i
-Sprt 1 2 , ,
-Ident 1 4 n n
-Sprt 1 5 , ,
-Ident 1 7 j j
-Oper 1 9 : :
-Key 1 11 integer integer
-Sprt 1 18 ; ;

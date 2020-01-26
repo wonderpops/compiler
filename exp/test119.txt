@@ -1,0 +1,8 @@
+Key 1 1 begin begin
+Ident 2 1 a a
+Oper 2 3 + +
+Ident 2 5 b b
+Oper 2 7 = =
+Ident 2 8 c c
+Key 3 1 end end
+Sprt 3 4 . .

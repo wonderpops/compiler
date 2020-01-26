@@ -45,7 +45,7 @@ class ExceptionMessage:
 class ExceptionMessageGenerator:
     def getExceptionMessage(self, exceptionMessage, token):
         if token:
-            return ('[' + str(token.pos) + ', ' + str(token.line) + '] ' +
+            return ('[' + str(token.line) + ', ' + str(token.pos) + '] ' +
                     'ERROR' + exceptionMessage + ' "' + str(token.value) + '"')
         else :
             return  ('ERROR'+exceptionMessage)   

@@ -1,0 +1,17 @@
+Key 1 1 program program
+Ident 1 9 a a
+Sprt 1 10 ; ;
+Key 2 1 begin begin
+Key 3 1 var var
+Ident 4 1 a a
+Sprt 4 2 , ,
+Ident 4 4 b b
+Oper 4 5 : :
+Key 4 7 integer integer
+Sprt 4 14 ; ;
+Ident 5 1 s s
+Oper 5 2 : :
+Key 5 4 string string
+Sprt 5 10 ; ;
+Key 6 1 end end
+Sprt 6 4 . .
