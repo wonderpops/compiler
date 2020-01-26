@@ -63,7 +63,7 @@ class Parser:
             return IdentListNode(ids)
 
     def ParseBlock(self):
-        decl = DeclarationsNode(ConstDefBlockNode([]), VarDeclNode([], ''), SubprogDeclListNode([]))
+        decl = DeclarationsNode(ConstDefBlockNode([]), VarDeclBlockNode([]), SubprogDeclListNode([]))
         sec = ''
         while self.cur.src in ['const', 'var', 'function', 'procedure']:
             decl = self.ParseDeclarations() 
@@ -73,7 +73,7 @@ class Parser:
 
     def ParseDeclarations(self):
         c = ConstDefBlockNode([])
-        v = VarDeclNode([], '')
+        v = VarDeclBlockNode([])
         s = SubprogDeclListNode([])
         dec = DeclarationsNode(c, v, s)
         if self.cur.src == 'const':
@@ -296,7 +296,7 @@ class Parser:
     def ParseProcedureCall(self, ident):
         left = ''
         if ident.tokenType == Token.tokenTypeIdentificator:
-            left = IdentificatorNode(ident)
+            left = IdentificatorNode(ident.value)
         if self.cur.src == '(':
             p = self.ParseActualParameters()
             left = ProcedureCallNode(left, p)
@@ -392,7 +392,7 @@ class Parser:
         if self.cur.src == '(':
             self.cur = self.tokeniser.Next()
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
-            d.append(self.ParseDesignator(IdentificatorNode(self.cur.value)))
+            d.append(self.ParseDesignator(self.cur.value))
             self.cur = self.tokeniser.Next()
             if self.cur.src == ',':
                 self.cur = self.tokeniser.Next()
@@ -434,7 +434,7 @@ class Parser:
             self.cur = self.tokeniser.Next()
             right = self.ParseSimpleExpr()
             left = BinaryOpNode(op, left, right)
-        if self.cur.src in [';', 'then', 'do', 'to', 'downto', ')', ',', 'else']:
+        if self.cur.src in [';', 'then', 'do', 'to', 'downto', ')', ',', 'else', ']']:
             return left
         else:
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
