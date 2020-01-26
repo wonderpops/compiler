@@ -29,7 +29,7 @@ for f in files:
         else:
             if t.tokenType == Token.tokenTypeEOF:
                 expstr = ''
-                exp = open('exp/' + f[0:7] + '_in.txt', 'r')
+                exp = open('exp/' + f[0:7] + '.txt', 'r')
                 for line in exp:
                     expstr += line
 

@@ -1,0 +1,31 @@
+Ident 1 1 Key Key
+Int 1 5 1 1
+Int 1 7 1 1
+Key 1 9 writeln writeln
+Key 1 17 writeln writeln
+Ident 2 1 Sprt Sprt
+Int 2 6 1 1
+Int 2 8 8 8
+Sprt 2 10 ( (
+Sprt 2 12 ( (
+Ident 3 1 Str Str
+Int 3 5 1 1
+Int 3 7 9 9
+[3, 9] ERROR_406: Unexpected was found "None"
+[3, 11] ERROR_406: Unexpected was found "None"
+[3, 17] ERROR_406: Unexpected was found "None"
+[3, 24] ERROR_406: Unexpected was found "None"
+[3, 29] ERROR_406: Unexpected was found "None"
+[3, 36] ERROR_406: Unexpected was found "None"
+[3, 41] ERROR_406: Unexpected was found "None"
+Str 3 46 В слове должно быть больше двух букв 'В слове должно быть больше двух букв'
+Ident 4 1 Sprt Sprt
+Int 4 6 1 1
+Int 4 8 47 47
+Sprt 4 11 ) )
+Sprt 4 13 ) )
+Ident 5 1 Sprt Sprt
+Int 5 6 1 1
+Int 5 8 48 48
+Sprt 5 11 ; ;
+Sprt 5 13 ; ;

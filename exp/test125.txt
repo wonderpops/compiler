@@ -1,0 +1,9 @@
+Key 1 1 program program
+Ident 1 9 a a
+Sprt 1 10 ; ;
+Key 2 1 begin begin
+Ident 3 1 a a
+Oper 3 3 := :=
+ERROR_601: Value of integer out of range
+Key 4 1 end end
+Sprt 4 4 . .

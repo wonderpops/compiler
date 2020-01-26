@@ -1,0 +1,7 @@
+Key 1 1 program program
+Ident 1 9 a a
+Sprt 1 10 ; ;
+Ident 2 1 a a
+Oper 2 3 := :=
+Int 2 6 1 1
+Sprt 2 7 ; ;

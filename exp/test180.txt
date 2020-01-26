@@ -1,0 +1,16 @@
+[1, 1] ERROR_406: Unexpected was found "None"
+Ident 1 13 raz raz
+Sprt 1 16 ( (
+Ident 1 17 a a
+Oper 1 18 : :
+Key 1 19 integer integer
+Sprt 1 26 ) )
+Oper 1 27 : :
+Key 1 28 integer integer
+Sprt 1 35 ; ;
+Ident 2 4 a a
+Oper 2 5 := :=
+Ident 2 7 a a
+Ident 2 9 div div
+Int 2 13 10 10
+Sprt 2 15 ; ;

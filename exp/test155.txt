@@ -1,0 +1,12 @@
+Key 1 1 begin begin
+Key 2 1 var var
+Ident 3 4 a a
+Oper 3 5 : :
+Key 3 7 string string
+Sprt 3 13 ; ;
+Ident 4 4 a a
+Oper 4 5 := :=
+Int 4 8 1 1
+Sprt 4 9 ; ;
+Key 5 1 end end
+Sprt 5 4 . .

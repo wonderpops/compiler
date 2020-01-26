@@ -1,0 +1,3 @@
+Str 1 1 lol 'lol'
+Oper 1 7 + +
+Str 1 9 lol 'lol'

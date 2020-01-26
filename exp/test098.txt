@@ -1,0 +1,2 @@
+ERROR_603: Ident length out of range
+Ident 1 128 vbnm vbnm

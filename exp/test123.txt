@@ -1,0 +1,6 @@
+Key 1 1 begin begin
+Ident 2 1 a a
+Oper 2 3 := :=
+Str 2 6 dfcgvhbjygtghjkhuygh 'dfcgvhbjygtghjkhuygh'
+Key 3 1 end end
+Sprt 3 4 . .
