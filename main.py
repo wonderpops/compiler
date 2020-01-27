@@ -21,4 +21,4 @@ if sys.argv[1] == 'T':
 elif sys.argv[1] == 'P':
     p = Parser(lex)
     #x = tree(p.ParseProgramModule())
-    print(treePrinter.getTree(0, p.ParseProgramModule()))
+    print(treePrinter.getTree('', p.ParseProgramModule()))
