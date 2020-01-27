@@ -1,1 +1,13 @@
-ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='x')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[RepeatNode(statements=InStatmentNode(name='readln', designatorList=DesignatorListNode(designators=[DesignatorNode(name=IdentificatorNode(name='x'), stuff=[])])), condition=BinaryOpNode(op='>=', left=DesignatorNode(name='x', stuff=[]), right=LiteralIntNode(value=0)))])))
+  L Program name: asd
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: x type: integer;
+      L sequence statement:
+        L repeat:
+        ^  L readln
+        ^    L variable name: x;
+        ^  L condition:
+        ^  ^  L op: >=
+        ^  ^  ^L variable name: x;
+        ^  ^     L value: 0;

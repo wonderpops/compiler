@@ -1,1 +1,11 @@
-ProgramModuleNode(name=IdentificatorNode(name='a'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[InStatmentNode(name='readln', designatorList=DesignatorListNode(designators=[DesignatorNode(name=IdentificatorNode(name='a'), stuff=[])])), OutStatmentNode(name='writeln', expList=ExpListNode(expressions=[StringNode(value='privet'), DesignatorNode(name='a', stuff=[])]))])))
+  L Program name: a
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      L sequence statement:
+        L readln
+          L variable name: a;
+        L writeln
+          L value: privet;
+          L variable name: a;

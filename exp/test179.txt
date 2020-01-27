@@ -1,1 +1,20 @@
-ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[FunctionDeclNode(heading=FunctionHeadingNode(name=IdentificatorNode(name='raz'), params=FormalParametersNode(params=[OneFormalParamNode(ids=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))])), functType=TypeNode(name='integer'), block=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclNode(idents=[], idsType=''), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[AssignmentNode(op=':=', varName=DesignatorNode(name='result', stuff=[]), expression=LiteralIntNode(value=0))])))])), statementSequence=EmptyNode(value='empty')))
+  L Program name: asd
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      ^ L subprog declaration:
+      ^    L function declaration: 
+      ^      L funtion heading: 
+      ^      ^  L name: raz
+      ^      ^  L parameters: 
+      ^      ^    L idents: a type: integer;
+      ^      L type: integer;
+      ^      L block: 
+      ^        L sequence statement:
+      ^          L assigment:
+      ^            L variable name: result;
+      ^            L expression: 
+      ^              L value: 0;
+      L sequence statement:
+        L empty

@@ -1,16 +1,20 @@
-Key 1 1 function function
-Sprt 1 10 ( (
-Ident 1 11 a a
-Oper 1 12 : :
-Key 1 13 integer integer
-Sprt 1 20 ) )
-Oper 1 21 : :
-Key 1 22 integer integer
-Sprt 1 29 ; ;
-Key 2 4 begin begin
-Ident 3 7 result result
-Oper 3 13 := :=
-Int 3 15 0 0
-Sprt 3 16 ; ;
-Key 4 4 end end
-Sprt 4 7 ; ;
+  L Program name: asd
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      ^ L subprog declaration:
+      ^    L function declaration: 
+      ^      L funtion heading: 
+      ^      ^  L name: f
+      ^      ^  L parameters: 
+      ^      ^    L idents: a type: integer;
+      ^      L type: integer;
+      ^      L block: 
+      ^        L sequence statement:
+      ^          L assigment:
+      ^            L variable name: result;
+      ^            L expression: 
+      ^              L value: 0;
+      L sequence statement:
+        L empty

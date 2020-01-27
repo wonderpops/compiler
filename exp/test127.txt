@@ -1,1 +1,22 @@
-ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='i'), IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[ForNode(designator=IdentificatorNode(name='i'), left=LiteralIntNode(value=1), right=DesignatorNode(name='n', stuff=[]), way=WichWayNode(direction='to'), statements=InStatmentNode(name='readln', designatorList=DesignatorListNode(designators=[DesignatorNode(name=IdentificatorNode(name='a'), stuff=[])]))), AssignmentNode(op=':=', varName=DesignatorNode(name='k', stuff=[]), expression=BinaryOpNode(op='+', left=DesignatorNode(name='k', stuff=[]), right=LiteralIntNode(value=1)))])))
+  L Program name: asd
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: i, a type: integer;
+      L sequence statement:
+        L for:
+        ^  L variable: i;
+        ^  L initial value: 
+        ^    L value: 1;
+        ^  L final value: 
+        ^    L variable name: n;
+        ^  L direction: to;
+        ^  L statements: 
+        ^    L readln
+        ^      L variable name: a;
+        L assigment:
+          L variable name: k;
+          L expression: 
+              L op: +
+              ^L variable name: k;
+                 L value: 1;

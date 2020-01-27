@@ -1,1 +1,48 @@
-ProgramModuleNode(name=IdentificatorNode(name='a1'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[FunctionDeclNode(heading=FunctionHeadingNode(name=IdentificatorNode(name='raz'), params=FormalParametersNode(params=[OneFormalParamNode(ids=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))])), functType=TypeNode(name='integer'), block=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclNode(idents=[], idsType=''), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[AssignmentNode(op=':=', varName=DesignatorNode(name='result', stuff=[]), expression=LiteralIntNode(value=0)), WhileNode(condition=BinaryOpNode(op='>', left=DesignatorNode(name='a', stuff=[]), right=LiteralIntNode(value=0)), trueStatement=StatementSequenceNode(statements=[AssignmentNode(op=':=', varName=DesignatorNode(name='a', stuff=[]), expression=BinaryOpNode(op='+', left=DesignatorNode(name='a', stuff=[]), right=LiteralIntNode(value=10))), AssignmentNode(op=':=', varName=DesignatorNode(name='result', stuff=[]), expression=BinaryOpNode(op='+', left=DesignatorNode(name='result', stuff=[]), right=LiteralIntNode(value=1)))]))])))])), statementSequence=StatementSequenceNode(statements=[InStatmentNode(name='readln', designatorList=DesignatorListNode(designators=[DesignatorNode(name=IdentificatorNode(name='a'), stuff=[])])), AssignmentNode(op=':=', varName=DesignatorNode(name='a', stuff=[]), expression=FunctionCallNode(name=IdentificatorNode(name='raz'), params=ActualParametersNode(params=ExpListNode(expressions=[DesignatorNode(name='a', stuff=[])])))), OutStatmentNode(name='write', expList=ExpListNode(expressions=[DesignatorNode(name='a', stuff=[])]))])))
+  L Program name: a1
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      ^ L subprog declaration:
+      ^    L function declaration: 
+      ^      L funtion heading: 
+      ^      ^  L name: raz
+      ^      ^  L parameters: 
+      ^      ^    L idents: a type: integer;
+      ^      L type: integer;
+      ^      L block: 
+      ^        L sequence statement:
+      ^          L assigment:
+      ^            L variable name: result;
+      ^            L expression: 
+      ^              L value: 0;
+      ^          L while:
+      ^          ^  L condition:
+      ^          ^  ^  L op: >
+      ^          ^  ^  ^L variable name: a;
+      ^          ^  ^     L value: 0;
+      ^          ^  L true statement:
+      ^          ^  ^    L assigment:
+      ^          ^  ^      L variable name: a;
+      ^          ^  ^      L expression: 
+      ^          ^  ^          L op: +
+      ^          ^  ^          ^L variable name: a;
+      ^          ^  ^             L value: 10;
+      ^          ^  ^    L assigment:
+      ^          ^  ^      L variable name: result;
+      ^          ^  ^      L expression: 
+      ^          ^  ^          L op: +
+      ^          ^  ^          ^L variable name: result;
+      ^          ^  ^             L value: 1;
+      L sequence statement:
+        L readln
+          L variable name: a;
+        L assigment:
+          L variable name: a;
+          L expression: 
+              L function call:
+                L name: raz
+                L actual parameters: 
+                  L variable name: a;
+        L write
+          L variable name: a;

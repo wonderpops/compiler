@@ -1,1 +1,13 @@
-ProgramModuleNode(name=IdentificatorNode(name='df'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=ArrayTypeNode(artype=TypeNode(name='integer'), subranges=[SubrangeNode(left=LiteralIntNode(value=1), right=LiteralIntNode(value=10))]))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[OutStatmentNode(name='writeln', expList=ExpListNode(expressions=[DesignatorNode(name='a', stuff=[])]))])))
+  L Program name: df
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a 
+      ^ ^    L array:type: integer;
+      ^ ^      L left:
+      ^ ^      L value: 1;
+      ^ ^      L right:
+      ^ ^      L value: 10;
+      L sequence statement:
+        L writeln
+          L variable name: a;

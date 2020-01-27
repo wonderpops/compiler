@@ -1,1 +1,16 @@
-ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[AssignmentNode(op=':=', varName=DesignatorNode(name='c', stuff=[]), expression=BinaryOpNode(op='+', left=LiteralIntNode(value=123), right=FunctionCallNode(name=IdentificatorNode(name='pop'), params=ActualParametersNode(params=ExpListNode(expressions=[DesignatorNode(name='rf', stuff=[]), DesignatorNode(name='ty', stuff=[])])))))])))
+  L Program name: asd
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      L sequence statement:
+        L assigment:
+          L variable name: c;
+          L expression: 
+              L op: +
+              ^L value: 123;
+                   L function call:
+                     L name: pop
+                     L actual parameters: 
+                       L variable name: rf;
+                       L variable name: ty;

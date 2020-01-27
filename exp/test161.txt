@@ -1,1 +1,28 @@
-ProgramModuleNode(name=IdentificatorNode(name='a'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a'), IdentificatorNode(name='i'), IdentificatorNode(name='k'), IdentificatorNode(name='n')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[ForNode(designator=IdentificatorNode(name='i'), left=LiteralIntNode(value=1), right=DesignatorNode(name='n', stuff=[]), way=WichWayNode(direction='to'), statements=StatementSequenceNode(statements=[InStatmentNode(name='readln', designatorList=DesignatorListNode(designators=[DesignatorNode(name=IdentificatorNode(name='a'), stuff=[])])), IncompleteIfNode(condition=BinaryOpNode(op='>=', left=DesignatorNode(name='a', stuff=[]), right=LiteralIntNode(value=100)), trueStatement=AssignmentNode(op=':=', varName=DesignatorNode(name='k', stuff=[]), expression=BinaryOpNode(op='+', left=DesignatorNode(name='k', stuff=[]), right=LiteralIntNode(value=1))))]))])))
+  L Program name: a
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a, i, k, n type: integer;
+      L sequence statement:
+        L for:
+        ^  L variable: i;
+        ^  L initial value: 
+        ^    L value: 1;
+        ^  L final value: 
+        ^    L variable name: n;
+        ^  L direction: to;
+        ^  L statements: 
+        ^      L readln
+        ^        L variable name: a;
+        ^      L if:
+        ^      ^  L condition:
+        ^      ^  ^  L op: >=
+        ^      ^  ^  ^L variable name: a;
+        ^      ^  ^     L value: 100;
+        ^      ^  L true statement:
+        ^      ^  ^  L assigment:
+        ^      ^  ^    L variable name: k;
+        ^      ^  ^    L expression: 
+        ^      ^  ^        L op: +
+        ^      ^  ^        ^L variable name: k;
+        ^      ^  ^           L value: 1;

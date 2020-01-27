@@ -1,1 +1,4 @@
-ProgramModuleNode(name=IdentificatorNode(name='a'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclNode(idents=[], idsType=''), subprogs=SubprogDeclListNode(declList=[])), statementSequence=EmptyNode(value='empty')))
+  L Program name: a
+    L block: 
+      L sequence statement:
+        L empty

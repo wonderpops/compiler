@@ -1,14 +1,1 @@
-Key 1 1 if if
-Ident 1 4 a a
-Oper 1 6 >= >=
-Int 1 9 100 100
-Key 1 13 then then
-Key 2 4 begin begin
-Ident 3 7 k k
-Oper 3 8 := :=
-Ident 3 10 k k
-Oper 3 11 + +
-Int 3 12 1 1
-Sprt 3 13 ; ;
-Key 4 4 end end
-Sprt 4 7 . .
+[8, 10] ERROR_206: Incorrect statement: "."

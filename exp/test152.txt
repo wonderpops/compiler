@@ -1,1 +1,7 @@
-ProgramModuleNode(name=IdentificatorNode(name='a'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclNode(idents=[], idsType=''), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[AssignmentNode(op=':=', varName=DesignatorNode(name='a', stuff=[]), expression=LiteralIntNode(value=1))])))
+  L Program name: a
+    L block: 
+      L sequence statement:
+        L assigment:
+          L variable name: a;
+          L expression: 
+            L value: 1;

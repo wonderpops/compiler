@@ -1,1 +1,18 @@
-ProgramModuleNode(name=IdentificatorNode(name='asd'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a')]), idsType=TypeNode(name='integer'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=StatementSequenceNode(statements=[WhileNode(condition=BinaryOpNode(op='<', left=DesignatorNode(name='i', stuff=[]), right=DesignatorNode(name='s', stuff=[])), trueStatement=AssignmentNode(op=':=', varName=DesignatorNode(name='j', stuff=[]), expression=BinaryOpNode(op='+', left=DesignatorNode(name='i', stuff=[]), right=LiteralIntNode(value=1))))])))
+  L Program name: asd
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      L sequence statement:
+        L while:
+        ^  L condition:
+        ^  ^  L op: <
+        ^  ^  ^L variable name: i;
+        ^  ^     L variable name: s;
+        ^  L true statement:
+        ^  ^  L assigment:
+        ^  ^    L variable name: j;
+        ^  ^    L expression: 
+        ^  ^        L op: +
+        ^  ^        ^L variable name: i;
+        ^  ^           L value: 1;

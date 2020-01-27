@@ -1,59 +1,38 @@
-Key 1 1 procedure procedure
-Ident 1 11 Tabulate Tabulate
-Sprt 1 20 ( (
-Ident 1 21 k k
-Oper 1 22 : :
-Key 1 23 real real
-Sprt 1 27 ) )
-Sprt 1 28 ; ;
-Key 2 1 begin begin
-Ident 3 4 x x
-Sprt 3 5 [ [
-Ident 3 6 k k
-Sprt 3 7 ] ]
-Oper 3 8 := :=
-Ident 3 10 A A
-Oper 3 11 + +
-Ident 3 12 k k
-Oper 3 13 * *
-Ident 3 14 h h
-Sprt 3 15 ; ;
-Ident 4 4 y y
-Sprt 4 5 [ [
-Ident 4 6 k k
-Sprt 4 7 ] ]
-Oper 4 8 := :=
-Ident 4 10 x x
-Sprt 4 11 [ [
-Ident 4 12 k k
-Sprt 4 13 ] ]
-Oper 4 14 * *
-Ident 4 15 x x
-Sprt 4 16 [ [
-Ident 4 17 k k
-Sprt 4 18 ] ]
-Oper 4 19 * *
-Ident 4 20 x x
-Sprt 4 21 [ [
-Ident 4 22 k k
-Sprt 4 23 ] ]
-Oper 4 24 - -
-Sprt 4 25 ( (
-Int 4 26 2 2
-Oper 4 27 * *
-Ident 4 28 x x
-Sprt 4 29 [ [
-Ident 4 30 k k
-Sprt 4 31 ] ]
-Sprt 4 32 ) )
-Sprt 4 33 ; ;
-Key 5 1 end end
-Sprt 5 4 ; ;
-Key 6 1 begin begin
-Ident 7 4 Tabulate Tabulate
-Sprt 7 12 ( (
-Ident 7 13 i i
-Sprt 7 14 ) )
-Sprt 7 15 ; ;
-Key 8 1 end end
-Sprt 8 4 . .
+  L Program name: gh
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: s type: string;
+      ^ L subprog declaration:
+      ^    L procedure declaration: 
+      ^      L procedure heading: 
+      ^      ^  L name: Tabulate;
+      ^      ^  L parameters: 
+      ^      ^    L idents: k type: real;
+      ^      L block: 
+      ^        L sequence statement:
+      ^          L assigment:
+      ^            L variable name: x;
+      ^            L expression: 
+      ^                L op: +
+      ^                ^L variable name: A;
+      ^                     L op: *
+      ^                     ^L variable name: k;
+      ^                        L variable name: h;
+      ^          L assigment:
+      ^            L variable name: y;
+      ^            L expression: 
+      ^                L op: -
+      ^                ^  L op: *
+      ^                ^  ^  L op: *
+      ^                ^  ^  ^L variable name: x;
+      ^                ^  ^     L variable name: x;
+      ^                ^     L variable name: x;
+      ^                     L op: *
+      ^                     ^L value: 2;
+      ^                        L variable name: x;
+      L sequence statement:
+        L procedure call:
+          L name: Tabulate
+        L actual parameters: 
+          L variable name: i;

@@ -1,56 +1,35 @@
-Key 1 1 var var
-Ident 1 5 s s
-Oper 1 6 : :
-Key 1 7 string string
-Sprt 1 13 ; ;
-Key 2 1 procedure procedure
-Ident 2 11 pr pr
-Sprt 2 13 ( (
-Ident 2 14 a a
-Oper 2 15 : :
-Key 2 16 string string
-Sprt 2 22 ) )
-Sprt 2 23 ; ;
-Key 3 1 var var
-Ident 3 5 i i
-Oper 3 6 : :
-Key 3 7 integer integer
-Sprt 3 14 ; ;
-Key 4 1 begin begin
-Key 5 4 for for
-Ident 5 8 i i
-Oper 5 9 := :=
-Int 5 11 1 1
-Key 5 13 to to
-Int 5 16 60 60
-Key 5 19 do do
-Key 6 7 begin begin
-Key 7 10 write write
-Sprt 7 15 ( (
-Ident 7 16 a a
-Sprt 7 17 ) )
-Sprt 7 18 ; ;
-Key 8 10 writeln writeln
-Sprt 8 17 ; ;
-Key 9 7 end end
-Sprt 9 10 ; ;
-Key 10 1 end end
-Sprt 10 4 ; ;
-Key 11 1 begin begin
-Key 12 4 writeln writeln
-Sprt 12 11 ( (
-Str 12 12 simvol 'simvol'
-Sprt 12 20 ) )
-Sprt 12 21 ; ;
-Key 13 4 readln readln
-Sprt 13 10 ( (
-Ident 13 11 s s
-Sprt 13 12 ) )
-Sprt 13 13 ; ;
-Ident 14 4 pr pr
-Sprt 14 6 ( (
-Ident 14 7 s s
-Sprt 14 8 ) )
-Sprt 14 9 ; ;
-Key 15 1 end end
-Sprt 15 4 . .
+  L Program name: jk
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: s type: string;
+      ^ L subprog declaration:
+      ^    L procedure declaration: 
+      ^      L procedure heading: 
+      ^      ^  L name: pr;
+      ^      ^  L parameters: 
+      ^      ^    L idents: a type: string;
+      ^      L block: 
+      ^        L declarations: 
+      ^        ^ L variables:
+      ^        ^ ^ L names: i type: integer;
+      ^        L sequence statement:
+      ^          L for:
+      ^          ^  L variable: i;
+      ^          ^  L initial value: 
+      ^          ^    L value: 1;
+      ^          ^  L final value: 
+      ^          ^    L value: 60;
+      ^          ^  L direction: to;
+      ^          ^  L statements: 
+      ^          ^      L write
+      ^          ^        L variable name: a;
+      L sequence statement:
+        L writeln
+          L value: simvol;
+        L readln
+          L variable name: s;
+        L procedure call:
+          L name: pr
+        L actual parameters: 
+          L variable name: s;

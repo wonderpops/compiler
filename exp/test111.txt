@@ -1,4 +1,4 @@
-Key 1 1 program program
-Ident 1 9 fjkuyghjkjiuhyg fjkuyghjkjiuhyg
-Sprt 1 24 ; ;
-Key 2 1 begin begin
+  L Program name: fjkuyghjkjiuhyg
+    L block: 
+      L sequence statement:
+        L empty

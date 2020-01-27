@@ -1,6 +1,4 @@
 program a;
-var
-   a, i, k: integer;
 const n = 10;
 begin
    k := 1;

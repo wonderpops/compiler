@@ -1,24 +1,22 @@
-Key 1 1 for for
-Ident 1 5 j j
-Oper 1 6 := :=
-Ident 1 8 i i
-Key 1 10 to to
-Ident 1 13 n n
-Oper 1 14 - -
-Int 1 15 1 1
-Key 1 17 do do
-Key 2 4 begin begin
-Ident 3 7 a a
-Sprt 3 8 [ [
-Ident 3 9 j j
-Sprt 3 10 ] ]
-Oper 3 11 := :=
-Ident 3 13 a a
-Sprt 3 14 [ [
-Ident 3 15 j j
-Oper 3 16 + +
-Int 3 17 1 1
-Sprt 3 18 ] ]
-Sprt 3 19 ; ;
-Key 4 4 end end
-Sprt 4 7 ; ;
+  L Program name: asd
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      L sequence statement:
+        L for:
+        ^  L variable: j;
+        ^  L initial value: 
+        ^    L variable name: i;
+        ^  L final value: 
+        ^      L op: -
+        ^      ^L variable name: n;
+        ^         L value: 1;
+        ^  L direction: to;
+        ^  L statements: 
+        ^      L assigment:
+        ^        L variable name: a;
+        ^        L expression: 
+        ^            L op: +
+        ^            ^L variable name: a;
+        ^               L value: 1;

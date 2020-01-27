@@ -1,1 +1,1 @@
-[4, 4] ERROR_102: Comma "," was expected, but found "("
+[4, 4] ERROR_102: Comma "," or colon ":" was expected, but found "("

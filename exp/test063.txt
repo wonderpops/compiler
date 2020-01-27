@@ -1,20 +1,36 @@
-Key 1 1 begin begin
-Key 2 4 readln readln
-Sprt 2 10 ( (
-Ident 2 11 a a
-Sprt 2 12 ) )
-Sprt 2 13 ; ;
-Ident 3 4 a a
-Oper 3 5 := :=
-Ident 3 7 raz raz
-Sprt 3 10 ( (
-Ident 3 11 a a
-Sprt 3 12 ) )
-Sprt 3 13 ; ;
-Key 4 4 write write
-Sprt 4 9 ( (
-Ident 4 10 a a
-Sprt 4 11 ) )
-Sprt 4 12 ; ;
-Key 5 1 end end
-Sprt 5 4 . .
+  L Program name: a
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a, i, k, n type: integer;
+      L sequence statement:
+        L assigment:
+          L variable name: n;
+          L expression: 
+            L value: 10;
+        L assigment:
+          L variable name: k;
+          L expression: 
+            L value: 1;
+        L for:
+        ^  L variable: i;
+        ^  L initial value: 
+        ^    L value: 1;
+        ^  L final value: 
+        ^    L variable name: n;
+        ^  L direction: to;
+        ^  L statements: 
+        ^      L readln
+        ^        L variable name: a;
+        ^      L if:
+        ^      ^  L condition:
+        ^      ^  ^  L op: >=
+        ^      ^  ^  ^  L variable name: a;
+        ^      ^  ^     L value: 100;
+        ^      ^  L true statement:
+        ^      ^  ^  L assigment:
+        ^      ^  ^    L variable name: k;
+        ^      ^  ^    L expression: 
+        ^      ^  ^        L op: +
+        ^      ^  ^        ^  L variable name: k;
+        ^      ^  ^           L value: 1;

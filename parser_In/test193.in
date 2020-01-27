@@ -1,8 +1,6 @@
 program rt;
 var s:string;
 procedure pr(a:string);
-const n=10;
-var i:integer;
 begin
    for i:=1 to n do 
       begin

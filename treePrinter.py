@@ -39,12 +39,12 @@ def getTree(deep, node):
         else:
             return ''
     elif isinstance(node, VarDeclNode):
-        return '\n' + deep[0:-1] + cnr + 'names: ' + ', '.join(map(lambda n: getTree(deep, n), node.idents.idents)) + getTree(deep, node.idsType)
+        return '\n' + deep[0:-1] + cnr + 'names: ' + ', '.join(map(lambda n: getTree(deep, n), node.idents.idents)) + ' ' + getTree(deep, node.idsType)
     elif isinstance(node, IdentListNode):
         return  ', '.join(map(lambda n: getTree(deep, n), node.idents))
     elif isinstance(node, SubprogDeclListNode):
         if len(node.declList) > 0:
-            return  '\n'+ deep + cnr + 'subprog declaration:' + '\n'.join(map(lambda n: getTree(deep, n), node.declList))
+            return  '\n'+ deep[0:-1] + cnr + 'subprog declaration:' + '\n'.join(map(lambda n: getTree(deep, n), node.declList))
         else:
             return ''
     elif isinstance(node, FunctionDeclNode):
@@ -61,15 +61,15 @@ def getTree(deep, node):
         else: 
             return ''
     elif isinstance(node, OneFormalParamNode):
-        return getTree(deep[0:-2], node.ids) + getTree(deep, node.idsType)
+        return getTree(deep[0:-2], node.ids) + ' ' + getTree(deep, node.idsType)
     elif isinstance(node, TypeNode):
         return 'type: ' + node.name + ';'
     elif isinstance(node, StatementSequenceNode):
         return ''.join(map(lambda n: getTree(deep, n), node.statements))
     elif isinstance(node, AssignmentNode):
-        return '\n' + deep + cnr + 'assigment:' + getTree(deep, node.varName) + '\n' + deep + '  ' + cnr + 'expression: ' + getTree(deep + '  ', node.expression)
+        return '\n' + deep + cnr + 'assigment:' + getTree(deep + '  ', node.varName) + '\n' + deep + '  ' + cnr + 'expression: ' + getTree(deep + '    ', node.expression)
     elif isinstance(node, DesignatorNode):
-        return '\n' + deep+ cnr + 'variable name: ' + node.name + ';' + getTree(deep, node.stuff)
+        return '\n' + deep[0:-2]+ cnr + 'variable name: ' + node.name + ';' + getTree(deep, node.stuff)
     elif isinstance(node, (LiteralIntNode, LiteralFloatNode, StringNode, NilNode)):
         return '\n' + deep[0:-2] + cnr + 'value: ' + str(node.value) + ';'
     elif isinstance(node, ExpListNode):
@@ -85,7 +85,7 @@ def getTree(deep, node):
     elif isinstance(node, UnaryOpNode):
         return '\n' + deep+ cnr +'op:'+ node.op + getTree(deep + '  ', node.left)
     elif isinstance(node, BinaryOpNode):
-        return '\n' + deep + cnr + 'op: ' +node.op + getTree(deep + up, node.left) + getTree(deep, node.right)
+        return '\n' + deep + cnr + 'op: ' +node.op + getTree(deep + up, node.left) + getTree(deep +'   ', node.right)
     elif isinstance(node, CompleteIfNode):
         deep += up
         return '\n' + deep[0:-1] + cnr + 'if:' + '\n' + deep+'  '+ cnr + 'condition:'+ getTree(deep + '  ' + up, node.condition) + '\n' + deep + '  ' + cnr + 'true statement:' + getTree(deep + '  ' + up, node.trueStatement) + '\n' + (deep+'  ')+ cnr + 'false statement:' + getTree(deep + '  ' + up, node.falseStatement)
@@ -100,7 +100,7 @@ def getTree(deep, node):
         return '\n' + deep[0:-1] + cnr +'repeat:'+ getTree(deep, node.statements) +'\n' + deep + '  ' + cnr + 'condition:'+ getTree(deep + '  ' + up, node.condition)
     elif isinstance(node, ForNode):
         deep += up
-        return '\n' + deep[0:-1] + cnr + 'for:'+ '\n' + deep + '  ' + cnr + 'variable: ' + getTree(deep, node.variable) + ';\n' + deep + '  ' + cnr +'initial value: ' + getTree(deep + '  ', node.initialValue) + '\n' + deep + '  ' + cnr + 'final value: ' + getTree(deep + '  ', node.finalValue) + getTree(deep, node.way) + '\n' + deep + '  ' + cnr + 'statements: ' + getTree(deep + '  ', node.statements)
+        return '\n' + deep[0:-1] + cnr + 'for:'+ '\n' + deep + '  ' + cnr + 'variable: ' + getTree(deep, node.variable) + ';\n' + deep + '  ' + cnr +'initial value: ' + getTree(deep + '    ', node.initialValue) + '\n' + deep + '  ' + cnr + 'final value: ' + getTree(deep + '    ', node.finalValue) + getTree(deep, node.way) + '\n' + deep + '  ' + cnr + 'statements: ' + getTree(deep + '  ', node.statements)
     elif isinstance(node, WichWayNode):
         return '\n' + deep + cnr + 'direction: '+ node.direction + ';'
     elif isinstance(node, OutStatmentNode):
@@ -110,7 +110,7 @@ def getTree(deep, node):
     elif isinstance(node, SubrangeNode):
         return '\n' + deep + cnr + 'left:'+getTree(deep, node.left) + '\n' + deep + cnr + 'right:'+getTree(deep, node.right)
     elif isinstance(node, InStatmentNode):
-        return '\n' + deep + cnr + node.name + getTree(deep[0:-2], node.designatorList)
+        return '\n' + deep + cnr + node.name + getTree(deep, node.designatorList)
     elif isinstance(node, DesignatorListNode):
         return ''.join(map(lambda n: getTree(deep, n), node.designators))
     elif type(node) == OneFormalParamNode:
