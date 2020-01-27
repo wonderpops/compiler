@@ -1,0 +1,1 @@
+ERROR: Can not assign type "string" to "integer"

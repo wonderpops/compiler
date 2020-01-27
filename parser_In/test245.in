@@ -1,9 +1,7 @@
 program q1;
 var
-a, b:integer;
-procedure push(c: integer);
+a, b:real;
 begin
-end;
-begin
-a:= push(b);
+for a := 1 to 10 do
+b := b + 1;
 end.

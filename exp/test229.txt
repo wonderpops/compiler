@@ -1,0 +1,12 @@
+  L Program name: q1
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      L sequence statement:
+        L assigment:
+          L variable name: a;
+          L expression: 
+              L op: +
+              ^L value: 4;
+                 L value: 4;

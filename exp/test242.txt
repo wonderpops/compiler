@@ -1,0 +1,16 @@
+  L Program name: q1
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a, b type: string;
+      L sequence statement:
+        L assigment:
+          L variable name: b;
+          L expression: 
+            L value: lolo;
+        L assigment:
+          L variable name: a;
+          L expression: 
+              L op: +
+              ^L variable name: b;
+                 L value: lol;

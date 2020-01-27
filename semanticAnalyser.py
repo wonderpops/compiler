@@ -92,7 +92,6 @@ class SemanticAnalyser:
         if self.curScope.search(identName, True):#true or false?
             raise Exception('ERROR: Ident "' + identName + '" already exist')
         self.curScope.insert(identSymbol)
-        print(self.curScope.name, identSymbol)
 
     def block(self, node):
         self.treeSearch(node.declarations)
@@ -133,7 +132,6 @@ class SemanticAnalyser:
         constName = self.curScope.search(node.ident.name, True).name
         constSymbol = ConstSymbol(constName, constValue)
         self.curScope.insert(constSymbol)
-        print(constSymbol)
 
     def varBlock(self, node):
         for v in node.variables:
@@ -277,10 +275,10 @@ class SemanticAnalyser:
         start = self.treeSearch(node.initialValue)
         final = self.treeSearch(node.finalValue)
         if start!= 'integer':
-            raise Exception('ERROR: Ident "' + start.name + '" must be integer type')
+            raise Exception('ERROR: Ident "' + d.name + '" must be integer type')
 
         if final != 'integer':
-            raise Exception('ERROR: Ident "' + final.name + '" must be integer type')
+            raise Exception('ERROR: Ident "' + d.name + '" must be integer type')
         self.treeSearch(node.statements)
 
     def in_(self, node):

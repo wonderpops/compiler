@@ -1,0 +1,22 @@
+  L Program name: q1
+    L block: 
+      L declarations: 
+      ^ L constants: 
+      ^ ^ L name: e  value: 3;
+      ^ L variables:
+      ^ ^ L names: a type: integer;
+      ^ L subprog declaration:
+      ^    L function declaration: 
+      ^      L funtion heading: 
+      ^      ^  L name: q
+      ^      ^  L parameters: 
+      ^      ^    L idents: a type: integer;
+      ^      L type: integer;
+      ^      L block: 
+      ^        L declarations: 
+      ^        ^ L variables:
+      ^        ^ ^ L names: qw type: integer;
+      ^        L sequence statement:
+      ^          L empty
+      L sequence statement:
+        L empty

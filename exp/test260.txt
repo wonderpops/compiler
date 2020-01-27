@@ -1,0 +1,19 @@
+  L Program name: push
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a, n type: integer;
+      ^ ^ L names: b type: string;
+      L sequence statement:
+        L while:
+        ^  L condition:
+        ^  ^  L op: >
+        ^  ^  ^L variable name: a;
+        ^  ^     L variable name: n;
+        ^  L true statement:
+        ^  ^  L assigment:
+        ^  ^    L variable name: a;
+        ^  ^    L expression: 
+        ^  ^        L op: +
+        ^  ^        ^L variable name: a;
+        ^  ^           L value: 1;

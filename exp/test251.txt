@@ -1,0 +1,8 @@
+  L Program name: push
+    L block: 
+      L declarations: 
+      ^ L variables:
+      ^ ^ L names: a, b type: integer;
+      L sequence statement:
+        L writeln
+          L variable name: a;

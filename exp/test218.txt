@@ -1,0 +1,9 @@
+  L Program name: qw
+    L block: 
+      L declarations: 
+      ^ L constants: 
+      ^ ^ L name: qe  value: 3;
+      ^ L variables:
+      ^ ^ L names: cv type: real;
+      L sequence statement:
+        L empty

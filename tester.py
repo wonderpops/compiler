@@ -3,6 +3,7 @@ import filecmp
 from tokeniser import Token, Tokeniser
 from parser1 import Parser
 from nodes import *
+from semanticAnalyser import SemanticAnalyser
 import treePrinter
 
 tInDir = 'tokeniser_In'
@@ -68,11 +69,16 @@ elif sys.argv[1] == 'P':
         n += 1
         print(f)
         inp = open(pInDir + '/' + f, 'r' ,encoding = 'utf-8')
+        inpp = open(pInDir + '/' + f, 'r' ,encoding = 'utf-8')
         lex = Tokeniser(''.join(inp.readlines()))
+        lexx = Tokeniser(''.join(inpp.readlines()))
         out = open(pOutDir + '/' + f[0:7] + '.out', 'a', encoding = 'utf-8')
         p = Parser(lex)
+        pp = Parser(lexx)
         try:
-            r = treePrinter.getTree('', p.ParseProgramModule())
+            semantic = SemanticAnalyser(p)
+            semantic.analyse()
+            r = treePrinter.getTree('', pp.ParseProgramModule())
         except Exception as err:
             out.write(''.join(err.args) + '\n')
         else:
