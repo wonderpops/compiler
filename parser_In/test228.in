@@ -1,0 +1,6 @@
+program q1;
+var
+a:integer;
+begin
+a:= 4 + 3.4;
+end.

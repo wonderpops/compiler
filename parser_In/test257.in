@@ -1,0 +1,7 @@
+program push;
+var
+a, n:integer;
+begin
+for a:=1 to 10 do
+a:= a +1;
+end.

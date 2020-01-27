@@ -1,0 +1,8 @@
+program q1;
+var
+a:integer;
+b:real;
+c:string;
+begin
+a:= c + b;
+end.

@@ -1,0 +1,6 @@
+program push;
+var
+b:integer;
+begin
+writeln(a);
+end.

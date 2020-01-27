@@ -1,0 +1,6 @@
+program qw;
+const qe = 3;
+var
+cv: real;
+begin
+end.
