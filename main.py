@@ -2,6 +2,7 @@ import sys
 from tokeniser import Token, Tokeniser
 from parser1 import Parser
 from nodes import *
+from semanticAnalyser import SemanticAnalyser
 import treePrinter
 
 path = sys.argv[2]
@@ -21,4 +22,6 @@ if sys.argv[1] == 'T':
 elif sys.argv[1] == 'P':
     p = Parser(lex)
     #x = tree(p.ParseProgramModule())
-    print(treePrinter.getTree('', p.ParseProgramModule()))
+    #print(treePrinter.getTree('', p.ParseProgramModule()))
+    semantic = SemanticAnalyser(p)
+    semantic.analyse()
