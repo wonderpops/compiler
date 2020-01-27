@@ -1,0 +1,11 @@
+program q1;
+const e = 3;
+var
+a:integer;
+function q(a:integer):integer;
+var
+a:integer;
+begin
+end;
+begin
+end.

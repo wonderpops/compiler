@@ -1,0 +1,9 @@
+program q1;
+var
+a, b:integer;
+procedure push(a: integer);
+begin
+end;
+begin
+a:= push(b);
+end.

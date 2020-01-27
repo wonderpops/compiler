@@ -1,0 +1,4 @@
+program qw;
+const qw = 3;
+begin
+end.

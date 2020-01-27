@@ -1,0 +1,6 @@
+program q;
+const qw = 3;
+var
+qw: integer;
+begin
+end.

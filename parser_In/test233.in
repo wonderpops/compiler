@@ -1,0 +1,6 @@
+program q1;
+var
+a:string;
+begin
+a:= 'lol' + 4.3;
+end.

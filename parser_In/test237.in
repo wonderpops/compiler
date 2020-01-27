@@ -1,0 +1,6 @@
+program q1;
+var
+a, b:integer;
+begin
+a:= c + b;
+end.

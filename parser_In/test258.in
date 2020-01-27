@@ -1,0 +1,7 @@
+program push;
+var
+a, n:string;
+begin
+for a:=1 to n do
+a:= a +1;
+end.

@@ -1,0 +1,7 @@
+program q1;
+var
+a, b:string;
+begin
+b:= 'lolo';
+a:= b + 'lol';
+end.

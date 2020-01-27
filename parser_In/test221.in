@@ -1,0 +1,9 @@
+program q;
+const e = 3;
+var
+qw: integer;
+function q(a:integer):integer;
+begin
+end;
+begin
+end.
