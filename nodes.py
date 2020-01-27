@@ -186,9 +186,9 @@ class WichWayNode(StatementNode):
 
 @dataclass
 class ForNode(StatementNode):
-    designator: IdentificatorNode
-    left: ExprNode
-    right: ExprNode
+    variable: IdentificatorNode
+    initialValue: ExprNode
+    finalValue: ExprNode
     way: WichWayNode
     statements: StatementNode
 

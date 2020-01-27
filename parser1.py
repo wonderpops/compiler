@@ -14,7 +14,7 @@ class Parser:
 
 
     def ParseProgramModule(self):
-        params = ProgramParamsNode([])
+        params = ProgramParamsNode(IdentListNode([]))
         if self.cur.src == 'program':
             self.cur = self.tokeniser.Next()
             if self.cur.tokenType == Token.tokenTypeIdentificator:
