@@ -1,13 +1,1 @@
-Key 1 1 var var
-Oper 1 4 : :
-Ident 2 4 a a
-Oper 2 5 : :
-Key 2 7 integer integer
-Sprt 2 14 ; ;
-Key 3 1 begin begin
-Ident 4 4 a a
-Oper 4 6 := :=
-Int 4 9 234 234
-Sprt 4 12 ; ;
-Key 5 1 end end
-Sprt 5 4 . .
+[2, 4] ERROR_401: Identificator was expected, but found ":"

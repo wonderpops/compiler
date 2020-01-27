@@ -1,17 +1,1 @@
-Key 1 1 program program
-Ident 1 9 a a
-Sprt 1 10 ; ;
-Key 2 1 var var
-Ident 3 1 a a
-Sprt 3 2 , ,
-Ident 3 4 b b
-Oper 3 5 : :
-Key 3 7 integer integer
-Sprt 3 14 ; ;
-Ident 4 1 s s
-Oper 4 2 : :
-Key 4 4 string string
-Sprt 4 10 ; ;
-Key 5 1 begin begin
-Key 6 1 end end
-Sprt 6 4 . .
+ProgramModuleNode(name=IdentificatorNode(name='a'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='a'), IdentificatorNode(name='b')]), idsType=TypeNode(name='integer')), VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='s')]), idsType=TypeNode(name='string'))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=EmptyNode(value='empty')))

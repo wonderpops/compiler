@@ -373,17 +373,27 @@ class Parser:
     def ParseIOStatement(self):
         name = self.cur
         if self.cur.src in ['read', 'readln']:
-            d  = self.ParseDesignatorList()            
-            if self.cur.src == ';':
+            d = []
+            self.cur = self.tokeniser.Next()
+            if self.cur.src == '(':
+                d  = self.ParseDesignatorList()           
+                if self.cur.src == ';':
+                    return InStatmentNode(name.value, d)
+                else:
+                    raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
+            else:
                 return InStatmentNode(name.value, d)
-            else:
-                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
         elif self.cur.src in ['write', 'writeln']:
-            e = self.ParseExprList()
-            if self.cur.src == ';':
-                return OutStatmentNode(name.value, e)
+            e = []
+            self.cur = self.tokeniser.Next()
+            if self.cur.src == '(':
+                e = self.ParseExprList()
+                if self.cur.src == ';':
+                    return OutStatmentNode(name.value, e)
+                else:
+                    raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
             else:
-                raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER104, self.cur))
+                return OutStatmentNode(name.value, e)
 
 
     def ParseDesignatorList(self):
@@ -391,9 +401,13 @@ class Parser:
         self.cur = self.tokeniser.Next()
         if self.cur.src == '(':
             self.cur = self.tokeniser.Next()
+        print('d', self.cur)
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
-            d.append(self.ParseDesignator(self.cur.value))
+            n = self.cur.value
             self.cur = self.tokeniser.Next()
+            d.append(self.ParseDesignator(n))
+            print('dl',self.cur)
+            #self.cur = self.tokeniser.Next()
             if self.cur.src == ',':
                 self.cur = self.tokeniser.Next()
         if self.cur.src == ')':

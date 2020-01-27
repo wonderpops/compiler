@@ -1,9 +1,1 @@
-Key 1 1 for for
-Ident 1 5 i i
-Oper 1 6 := :=
-Int 1 8 1 1
-Key 1 10 to to
-Ident 1 13 n n
-Key 1 15 do do
-Key 2 1 end end
-Sprt 2 4 ; ;
+[6, 5] ERROR_206: Incorrect statement: "end"

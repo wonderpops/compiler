@@ -1,18 +1,1 @@
-Key 1 1 var var
-Ident 2 4 a a
-Oper 2 5 : :
-Key 2 7 array array
-Sprt 2 13 [ [
-Sprt 2 14 , ,
-Sprt 2 15 ] ]
-Key 2 17 of of
-Key 2 20 integer integer
-Sprt 2 27 ; ;
-Key 3 1 begin begin
-Key 4 4 writeln writeln
-Sprt 4 11 ( (
-Ident 4 12 a a
-Sprt 4 13 ) )
-Sprt 4 14 ; ;
-Key 5 1 end end
-Sprt 5 4 . .
+ERROR_205: Incorrect array range

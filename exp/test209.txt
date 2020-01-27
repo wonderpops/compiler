@@ -1,15 +1,1 @@
-Key 1 1 var var
-Ident 2 4 a a
-Oper 2 5 : :
-Key 2 7 array array
-Key 2 13 of of
-Key 2 16 array array
-Sprt 2 21 ; ;
-Key 3 1 begin begin
-Key 4 4 writeln writeln
-Sprt 4 11 ( (
-Ident 4 12 a a
-Sprt 4 13 ) )
-Sprt 4 14 ; ;
-Key 5 1 end end
-Sprt 5 4 . .
+[3, 21] ERROR_501: Keyword "of" was expected, but found ";"

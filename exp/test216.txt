@@ -1,9 +1,1 @@
-Key 1 1 var var
-Ident 2 4 A A
-Oper 2 5 : :
-Key 2 7 array array
-Key 2 13 of of
-Key 2 16 array array
-Key 2 22 of of
-Key 2 25 real real
-Sprt 2 29 ; ;
+ProgramModuleNode(name=IdentificatorNode(name='df'), params=ProgramParamsNode(params=[]), body=BlockNode(declarations=DeclarationsNode(constants=ConstDefBlockNode(constants=[]), variables=VarDeclBlockNode(variables=[VarDeclNode(idents=IdentListNode(idents=[IdentificatorNode(name='A')]), idsType=ArrayTypeNode(artype=ArrayTypeNode(artype=TypeNode(name='real'), subranges=[]), subranges=[]))]), subprogs=SubprogDeclListNode(declList=[])), statementSequence=EmptyNode(value='empty')))
