@@ -1,7 +1,7 @@
 program asd;
 var
 a: integer;
-function (a:integer):integer;
+function f(a:integer):integer;
    begin
       result:=0;
    end;

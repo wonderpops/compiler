@@ -1,6 +1,6 @@
 program gh;
 var
-   a: array 1..n of array;
+   a: array 1..n of real;
 begin
    writeln(a);
 end.

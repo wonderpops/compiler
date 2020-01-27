@@ -215,7 +215,6 @@ class Parser:
             self.cur = self.tokeniser.Next()
             t = self.ParseType()
         else:
-            print(self.cur)
             raise Exception(self.exMesGen.getExceptionMessage(self.exMes.ER501, self.cur))
         if self.cur.src == ';':
             left = ArrayTypeNode(t, subranges)
@@ -401,12 +400,10 @@ class Parser:
         self.cur = self.tokeniser.Next()
         if self.cur.src == '(':
             self.cur = self.tokeniser.Next()
-        print('d', self.cur)
         while (self.cur.tokenType == Token.tokenTypeIdentificator):
             n = self.cur.value
             self.cur = self.tokeniser.Next()
             d.append(self.ParseDesignator(n))
-            print('dl',self.cur)
             #self.cur = self.tokeniser.Next()
             if self.cur.src == ',':
                 self.cur = self.tokeniser.Next()

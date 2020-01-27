@@ -6,7 +6,6 @@ begin
    for i:=1 to 60 do 
       begin
          write(a);
-         writeln;
       end;
 end;
 begin

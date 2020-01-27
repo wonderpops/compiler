@@ -3,8 +3,8 @@ var
 s: string;
 procedure Tabulate (k:real);
 begin
-   x[k]:=A+k*h;
-   y[k]:=x[k]*x[k]*x[k]-(2*x[k]);
+   x:=A+k*h;
+   y:=x*x*x-(2*x);
 end;
 begin
    Tabulate(i);

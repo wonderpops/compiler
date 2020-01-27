@@ -2,6 +2,6 @@ program gh;
 var
 i: integer;
 begin
-    Interpolation2:=((y[0]*(C-x[5])*(C-x[n]))/((x[0]-x[5])*(x[0]-x[n])))+((y[5]*(C-x[0])*(C-x[n]))/((x[5]-x[0])*(x[5]-x[n])))+((y[n]*(C-x[0])*(C-x[5]))/((x[n]-x[0])*(x[n]-x[5])));
+    Interpolation2:=((y*(C-x)*(C-x))/((x-x)*(x-x)))+((y*(C-x)*(C-x));
     L := Interpolation2
 end.
